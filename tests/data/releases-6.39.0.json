@@ -1,0 +1,11 @@
+{
+    "id": "1",
+    "name": "pmd release for test (6.39.0)",
+    "tag_name": "pmd_releases/6.39.0",
+    "assets": [
+        {
+            "browser_download_url": "https://github.com/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip",
+            "name": "pmd-bin-6.39.0.zip"
+        }
+    ]
+}
