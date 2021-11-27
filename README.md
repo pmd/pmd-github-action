@@ -1,7 +1,7 @@
 # GitHub Action for PMD
 
-<a href="https://github.com/adangel/pmd-github-action/actions"><img alt="pmd-github-action status" src="https://github.com/adangel/pmd-github-action/actions/workflows/test.yml/badge.svg"></a>
-<a href="https://img.shields.io/github/v/release/adangel/pmd-github-action"><img alt="release" src="https://img.shields.io/github/v/release/adangel/pmd-github-action"></a>
+<a href="https://github.com/pmd/pmd-github-action/actions"><img alt="pmd-github-action status" src="https://github.com/pmd/pmd-github-action/actions/workflows/test.yml/badge.svg"></a>
+<a href="https://img.shields.io/github/v/release/pmd/pmd-github-action"><img alt="release" src="https://img.shields.io/github/v/release/pmd/pmd-github-action"></a>
 
 This action runs [PMD](https://pmd.github.io) static code analysis checks.
 
@@ -20,7 +20,7 @@ steps:
     with:
       distribution: 'temurin'
       java-version: '11'
-  - uses: adangel/pmd-github-action@v1
+  - uses: pmd/pmd-github-action@v1
     with:
       rulesets: 'ruleset.xml'
 ```
@@ -35,7 +35,7 @@ steps:
     with:
       distribution: 'temurin'
       java-version: '11'
-  - uses: adangel/pmd-github-action@v1
+  - uses: pmd/pmd-github-action@v1
     id: pmd
     with:
       version: '6.40.0'
@@ -54,7 +54,7 @@ steps:
     with:
       distribution: 'temurin'
       java-version: '11'
-  - uses: adangel/pmd-github-action@v1
+  - uses: pmd/pmd-github-action@v1
     id: pmd
     with:
       rulesets: 'ruleset.xml'
