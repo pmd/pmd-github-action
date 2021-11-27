@@ -1,12 +1,11 @@
 {
   "name": "pmd-github-action",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Execute PMD static code analysis.",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "eslint .",
     "prepare": "npx ncc build lib/index.js --out dist --minify --source-map --license licenses.txt",
-    "test": "jest",
+    "test": "jest --coverage",
     "all": "npm run lint && npm run prepare && npm run test"
   },
   "repository": {
@@ -18,7 +17,7 @@
     "Actions",
     "JavaScript"
   ],
-  "author": "",
+  "author": "PMD",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/adangel/pmd-github-action/issues"

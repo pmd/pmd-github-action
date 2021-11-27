@@ -1,5 +1,5 @@
 name: 'PMD'
-description: 'Execute PMD'
+description: 'Execute PMD static code analysis.'
 inputs:
   version:
     description: 'PMD version to use. Using "latest" automatically downloads the latest version. Available versions: https://github.com/pmd/pmd/releases'
