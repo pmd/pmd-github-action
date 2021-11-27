@@ -5,6 +5,9 @@
 
 This action runs [PMD](https://pmd.github.io) static code analysis checks.
 
+It can execute PMD with your own ruleset against your project. It creates a [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+report which is uploaded as a build artifact. Furthermore the build can be failed based on the number of violations (see the extended examples).
+
 ## Usage
 
 The input `rulesets` is mandatory.
@@ -24,6 +27,8 @@ steps:
 
 ### Extended
 
+Fail the build based on the number of violations:
+
 ```yaml
 steps:
   - uses: actions/setup-java@v2
@@ -40,6 +45,26 @@ steps:
     if: steps.pmd.outputs.violations != 0
     run: exit 1
 ```
+
+Uploading a SARIF file to GitHub:
+
+```yaml
+steps:
+  - uses: actions/setup-java@v2
+    with:
+      distribution: 'temurin'
+      java-version: '11'
+  - uses: adangel/pmd-github-action@v1
+    id: pmd
+    with:
+      rulesets: 'ruleset.xml'
+  - name: Upload SARIF file
+    uses: github/codeql-action/upload-sarif@v1
+    with:
+      sarif_file: pmd-report.sarif
+```
+
+See also [Uploading a SARIF file to GitHub](https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github).
 
 ## Inputs
 
