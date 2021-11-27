@@ -1,23 +1,25 @@
-name: 'PMD'
-description: 'Execute PMD static code analysis.'
+name: PMD
+description: Execute PMD static code analysis.
 inputs:
   version:
-    description: 'PMD version to use. Using "latest" automatically downloads the latest version. Available versions: https://github.com/pmd/pmd/releases'
+    description: >-
+      PMD version to use. Using "latest" automatically downloads the latest
+      version. Available versions: https://github.com/pmd/pmd/releases
     required: false
-    default: 'latest'
+    default: latest
   sourcePath:
-    description: 'Root directory for sources'
+    description: Root directory for sources
     required: false
-    default: '.'
+    default: .
   rulesets:
-    description: 'Comma separated list of ruleset names to use'
+    description: Comma separated list of ruleset names to use
     required: true
 outputs:
   violations:
-    description: 'Number of violations found'
+    description: Number of violations found
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: node12
+  main: dist/index.js
 branding:
-  icon: 'code'
-  color: 'white'
+  icon: code
+  color: white
