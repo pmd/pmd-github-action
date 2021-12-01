@@ -1,0 +1,146 @@
+{
+    "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "tool": {
+                "driver": {
+                    "rules": [
+                        {
+                            "id": "0 - high prio rule",
+                            "properties": {
+                                "priority": 1
+                            }
+                        },
+                        {
+                            "id": "1 - medium high prio rule",
+                            "properties": {
+                                "priority": 2
+                            }
+                        },
+                        {
+                            "id": "2 - medium prio rule",
+                            "properties": {
+                                "priority": 3
+                            }
+                        },
+                        {
+                            "id": "3 - medium low prio rule",
+                            "properties": {
+                                "priority": 4
+                            }
+                        },
+                        {
+                            "id": "4 - low prio rule",
+                            "properties": {
+                                "priority": 5
+                            }
+                        }
+                    ]
+                }
+            },
+            "results": [
+                {
+                    "ruleIndex": 0,
+                    "message": {
+                        "text": "High Prio Rule"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "/folder/file1.txt"
+                                },
+                                "region": {
+                                    "startLine": 4
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleIndex": 1,
+                    "message": {
+                        "text": "Medium High Prio Rule"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "/folder/file2.txt"
+                                },
+                                "region": {
+                                    "startLine": 5
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleIndex": 2,
+                    "message": {
+                        "text": "Medium Prio Rule"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "/folder/file3.txt"
+                                },
+                                "region": {
+                                    "startLine": 6
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleIndex": 3,
+                    "message": {
+                        "text": "Medium Low Prio Rule"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "/folder/file4.txt"
+                                },
+                                "region": {
+                                    "startLine": 7
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleIndex": 4,
+                    "message": {
+                        "text": "Low Prio Rule"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "/folder/file5.txt"
+                                },
+                                "region": {
+                                    "startLine": 8
+                                }
+                            }
+                        },
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "/folder/file6.txt"
+                                },
+                                "region": {
+                                    "startLine": 9
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
