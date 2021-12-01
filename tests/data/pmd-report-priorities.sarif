@@ -67,7 +67,7 @@
                         {
                             "physicalLocation": {
                                 "artifactLocation": {
-                                    "uri": "/folder/file2.txt"
+                                    "uri": "/folder/dir/file2.txt"
                                 },
                                 "region": {
                                     "startLine": 5
