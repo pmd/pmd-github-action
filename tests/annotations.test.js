@@ -24,7 +24,10 @@ describe('pmd-github-action-annotations', function () {
         annotations.processSarifReport(report);
 
         expect(core.notice).toHaveBeenCalledTimes(1);
-        expect(core.notice).toHaveBeenCalledWith('Variable \'x\' defined but not used', {
+        expect(core.notice).toHaveBeenCalledWith(`Detects when a local variable is declared and/or assigned but not used.
+
+https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalvariable`, {
+            title: 'Variable \'x\' defined but not used',
             file: '/home/andreas/PMD/source/pmd-github-action-test/src/classes/UnusedLocalVariableSample.cls',
             startLine: 3
         });
@@ -42,13 +45,13 @@ describe('pmd-github-action-annotations', function () {
         annotations.processSarifReport(report);
 
         expect(core.error).toHaveBeenCalledTimes(2);
-        expect(core.error).toHaveBeenNthCalledWith(1, 'High Prio Rule', { file: 'file1.txt', startLine: 4 });
-        expect(core.error).toHaveBeenNthCalledWith(2, 'Medium High Prio Rule', { file: 'dir/file2.txt', startLine: 5 });
+        expect(core.error).toHaveBeenNthCalledWith(1, 'Full description for High Prio Rule\n\nhttps://pmd.github.io/latest/ruleHighPrio', { title: 'High Prio Rule', file: 'file1.txt', startLine: 4 });
+        expect(core.error).toHaveBeenNthCalledWith(2, 'Full description for Medium High Prio Rule\n\nhttps://pmd.github.io/latest/ruleMediumHighPrio', { title: 'Medium High Prio Rule', file: 'dir/file2.txt', startLine: 5 });
         expect(core.warning).toHaveBeenCalledTimes(2);
-        expect(core.warning).toHaveBeenNthCalledWith(1, 'Medium Prio Rule', { file: 'file3.txt', startLine: 6 });
-        expect(core.warning).toHaveBeenNthCalledWith(2, 'Medium Low Prio Rule', { file: 'file4.txt', startLine: 7 });
+        expect(core.warning).toHaveBeenNthCalledWith(1, 'Full description for Medium Prio Rule\n\nhttps://pmd.github.io/latest/ruleMediumPrio', { title: 'Medium Prio Rule', file: 'file3.txt', startLine: 6 });
+        expect(core.warning).toHaveBeenNthCalledWith(2, 'Full description for Medium Low Prio Rule\n\nhttps://pmd.github.io/latest/ruleMediumLowPrio', { title: 'Medium Low Prio Rule', file: 'file4.txt', startLine: 7 });
         expect(core.notice).toHaveBeenCalledTimes(2);
-        expect(core.notice).toHaveBeenNthCalledWith(1, 'Low Prio Rule', { file: 'file5.txt', startLine: 8 });
-        expect(core.notice).toHaveBeenNthCalledWith(2, 'Low Prio Rule', { file: 'file6.txt', startLine: 9 });
+        expect(core.notice).toHaveBeenNthCalledWith(1, 'Full description for Low Prio Rule\n\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: 'file5.txt', startLine: 8 });
+        expect(core.notice).toHaveBeenNthCalledWith(2, 'Full description for Low Prio Rule\n\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: 'file6.txt', startLine: 9 });
     });
 });

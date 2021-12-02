@@ -8,30 +8,50 @@
                     "rules": [
                         {
                             "id": "0 - high prio rule",
+                            "fullDescription": {
+                                "text": "Full description for High Prio Rule"
+                            },
+                            "helpUri": "https://pmd.github.io/latest/ruleHighPrio",
                             "properties": {
                                 "priority": 1
                             }
                         },
                         {
                             "id": "1 - medium high prio rule",
+                            "fullDescription": {
+                                "text": "Full description for Medium High Prio Rule"
+                            },
+                            "helpUri": "https://pmd.github.io/latest/ruleMediumHighPrio",
                             "properties": {
                                 "priority": 2
                             }
                         },
                         {
                             "id": "2 - medium prio rule",
+                            "fullDescription": {
+                                "text": "Full description for Medium Prio Rule"
+                            },
+                            "helpUri": "https://pmd.github.io/latest/ruleMediumPrio",
                             "properties": {
                                 "priority": 3
                             }
                         },
                         {
                             "id": "3 - medium low prio rule",
+                            "fullDescription": {
+                                "text": "Full description for Medium Low Prio Rule"
+                            },
+                            "helpUri": "https://pmd.github.io/latest/ruleMediumLowPrio",
                             "properties": {
                                 "priority": 4
                             }
                         },
                         {
                             "id": "4 - low prio rule",
+                            "fullDescription": {
+                                "text": "Full description for Low Prio Rule"
+                            },
+                            "helpUri": "https://pmd.github.io/latest/ruleLowPrio",
                             "properties": {
                                 "priority": 5
                             }
