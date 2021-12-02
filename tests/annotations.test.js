@@ -29,7 +29,8 @@ describe('pmd-github-action-annotations', function () {
 https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalvariable`, {
             title: 'Variable \'x\' defined but not used',
             file: '/home/andreas/PMD/source/pmd-github-action-test/src/classes/UnusedLocalVariableSample.cls',
-            startLine: 3
+            startLine: 3,
+            endLine: 3
         });
         expect(core.error).not.toHaveBeenCalled();
         expect(core.warning).not.toHaveBeenCalled();
@@ -45,7 +46,7 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
         annotations.processSarifReport(report);
 
         expect(core.error).toHaveBeenCalledTimes(2);
-        expect(core.error).toHaveBeenNthCalledWith(1, 'Full description for High Prio Rule\n\nhttps://pmd.github.io/latest/ruleHighPrio', { title: 'High Prio Rule', file: 'file1.txt', startLine: 4 });
+        expect(core.error).toHaveBeenNthCalledWith(1, 'Full description for High Prio Rule\n\nhttps://pmd.github.io/latest/ruleHighPrio', { title: 'High Prio Rule', file: 'file1.txt', startLine: 4, endLine: 5 });
         expect(core.error).toHaveBeenNthCalledWith(2, 'Full description for Medium High Prio Rule\n\nhttps://pmd.github.io/latest/ruleMediumHighPrio', { title: 'Medium High Prio Rule', file: 'dir/file2.txt', startLine: 5 });
         expect(core.warning).toHaveBeenCalledTimes(2);
         expect(core.warning).toHaveBeenNthCalledWith(1, 'Full description for Medium Prio Rule\n\nhttps://pmd.github.io/latest/ruleMediumPrio', { title: 'Medium Prio Rule', file: 'file3.txt', startLine: 6 });

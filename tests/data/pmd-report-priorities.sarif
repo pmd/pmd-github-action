@@ -72,7 +72,8 @@
                                     "uri": "/folder/file1.txt"
                                 },
                                 "region": {
-                                    "startLine": 4
+                                    "startLine": 4,
+                                    "endLine": 5
                                 }
                             }
                         }
