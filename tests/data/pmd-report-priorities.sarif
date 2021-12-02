@@ -13,7 +13,8 @@
                             },
                             "helpUri": "https://pmd.github.io/latest/ruleHighPrio",
                             "properties": {
-                                "priority": 1
+                                "priority": 1,
+                                "ruleset": "sample ruleset"
                             }
                         },
                         {
@@ -23,7 +24,8 @@
                             },
                             "helpUri": "https://pmd.github.io/latest/ruleMediumHighPrio",
                             "properties": {
-                                "priority": 2
+                                "priority": 2,
+                                "ruleset": "sample ruleset"
                             }
                         },
                         {
@@ -33,7 +35,8 @@
                             },
                             "helpUri": "https://pmd.github.io/latest/ruleMediumPrio",
                             "properties": {
-                                "priority": 3
+                                "priority": 3,
+                                "ruleset": "sample ruleset"
                             }
                         },
                         {
@@ -43,7 +46,8 @@
                             },
                             "helpUri": "https://pmd.github.io/latest/ruleMediumLowPrio",
                             "properties": {
-                                "priority": 4
+                                "priority": 4,
+                                "ruleset": "sample ruleset"
                             }
                         },
                         {
@@ -53,7 +57,8 @@
                             },
                             "helpUri": "https://pmd.github.io/latest/ruleLowPrio",
                             "properties": {
-                                "priority": 5
+                                "priority": 5,
+                                "ruleset": "sample ruleset"
                             }
                         }
                     ]
