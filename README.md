@@ -70,7 +70,8 @@ See also [Uploading a SARIF file to GitHub](https://docs.github.com/en/code-secu
 
 |input       |required|default|description|
 |------------|---|--------|---------------|
-|`version`   |no |"latest"|PMD version to use. Using "latest" automatically downloads the latest version. Available versions: https://github.com/pmd/pmd/releases|
+|`token`     |no |"github.token"|Personal access token (PAT) used to query the latest PMD release and the download URL for PMD.<br>By default the automatic token for GitHub Actions is used.<br>[Learn more about automatic token authentication](https://docs.github.com/en/actions/security-guides/automatic-token-authentication)<br>[Learn more about creating and using encrypted secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)|
+|`version`   |no |"latest"|PMD version to use. Using "latest" automatically downloads the latest version.<br>Available versions: https://github.com/pmd/pmd/releases|
 |`sourcePath`|no |"."     |Root directory for sources. Uses by default the current directory|
 |`rulesets`  |yes|        |Comma separated list of ruleset names to use.|
 
