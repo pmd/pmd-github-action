@@ -15,7 +15,7 @@
                 "text": "Variable 'x' defined but not used"
               },
               "fullDescription": {
-                "text": "\nDetects when a local variable is declared and/or assigned but not used.\n        "
+                "text": "\n        Detects when a local variable is declared and/or assigned but not used.\n        Second line.\n          Third line with additional indentation.\n      Fourth line with less indentation.\n        "
               },
               "helpUri": "https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalvariable",
               "help": {

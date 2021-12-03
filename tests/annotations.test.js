@@ -25,6 +25,9 @@ describe('pmd-github-action-annotations', function () {
 
         expect(core.notice).toHaveBeenCalledTimes(1);
         expect(core.notice).toHaveBeenCalledWith(`Detects when a local variable is declared and/or assigned but not used.
+Second line.
+  Third line with additional indentation.
+      Fourth line with less indentation.
 
 UnusedLocalVariable (Priority: 5, Ruleset: Best Practices)
 https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalvariable`, {
