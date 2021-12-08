@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/pmd/pmd-github-action#readme",
   "dependencies": {
-    "@actions/artifact": "^0.5.2",
+    "@actions/artifact": "^0.6.0",
     "@actions/core": "^1.6.0",
     "@actions/exec": "^1.1.0",
     "@actions/tool-cache": "^1.7.1",
