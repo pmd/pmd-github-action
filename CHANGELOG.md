@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Add "Check changelog" job [\#23](https://github.com/pmd/pmd-github-action/pull/23) ([adangel](https://github.com/adangel))
 - Bump @actions/artifact from 0.5.2 to 0.6.0 [\#20](https://github.com/pmd/pmd-github-action/pull/20) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump eslint from 8.3.0 to 8.4.1 [\#19](https://github.com/pmd/pmd-github-action/pull/19) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump @vercel/ncc from 0.32.0 to 0.33.0 [\#15](https://github.com/pmd/pmd-github-action/pull/15) ([dependabot[bot]](https://github.com/apps/dependabot))
