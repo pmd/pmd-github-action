@@ -30,7 +30,8 @@ jobs:
       - name: Run github_changelog_generator
         shell: bash
         run: |
-          github_changelog_generator --token ${{ secrets.GITHUB_TOKEN }}
+          gemdir="$(ruby -e 'puts Gem.user_dir')/bin"
+          $gemdir/github_changelog_generator --token ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compare the expected and actual CHANGELOG.md
         run: |
