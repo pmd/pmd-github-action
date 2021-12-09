@@ -6,6 +6,10 @@
 
 **Merged pull requests:**
 
+- Bump @actions/artifact from 0.5.2 to 0.6.0 [\#20](https://github.com/pmd/pmd-github-action/pull/20) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump eslint from 8.3.0 to 8.4.1 [\#19](https://github.com/pmd/pmd-github-action/pull/19) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump @vercel/ncc from 0.32.0 to 0.33.0 [\#15](https://github.com/pmd/pmd-github-action/pull/15) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump jest from 27.4.2 to 27.4.3 [\#13](https://github.com/pmd/pmd-github-action/pull/13) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump jest from 27.4.0 to 27.4.2 [\#10](https://github.com/pmd/pmd-github-action/pull/10) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump jest from 27.3.1 to 27.4.0 [\#9](https://github.com/pmd/pmd-github-action/pull/9) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump actions/setup-node from 2.4.1 to 2.5.0 [\#8](https://github.com/pmd/pmd-github-action/pull/8) ([dependabot[bot]](https://github.com/apps/dependabot))
