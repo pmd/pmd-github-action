@@ -25,7 +25,7 @@ jobs:
       - name: Install github_changelog_generator
         shell: bash
         run: |
-          gem --user-install install github_changelog_generator
+          gem install --user-install github_changelog_generator
 
       - name: Run github_changelog_generator
         shell: bash
