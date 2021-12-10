@@ -45,7 +45,7 @@ describe('pmd-github-action-util', function() {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const cachedPmdPath = await util.downloadPmd('latest');
+    const cachedPmdPath = await util.downloadPmd('latest', 'my_test_token');
 
     const toolCache = path.join(cachePath, 'pmd', '6.40.0', os.arch(), 'pmd-bin-6.40.0');
     expect(cachedPmdPath).toBe(toolCache);
@@ -61,10 +61,30 @@ describe('pmd-github-action-util', function() {
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip');
-    const cachedPmdPath = await util.downloadPmd('6.39.0');
+    const cachedPmdPath = await util.downloadPmd('6.39.0', 'my_test_token');
 
     const toolCache = path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0');
     expect(cachedPmdPath).toBe(toolCache);
+    expect(fs.existsSync(toolCache)).toBeTruthy();
+  })
+
+  it('use cached PMD version', async () => {
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F6.39.0')
+        .once()
+        .replyWithFile(200, __dirname + '/data/releases-6.39.0.json', {
+          'Content-Type': 'application/json',
+        })
+    nock('https://github.com')
+      .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
+      .once()
+      .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip');
+    const cachedPmdPath = await util.downloadPmd('6.39.0', 'my_test_token');
+    const cachedPmdPath2 = await util.downloadPmd('6.39.0', 'my_test_token');
+
+    const toolCache = path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0');
+    expect(cachedPmdPath).toBe(toolCache);
+    expect(cachedPmdPath2).toBe(cachedPmdPath);
     expect(fs.existsSync(toolCache)).toBeTruthy();
   })
 
@@ -78,7 +98,7 @@ describe('pmd-github-action-util', function() {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const cachedPmdPath = await util.downloadPmd('latest');
+    const cachedPmdPath = await util.downloadPmd('latest', 'my_test_token');
     await util.executePmd(cachedPmdPath, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif');
     const reportFile = path.join('.', 'pmd-report.sarif');
     expect(fs.existsSync(reportFile)).toBeTruthy();
@@ -86,6 +106,18 @@ describe('pmd-github-action-util', function() {
     expect(report.runs[0].tool.driver.version).toBe('6.40.0');
     await io.rmRF(reportFile)
   })
+
+  it('failure while downloading PMD', async () => {
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd/releases/latest')
+        .reply(503, 'Test Internal Server Error');
+
+    expect(() => util.downloadPmd('latest', 'my_test_token')).rejects.toThrow();
+  });
+
+  it('failure while executing PMD', async () => {
+    expect(() => util.executePmd('non-existing-pmd-path', '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif')).rejects.toThrow();
+  });
 });
 
 function setGlobal(key, value) {

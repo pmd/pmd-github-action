@@ -1,10 +1,25 @@
 name: PMD
 description: Execute PMD static code analysis.
 inputs:
+  token:
+    description: >-
+      Personal access token (PAT) used to query the latest PMD release and the
+      download URL for PMD.
+
+      By default the automatic token for GitHub Actions is used. [Learn more
+      about automatic token
+      authentication](https://docs.github.com/en/actions/security-guides/automatic-token-authentication)
+
+      [Learn more about creating and using encrypted
+      secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
+    required: false
+    default: '${{ github.token }}'
   version:
     description: >-
       PMD version to use. Using "latest" automatically downloads the latest
-      version. Available versions: https://github.com/pmd/pmd/releases
+      version.
+
+      Available versions: https://github.com/pmd/pmd/releases
     required: false
     default: latest
   sourcePath:
