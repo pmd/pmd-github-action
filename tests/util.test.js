@@ -4,6 +4,7 @@ const nock = require('nock');
 const io = require('@actions/io');
 const os = require('os');
 const fs = require('fs');
+const exec = require('@actions/exec');
 const util = require('../lib/util');
 
 const cachePath = path.join(__dirname, 'CACHE')
@@ -13,12 +14,17 @@ process.env['RUNNER_TEMP'] = tempPath
 process.env['RUNNER_TOOL_CACHE'] = cachePath
 
 describe('pmd-github-action-util', function () {
-  beforeAll(function () {
+  let platformMock;
+  let execMock;
+
+  beforeAll(function() {
     setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS', 0)
     setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS', 0)
   })
 
   beforeEach(async function () {
+    platformMock = jest.spyOn(os, 'platform');
+    execMock = jest.spyOn(exec, 'getExecOutput');
     await io.rmRF(cachePath)
     await io.rmRF(tempPath)
     await io.mkdirP(cachePath)
@@ -26,6 +32,8 @@ describe('pmd-github-action-util', function () {
   })
 
   afterEach(function () {
+    platformMock.mockRestore();
+    execMock.mockRestore();
   })
 
   afterAll(async function () {
@@ -136,11 +144,38 @@ describe('pmd-github-action-util', function () {
         .reply(503, 'Test Internal Server Error');
 
     expect(() => util.downloadPmd('latest', 'my_test_token')).rejects.toThrow();
-  });
+  })
 
   it('failure while executing PMD', async () => {
     expect(() => util.executePmd({ path: 'non-existing-pmd-path' }, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif')).rejects.toThrow();
-  });
+  })
+
+  it('can execute PMD win32', async () => {
+    platformMock.mockReturnValueOnce('win32');
+    execMock.mockReturnValueOnce({ exitCode: 0, stdout: '', stderr: '' });
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd/releases/latest')
+        .replyWithFile(200, __dirname + '/data/releases-latest.json', {
+          'Content-Type': 'application/json',
+        })
+    nock('https://github.com')
+      .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
+      .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
+
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
+    await util.executePmd(pmdInfo, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif');
+
+    expect(execMock).toBeCalledWith(`${pmdInfo.path}\\bin\\pmd.bat`, [
+          '-no-cache',
+          '-d', '.',
+          '-f', 'sarif',
+          '-R', 'ruleset.xml',
+          '-r', 'pmd-report.sarif',
+      ],
+      {
+          ignoreReturnCode: true
+      });
+  })
 });
 
 function setGlobal(key, value) {
