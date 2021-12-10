@@ -4,13 +4,25 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.0.0...HEAD)
 
+**Implemented enhancements:**
+
+- Create inline annotations for found violations [\#7](https://github.com/pmd/pmd-github-action/issues/7)
+
+**Fixed bugs:**
+
+- Action doesn't work under Windows runner [\#21](https://github.com/pmd/pmd-github-action/issues/21)
+
 **Merged pull requests:**
 
 - Add "Check changelog" job [\#23](https://github.com/pmd/pmd-github-action/pull/23) ([adangel](https://github.com/adangel))
+- Call pmd.bat under win32 [\#22](https://github.com/pmd/pmd-github-action/pull/22) ([adangel](https://github.com/adangel))
 - Bump @actions/artifact from 0.5.2 to 0.6.0 [\#20](https://github.com/pmd/pmd-github-action/pull/20) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump eslint from 8.3.0 to 8.4.1 [\#19](https://github.com/pmd/pmd-github-action/pull/19) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Avoid using deprecated CLI options for PMD \>= 6.41.0 [\#17](https://github.com/pmd/pmd-github-action/pull/17) ([adangel](https://github.com/adangel))
+- Add optional token parameter [\#16](https://github.com/pmd/pmd-github-action/pull/16) ([adangel](https://github.com/adangel))
 - Bump @vercel/ncc from 0.32.0 to 0.33.0 [\#15](https://github.com/pmd/pmd-github-action/pull/15) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump jest from 27.4.2 to 27.4.3 [\#13](https://github.com/pmd/pmd-github-action/pull/13) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Create annotations from sarif report [\#12](https://github.com/pmd/pmd-github-action/pull/12) ([adangel](https://github.com/adangel))
 - Bump jest from 27.4.0 to 27.4.2 [\#10](https://github.com/pmd/pmd-github-action/pull/10) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump jest from 27.3.1 to 27.4.0 [\#9](https://github.com/pmd/pmd-github-action/pull/9) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump actions/setup-node from 2.4.1 to 2.5.0 [\#8](https://github.com/pmd/pmd-github-action/pull/8) ([dependabot[bot]](https://github.com/apps/dependabot))
