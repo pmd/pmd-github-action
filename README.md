@@ -74,6 +74,7 @@ See also [Uploading a SARIF file to GitHub](https://docs.github.com/en/code-secu
 |`version`   |no |"latest"|PMD version to use. Using "latest" automatically downloads the latest version.<br>Available versions: https://github.com/pmd/pmd/releases|
 |`sourcePath`|no |"."     |Root directory for sources. Uses by default the current directory|
 |`rulesets`  |yes|        |Comma separated list of ruleset names to use.|
+|`analyzeModifiedFilesOnly`|no|"true"|Instead of analyze all files under "sourcePath", only the files that have been touched in a pull request or push will be analyzed. This makes the analysis faster and helps especially bigger projects which gradually want to introduce PMD. This helps in enforcing that no new code violation is introduced.<br>Depending on the analyzed language, the results might be less accurate results. At the moment, this is not a problem, as PMD mostly analyzes each file individually, but that might change in the future.<br>If the change is very big, not all files might be analyzed. Currently the maximum number of modified files is 300.|
 
 ## Outputs
 

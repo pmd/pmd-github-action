@@ -29,6 +29,22 @@ inputs:
   rulesets:
     description: Comma separated list of ruleset names to use
     required: true
+  analyzeModifiedFilesOnly:
+    description: >-
+      Instead of analyze all files under "sourcePath", only the files that have
+      been touched in a pull request or push will be analyzed. This makes the
+      analysis faster and helps especially bigger projects which gradually want
+      to introduce PMD. This helps in enforcing that no new code violation is
+      introduced.
+
+      Depending on the analyzed language, the results might be less accurate
+      results. At the moment, this is not a problem, as PMD mostly analyzes each
+      file individually, but that might change in the future.
+
+      If the change is very big, not all files might be analyzed. Currently the
+      maximum number of modified files is 300.
+    required: false
+    default: true
 outputs:
   violations:
     description: Number of violations found
