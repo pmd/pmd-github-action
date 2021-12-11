@@ -29,6 +29,9 @@ describe('pmd-github-action-util', function () {
     await io.rmRF(tempPath)
     await io.mkdirP(cachePath)
     await io.mkdirP(tempPath)
+
+    // disable ACTIONS_STEP_DEBUG
+    delete process.env['RUNNER_DEBUG'];
   })
 
   afterEach(function () {
@@ -177,7 +180,27 @@ describe('pmd-github-action-util', function () {
       });
   })
 
-  test('can determine modified files from pull request', async () => {
+  test('can determine modified files from pull request (with debug)', async () => {
+    // enable ACTIONS_STEP_DEBUG
+    process.env['RUNNER_DEBUG'] = '1';
+    process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
+    process.env['GITHUB_EVENT_NAME'] = 'pull_request';
+    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/pull-request-event-data.json';
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=1')
+      .replyWithFile(200, __dirname + '/data/pull-request-files.json', {
+        'Content-Type': 'application/json',
+      });
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=2')
+      .reply(200, []);
+    let fileList = await util.determineModifiedFiles('my_test_token', 'src/main/java');
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']);
+  })
+
+  test('can determine modified files from pull request (without debug)', async () => {
+    // disable ACTIONS_STEP_DEBUG
+    delete process.env['RUNNER_DEBUG'];
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'pull_request';
     process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/pull-request-event-data.json';
