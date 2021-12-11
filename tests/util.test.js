@@ -58,7 +58,7 @@ describe('pmd-github-action-util', function () {
 
     const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
 
-    const toolCache = path.join(cachePath, 'pmd', '6.40.0', os.arch(), 'pmd-bin-6.40.0');
+    const toolCache = path.normalize(path.join(cachePath, 'pmd', '6.40.0', os.arch(), 'pmd-bin-6.40.0'));
     expect(pmdInfo).toStrictEqual({ path: toolCache, version: '6.40.0' });
     await expect(fs.access(toolCache)).resolves.toBe(undefined);
   })
@@ -74,7 +74,7 @@ describe('pmd-github-action-util', function () {
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip');
     const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token');
 
-    const toolCache = path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0');
+    const toolCache = path.normalize(path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0'));
     expect(pmdInfo).toStrictEqual({ path: toolCache, version: '6.39.0' });
     await expect(fs.access(toolCache)).resolves.toBe(undefined);
   })
@@ -93,7 +93,7 @@ describe('pmd-github-action-util', function () {
     const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token');
     const pmdInfo2 = await util.downloadPmd('6.39.0', 'my_test_token');
 
-    const toolCache = path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0');
+    const toolCache = path.normalize(path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0'));
     expect(pmdInfo).toStrictEqual({ path: toolCache, version: '6.39.0' });
     expect(pmdInfo2).toStrictEqual({ path: pmdInfo.path, version: '6.39.0' });
     await expect(fs.access(toolCache)).resolves.toBe(undefined);
