@@ -135,7 +135,7 @@ describe('pmd-github-action-util', function () {
     expect(report.runs[0].tool.driver.version).toBe('6.41.0');
     expect(execOutput.exitCode).toBe(0);
     expect(execOutput.stdout).toBe('Running PMD 6.41.0 with: pmd --no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif\n');
-    await io.rmRF(reportFile)
+    await io.rmRF(reportFile);
   })
 
   it('failure while downloading PMD', async () => {
@@ -217,7 +217,8 @@ describe('pmd-github-action-util', function () {
     expect(pmdFilelistContent).toBe('src/file1.txt,src/file2.txt');
     expect(execOutput.exitCode).toBe(0);
     expect(execOutput.stdout).toBe('Running PMD 6.40.0 with: pmd -no-cache -filelist pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif\n');
-    await io.rmRF(pmdFilelist)
+    await io.rmRF(pmdFilelist);
+    await io.rmRF(path.join('.', 'pmd-report.sarif'));
   })
 
   it('can execute PMD with list of files >= 6.41.0', async () => {
@@ -238,7 +239,8 @@ describe('pmd-github-action-util', function () {
     expect(pmdFilelistContent).toBe('src/file1.txt,src/file2.txt');
     expect(execOutput.exitCode).toBe(0);
     expect(execOutput.stdout).toBe('Running PMD 6.41.0 with: pmd --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif\n');
-    await io.rmRF(pmdFilelist)
+    await io.rmRF(pmdFilelist);
+    await io.rmRF(path.join('.', 'pmd-report.sarif'));
   })
 });
 
