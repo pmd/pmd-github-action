@@ -194,8 +194,9 @@ describe('pmd-github-action-util', function () {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=2')
       .reply(200, []);
-    let fileList = await util.determineModifiedFiles('my_test_token', 'src/main/java');
-    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']);
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
+      .map(f => path.normalize(f)));
   })
 
   test('can determine modified files from pull request (without debug)', async () => {
@@ -212,8 +213,9 @@ describe('pmd-github-action-util', function () {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=2')
       .reply(200, []);
-    let fileList = await util.determineModifiedFiles('my_test_token', 'src/main/java');
-    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']);
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
+      .map(f => path.normalize(f)));
   })
 
   test('throws for unsupported event', async () => {
