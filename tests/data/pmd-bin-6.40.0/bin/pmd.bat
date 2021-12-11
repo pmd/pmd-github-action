@@ -1,5 +1,5 @@
 @echo off
-echo Running PMD 6.40.0 with: %*
+echo Running PMD 6.40.0 with: pmd %*
 
 (
     echo {
