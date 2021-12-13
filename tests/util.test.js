@@ -267,6 +267,27 @@ describe('pmd-github-action-util', function () {
     await io.rmRF(pmdFilelist);
     await io.rmRF(path.join('.', 'pmd-report.sarif'));
   })
+
+  test('can determine modified files from push event (with debug)', async () => {
+    // enable ACTIONS_STEP_DEBUG
+    process.env['RUNNER_DEBUG'] = '1';
+    process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
+    process.env['GITHUB_EVENT_NAME'] = 'push';
+    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=1')
+      .replyWithFile(200, __dirname + '/data/compare-files-page1.json', {
+        'Content-Type': 'application/json',
+      });
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=2')
+      .replyWithFile(200, __dirname + '/data/compare-files-page2.json', {
+        'Content-Type': 'application/json',
+      });
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
+      .map(f => path.normalize(f)));
+  })
 });
 
 function setGlobal(key, value) {
