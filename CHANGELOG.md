@@ -14,6 +14,8 @@
 
 **Merged pull requests:**
 
+- Bump @actions/artifact from 0.6.0 to 0.6.1 [\#27](https://github.com/pmd/pmd-github-action/pull/27) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump jest from 27.4.3 to 27.4.5 [\#26](https://github.com/pmd/pmd-github-action/pull/26) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Add "Check changelog" job [\#23](https://github.com/pmd/pmd-github-action/pull/23) ([adangel](https://github.com/adangel))
 - Call pmd.bat under win32 [\#22](https://github.com/pmd/pmd-github-action/pull/22) ([adangel](https://github.com/adangel))
 - Bump @actions/artifact from 0.5.2 to 0.6.0 [\#20](https://github.com/pmd/pmd-github-action/pull/20) ([dependabot[bot]](https://github.com/apps/dependabot))
