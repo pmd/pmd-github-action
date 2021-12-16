@@ -218,10 +218,11 @@ describe('pmd-github-action-util', function () {
       .map(f => path.normalize(f)));
   })
 
-  test('throws for unsupported event', async () => {
+  test('return undefined for unsupported event', async () => {
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'workflow_dispatch';
-    await expect(util.determineModifiedFiles('my_test_token', 'src/main/java')).rejects.toThrow();
+    let result = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    expect(result).toBe(undefined);
   })
 
   it('can execute PMD with list of files', async () => {
