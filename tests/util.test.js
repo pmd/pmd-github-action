@@ -218,6 +218,24 @@ describe('pmd-github-action-util', function () {
       .map(f => path.normalize(f)));
   })
 
+  test('can determine modified files from pull request with max page', async () => {
+    // disable ACTIONS_STEP_DEBUG
+    delete process.env['RUNNER_DEBUG'];
+    process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
+    process.env['GITHUB_EVENT_NAME'] = 'pull_request';
+    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/pull-request-event-data.json';
+    for (let page = 1; page <= 10; page++) {
+      nock('https://api.github.com')
+        .get(`/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=${page}`)
+        .replyWithFile(200, __dirname + '/data/pull-request-files.json', {
+          'Content-Type': 'application/json',
+        });
+    }
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
+      .map(f => path.normalize(f)));
+  })
+
   test('return undefined for unsupported event', async () => {
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'workflow_dispatch';
@@ -285,6 +303,24 @@ describe('pmd-github-action-util', function () {
       .replyWithFile(200, __dirname + '/data/compare-files-page2.json', {
         'Content-Type': 'application/json',
       });
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
+      .map(f => path.normalize(f)));
+  })
+
+  test('can determine modified files from push event with max page', async () => {
+    // disable ACTIONS_STEP_DEBUG
+    delete process.env['RUNNER_DEBUG'];
+    process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
+    process.env['GITHUB_EVENT_NAME'] = 'push';
+    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
+    for (let page = 1; page <= 10; page++) {
+      nock('https://api.github.com')
+        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .replyWithFile(200, __dirname + '/data/compare-files-page1.json', {
+          'Content-Type': 'application/json',
+        });
+    }
     let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
