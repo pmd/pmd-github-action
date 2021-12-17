@@ -1,6 +1,7 @@
+const path = require('path');
 const validator = require('../lib/validator');
 
-describe('pmd-github-action-util', function() {
+describe('pmd-github-action-validator', function() {
     it('validate input version', () => {
         expect(validator.validateVersion('latest')).toBe('latest');
         expect(validator.validateVersion('6.40.0')).toBe('6.40.0');
@@ -14,7 +15,7 @@ describe('pmd-github-action-util', function() {
         expect(validator.validateSourcePath('.')).toBe('.');
         expect(validator.validateSourcePath('./src')).toBe('src');
         expect(validator.validateSourcePath('src')).toBe('src');
-        expect(validator.validateSourcePath('src/main/java')).toBe('src/main/java');
+        expect(validator.validateSourcePath('src/main/java')).toBe(path.normalize('src/main/java'));
     });
 
     it('validate source path should throw', () => {
