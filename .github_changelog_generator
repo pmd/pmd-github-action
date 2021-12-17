@@ -1,3 +1,0 @@
-user=pmd
-project=pmd-github-action
-include-tags-regex=v\d{1,}\.\d{1,}\.\d{1,}
