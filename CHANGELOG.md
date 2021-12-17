@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Support analyzing only modified files [\#6](https://github.com/pmd/pmd-github-action/issues/6)
 - Create inline annotations for found violations [\#7](https://github.com/pmd/pmd-github-action/issues/7)
 
 **Fixed bugs:**
@@ -14,6 +15,7 @@
 
 **Merged pull requests:**
 
+- Determine modified files for pull requests and pushes [\#24](https://github.com/pmd/pmd-github-action/pull/24) ([adangel](https://github.com/adangel))
 - Bump @actions/artifact from 0.6.0 to 0.6.1 [\#27](https://github.com/pmd/pmd-github-action/pull/27) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump jest from 27.4.3 to 27.4.5 [\#26](https://github.com/pmd/pmd-github-action/pull/26) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Add "Check changelog" job [\#23](https://github.com/pmd/pmd-github-action/pull/23) ([adangel](https://github.com/adangel))
