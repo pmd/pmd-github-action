@@ -50,13 +50,13 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
         annotations.processSarifReport(report);
 
         expect(core.error).toHaveBeenCalledTimes(2);
-        expect(core.error).toHaveBeenNthCalledWith(1, 'Full description for High Prio Rule\n\n0 - high prio rule (Priority: 1, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleHighPrio', { title: 'High Prio Rule', file: 'file1.txt', startLine: 4, endLine: 5 });
-        expect(core.error).toHaveBeenNthCalledWith(2, 'Full description for Medium High Prio Rule\n\n1 - medium high prio rule (Priority: 2, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumHighPrio', { title: 'Medium High Prio Rule', file: 'dir/file2.txt', startLine: 5 });
+        expect(core.error).toHaveBeenNthCalledWith(1, 'Full description for High Prio Rule\n\n0 - high prio rule (Priority: 1, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleHighPrio', { title: 'High Prio Rule', file: '/folder/file1.txt', startLine: 4, endLine: 5 });
+        expect(core.error).toHaveBeenNthCalledWith(2, 'Full description for Medium High Prio Rule\n\n1 - medium high prio rule (Priority: 2, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumHighPrio', { title: 'Medium High Prio Rule', file: '/folder/dir/file2.txt', startLine: 5 });
         expect(core.warning).toHaveBeenCalledTimes(2);
-        expect(core.warning).toHaveBeenNthCalledWith(1, 'Full description for Medium Prio Rule\n\n2 - medium prio rule (Priority: 3, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumPrio', { title: 'Medium Prio Rule', file: 'file3.txt', startLine: 6 });
-        expect(core.warning).toHaveBeenNthCalledWith(2, 'Full description for Medium Low Prio Rule\n\n3 - medium low prio rule (Priority: 4, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumLowPrio', { title: 'Medium Low Prio Rule', file: 'file4.txt', startLine: 7 });
+        expect(core.warning).toHaveBeenNthCalledWith(1, 'Full description for Medium Prio Rule\n\n2 - medium prio rule (Priority: 3, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumPrio', { title: 'Medium Prio Rule', file: '/folder/file3.txt', startLine: 6 });
+        expect(core.warning).toHaveBeenNthCalledWith(2, 'Full description for Medium Low Prio Rule\n\n3 - medium low prio rule (Priority: 4, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumLowPrio', { title: 'Medium Low Prio Rule', file: '/folder/file4.txt', startLine: 7 });
         expect(core.notice).toHaveBeenCalledTimes(2);
-        expect(core.notice).toHaveBeenNthCalledWith(1, 'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: 'file5.txt', startLine: 8 });
-        expect(core.notice).toHaveBeenNthCalledWith(2, 'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: 'file6.txt', startLine: 9 });
+        expect(core.notice).toHaveBeenNthCalledWith(1, 'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: '/folder/file5.txt', startLine: 8 });
+        expect(core.notice).toHaveBeenNthCalledWith(2, 'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: '/folder/file6.txt', startLine: 9 });
     });
 });
