@@ -1,6 +1,7 @@
 const path = require('path');
 const sarif = require('../lib/sarif');
 const io = require('@actions/io');
+const os = require('os');
 
 const tempPath = path.join(__dirname, 'TEMP');
 
@@ -51,16 +52,20 @@ describe('pmd-github-action-sarif', function () {
   })
 
   test('can properly relativize report', async () => {
+    const isWindows = os.platform() === 'win32';
+
     const reportPath = path.join(tempPath, 'pmd-report.sarif');
-    await io.cp(path.join(__dirname, 'data', 'pmd-report.sarif'), reportPath);
+    await io.cp(path.join(__dirname, 'data', isWindows ? 'pmd-report-win.sarif' : 'pmd-report.sarif'), reportPath);
 
     const reportBefore = sarif.loadReport(reportPath);
-    expect(reportBefore.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri).toBe('/home/andreas/PMD/source/pmd-github-action-test/src/classes/UnusedLocalVariableSample.cls');
+    const fullPath = isWindows ? 'D:\\a\\pmd-github-action-test\\src\\classes\\UnusedLocalVariableSample.cls' : '/home/andreas/PMD/source/pmd-github-action-test/src/classes/UnusedLocalVariableSample.cls';
+    expect(reportBefore.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri).toBe(fullPath);
 
-    process.env['GITHUB_WORKSPACE'] = '/home/andreas/PMD/source/pmd-github-action-test';
+    process.env['GITHUB_WORKSPACE'] = isWindows ? 'D:\\a\\pmd-github-action-test' : '/home/andreas/PMD/source/pmd-github-action-test';
     sarif.relativizeReport(reportPath);
     const reportAfter = sarif.loadReport(reportPath);
-    expect(reportAfter.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri).toBe('src/classes/UnusedLocalVariableSample.cls');
+    expect(path.normalize(reportAfter.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri))
+      .toBe(path.normalize('src/classes/UnusedLocalVariableSample.cls'));
   })
 
   test('can properly relativize already relativized report', async () => {
