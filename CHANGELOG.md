@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.1.0...HEAD)
+
+**Implemented enhancements:**
+
+- Create a starter workflow [\#1](https://github.com/pmd/pmd-github-action/issues/1)
+
+**Merged pull requests:**
+
+- Bump eslint from 8.4.1 to 8.5.0 [\#33](https://github.com/pmd/pmd-github-action/pull/33) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.1.0](https://github.com/pmd/pmd-github-action/tree/v1.1.0) (2021-12-17)
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.0.0...v1.1.0)
