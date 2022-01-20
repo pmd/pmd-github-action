@@ -8,6 +8,8 @@ This action runs [PMD](https://pmd.github.io) static code analysis checks.
 It can execute PMD with your own ruleset against your project. It creates a [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
 report which is uploaded as a build artifact. Furthermore the build can be failed based on the number of violations (see the extended examples).
 
+The action can also be used as a code scanner to create "Code scanning alerts".
+
 ## Usage
 
 The input `rulesets` is mandatory.
@@ -27,7 +29,7 @@ steps:
 
 ### Extended
 
-Fail the build based on the number of violations:
+Use a specific PMD version (6.40.0) and fail the build based on the number of violations:
 
 ```yaml
 steps:
@@ -46,7 +48,7 @@ steps:
     run: exit 1
 ```
 
-Uploading a SARIF file to GitHub:
+Create Code scanning alerts by uploading a SARIF file to GitHub:
 
 ```yaml
 steps:
@@ -58,12 +60,14 @@ steps:
     id: pmd
     with:
       rulesets: 'ruleset.xml'
+      analyzeModifiedFilesOnly: false
   - name: Upload SARIF file
     uses: github/codeql-action/upload-sarif@v1
     with:
       sarif_file: pmd-report.sarif
 ```
 
+The created alerts are available in the project under "Security" / "Code scanning alerts".
 See also [Uploading a SARIF file to GitHub](https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github).
 
 ## Inputs
@@ -74,7 +78,7 @@ See also [Uploading a SARIF file to GitHub](https://docs.github.com/en/code-secu
 |`version`   |no |"latest"|PMD version to use. Using "latest" automatically downloads the latest version.<br>Available versions: https://github.com/pmd/pmd/releases|
 |`sourcePath`|no |"."     |Root directory for sources. Uses by default the current directory|
 |`rulesets`  |yes|        |Comma separated list of ruleset names to use.|
-|`analyzeModifiedFilesOnly`|no|"true"|Instead of analyze all files under "sourcePath", only the files that have been touched in a pull request or push will be analyzed. This makes the analysis faster and helps especially bigger projects which gradually want to introduce PMD. This helps in enforcing that no new code violation is introduced.<br>Depending on the analyzed language, the results might be less accurate results. At the moment, this is not a problem, as PMD mostly analyzes each file individually, but that might change in the future.<br>If the change is very big, not all files might be analyzed. Currently the maximum number of modified files is 300.|
+|`analyzeModifiedFilesOnly`|no|"true"|Instead of analyze all files under "sourcePath", only the files that have been touched in a pull request or push will be analyzed. This makes the analysis faster and helps especially bigger projects which gradually want to introduce PMD. This helps in enforcing that no new code violation is introduced.<br>Depending on the analyzed language, the results might be less accurate results. At the moment, this is not a problem, as PMD mostly analyzes each file individually, but that might change in the future.<br>If the change is very big, not all files might be analyzed. Currently the maximum number of modified files is 300.<br>Note: When using PMD as a code scanner in order to create "Code scanning alerts" on GitHub, all files should be analyzed in order to produce a complete picture of the project. Otherwise alerts might get closed soo soon.|
 
 ## Outputs
 
