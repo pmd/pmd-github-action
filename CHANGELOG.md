@@ -10,6 +10,11 @@
 
 **Merged pull requests:**
 
+- Bump eslint from 8.5.0 to 8.7.0 [\#44](https://github.com/pmd/pmd-github-action/pull/44) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump nock from 13.2.1 to 13.2.2 [\#43](https://github.com/pmd/pmd-github-action/pull/43) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump jest from 27.4.5 to 27.4.7 [\#42](https://github.com/pmd/pmd-github-action/pull/42) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/setup-node from 2.5.0 to 2.5.1 [\#39](https://github.com/pmd/pmd-github-action/pull/39) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump @vercel/ncc from 0.33.0 to 0.33.1 [\#38](https://github.com/pmd/pmd-github-action/pull/38) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump eslint from 8.4.1 to 8.5.0 [\#33](https://github.com/pmd/pmd-github-action/pull/33) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v1.1.0](https://github.com/pmd/pmd-github-action/tree/v1.1.0) (2021-12-17)
