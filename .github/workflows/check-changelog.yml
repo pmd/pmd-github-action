@@ -20,16 +20,10 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
-      - name: Install github_changelog_generator
-        shell: bash
-        run: |
-          gem install --user-install github_changelog_generator
-
       - name: Run github_changelog_generator
         shell: bash
         run: |
-          gemdir="$(ruby -e 'puts Gem.user_dir')/bin"
-          $gemdir/github_changelog_generator --token ${{ secrets.GITHUB_TOKEN }}
+          bundle exec github_changelog_generator --token ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compare the expected and actual CHANGELOG.md
         run: |
