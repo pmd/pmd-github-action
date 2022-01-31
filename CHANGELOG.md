@@ -7,6 +7,7 @@
 **Implemented enhancements:**
 
 - Create a starter workflow [\#1](https://github.com/pmd/pmd-github-action/issues/1)
+- Add an option to disable GitHub annotations \(`createGitHubAnnotations`\) [\#45](https://github.com/pmd/pmd-github-action/pull/45) ([smetanink](https://github.com/smetanink))
 
 **Fixed bugs:**
 
@@ -18,6 +19,7 @@
 
 **Merged pull requests:**
 
+- Bump eslint from 8.7.0 to 8.8.0 [\#46](https://github.com/pmd/pmd-github-action/pull/46) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump eslint from 8.5.0 to 8.7.0 [\#44](https://github.com/pmd/pmd-github-action/pull/44) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump nock from 13.2.1 to 13.2.2 [\#43](https://github.com/pmd/pmd-github-action/pull/43) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump jest from 27.4.5 to 27.4.7 [\#42](https://github.com/pmd/pmd-github-action/pull/42) ([dependabot[bot]](https://github.com/apps/dependabot))
