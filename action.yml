@@ -49,7 +49,14 @@ inputs:
       complete picture of the project. Otherwise alerts might get closed soo
       soon.
     required: false
-    default: true
+    default: 'true'
+  createGitHubAnnotations:
+    description: >-
+      By default, all detected violations are added as annotations to the pull 
+      request. You can disable this by setting FALSE. This can be useful if you 
+      are using another tool for this purpose.
+    required: false
+    default: 'true'
 outputs:
   violations:
     description: Number of violations found
