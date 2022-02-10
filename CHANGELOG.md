@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+## [v1.2.0](https://github.com/pmd/pmd-github-action/tree/v1.2.0) (2022-02-10)
 
-[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.1.0...HEAD)
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.1.0...v1.2.0)
 
 **Implemented enhancements:**
 
