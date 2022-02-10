@@ -1,5 +1,0 @@
-user=pmd
-project=pmd-github-action
-include-tags-regex=v\d{1,}\.\d{1,}\.\d{1,}
-add-sections={"dependencies":{"prefix":"**Dependency updates:**","labels":["dependencies"]}}
-usernames-as-github-logins=true
