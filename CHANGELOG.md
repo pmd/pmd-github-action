@@ -7,11 +7,23 @@
 **Implemented enhancements:**
 
 - Create a starter workflow [\#1](https://github.com/pmd/pmd-github-action/issues/1)
-- Add an option to disable GitHub annotations \(`createGitHubAnnotations`\) [\#45](https://github.com/pmd/pmd-github-action/pull/45) ([smetanink](https://github.com/smetanink))
+- Add an option to disable GitHub annotations \(`createGitHubAnnotations`\) [\#45](https://github.com/pmd/pmd-github-action/pull/45) (@smetanink)
 
 **Fixed bugs:**
 
 - Code scanning alert doesn't find file in repository [\#34](https://github.com/pmd/pmd-github-action/issues/34)
+
+**Dependency updates:**
+
+- Bump jest from 27.4.7 to 27.5.1 [\#50](https://github.com/pmd/pmd-github-action/pull/50) (@dependabot[bot])
+- Bump nock from 13.2.2 to 13.2.4 [\#48](https://github.com/pmd/pmd-github-action/pull/48) (@dependabot[bot])
+- Bump eslint from 8.7.0 to 8.8.0 [\#46](https://github.com/pmd/pmd-github-action/pull/46) (@dependabot[bot])
+- Bump eslint from 8.5.0 to 8.7.0 [\#44](https://github.com/pmd/pmd-github-action/pull/44) (@dependabot[bot])
+- Bump nock from 13.2.1 to 13.2.2 [\#43](https://github.com/pmd/pmd-github-action/pull/43) (@dependabot[bot])
+- Bump jest from 27.4.5 to 27.4.7 [\#42](https://github.com/pmd/pmd-github-action/pull/42) (@dependabot[bot])
+- Bump actions/setup-node from 2.5.0 to 2.5.1 [\#39](https://github.com/pmd/pmd-github-action/pull/39) (@dependabot[bot])
+- Bump @vercel/ncc from 0.33.0 to 0.33.1 [\#38](https://github.com/pmd/pmd-github-action/pull/38) (@dependabot[bot])
+- Bump eslint from 8.4.1 to 8.5.0 [\#33](https://github.com/pmd/pmd-github-action/pull/33) (@dependabot[bot])
 
 **Closed issues:**
 
@@ -19,15 +31,8 @@
 
 **Merged pull requests:**
 
-- Bump eslint from 8.7.0 to 8.8.0 [\#46](https://github.com/pmd/pmd-github-action/pull/46) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump eslint from 8.5.0 to 8.7.0 [\#44](https://github.com/pmd/pmd-github-action/pull/44) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump nock from 13.2.1 to 13.2.2 [\#43](https://github.com/pmd/pmd-github-action/pull/43) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump jest from 27.4.5 to 27.4.7 [\#42](https://github.com/pmd/pmd-github-action/pull/42) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump actions/setup-node from 2.5.0 to 2.5.1 [\#39](https://github.com/pmd/pmd-github-action/pull/39) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump @vercel/ncc from 0.33.0 to 0.33.1 [\#38](https://github.com/pmd/pmd-github-action/pull/38) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Update documentation for code scanning alerts [\#37](https://github.com/pmd/pmd-github-action/pull/37) ([adangel](https://github.com/adangel))
-- Relativize paths in SARIF report [\#36](https://github.com/pmd/pmd-github-action/pull/36) ([adangel](https://github.com/adangel))
-- Bump eslint from 8.4.1 to 8.5.0 [\#33](https://github.com/pmd/pmd-github-action/pull/33) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update documentation for code scanning alerts [\#37](https://github.com/pmd/pmd-github-action/pull/37) (@adangel)
+- Relativize paths in SARIF report [\#36](https://github.com/pmd/pmd-github-action/pull/36) (@adangel)
 
 ## [v1.1.0](https://github.com/pmd/pmd-github-action/tree/v1.1.0) (2021-12-17)
 
@@ -42,23 +47,26 @@
 
 - Action doesn't work under Windows runner [\#21](https://github.com/pmd/pmd-github-action/issues/21)
 
+**Dependency updates:**
+
+- Bump @actions/artifact from 0.6.0 to 0.6.1 [\#27](https://github.com/pmd/pmd-github-action/pull/27) (@dependabot[bot])
+- Bump jest from 27.4.3 to 27.4.5 [\#26](https://github.com/pmd/pmd-github-action/pull/26) (@dependabot[bot])
+- Bump @actions/artifact from 0.5.2 to 0.6.0 [\#20](https://github.com/pmd/pmd-github-action/pull/20) (@dependabot[bot])
+- Bump eslint from 8.3.0 to 8.4.1 [\#19](https://github.com/pmd/pmd-github-action/pull/19) (@dependabot[bot])
+- Bump @vercel/ncc from 0.32.0 to 0.33.0 [\#15](https://github.com/pmd/pmd-github-action/pull/15) (@dependabot[bot])
+- Bump jest from 27.4.2 to 27.4.3 [\#13](https://github.com/pmd/pmd-github-action/pull/13) (@dependabot[bot])
+- Bump jest from 27.4.0 to 27.4.2 [\#10](https://github.com/pmd/pmd-github-action/pull/10) (@dependabot[bot])
+- Bump jest from 27.3.1 to 27.4.0 [\#9](https://github.com/pmd/pmd-github-action/pull/9) (@dependabot[bot])
+- Bump actions/setup-node from 2.4.1 to 2.5.0 [\#8](https://github.com/pmd/pmd-github-action/pull/8) (@dependabot[bot])
+
 **Merged pull requests:**
 
-- Bump @actions/artifact from 0.6.0 to 0.6.1 [\#27](https://github.com/pmd/pmd-github-action/pull/27) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump jest from 27.4.3 to 27.4.5 [\#26](https://github.com/pmd/pmd-github-action/pull/26) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Determine modified files for pull requests and pushes [\#24](https://github.com/pmd/pmd-github-action/pull/24) ([adangel](https://github.com/adangel))
-- Add "Check changelog" job [\#23](https://github.com/pmd/pmd-github-action/pull/23) ([adangel](https://github.com/adangel))
-- Call pmd.bat under win32 [\#22](https://github.com/pmd/pmd-github-action/pull/22) ([adangel](https://github.com/adangel))
-- Bump @actions/artifact from 0.5.2 to 0.6.0 [\#20](https://github.com/pmd/pmd-github-action/pull/20) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump eslint from 8.3.0 to 8.4.1 [\#19](https://github.com/pmd/pmd-github-action/pull/19) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Avoid using deprecated CLI options for PMD \>= 6.41.0 [\#17](https://github.com/pmd/pmd-github-action/pull/17) ([adangel](https://github.com/adangel))
-- Add optional token parameter [\#16](https://github.com/pmd/pmd-github-action/pull/16) ([adangel](https://github.com/adangel))
-- Bump @vercel/ncc from 0.32.0 to 0.33.0 [\#15](https://github.com/pmd/pmd-github-action/pull/15) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump jest from 27.4.2 to 27.4.3 [\#13](https://github.com/pmd/pmd-github-action/pull/13) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Create annotations from sarif report [\#12](https://github.com/pmd/pmd-github-action/pull/12) ([adangel](https://github.com/adangel))
-- Bump jest from 27.4.0 to 27.4.2 [\#10](https://github.com/pmd/pmd-github-action/pull/10) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump jest from 27.3.1 to 27.4.0 [\#9](https://github.com/pmd/pmd-github-action/pull/9) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump actions/setup-node from 2.4.1 to 2.5.0 [\#8](https://github.com/pmd/pmd-github-action/pull/8) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Determine modified files for pull requests and pushes [\#24](https://github.com/pmd/pmd-github-action/pull/24) (@adangel)
+- Add "Check changelog" job [\#23](https://github.com/pmd/pmd-github-action/pull/23) (@adangel)
+- Call pmd.bat under win32 [\#22](https://github.com/pmd/pmd-github-action/pull/22) (@adangel)
+- Avoid using deprecated CLI options for PMD \>= 6.41.0 [\#17](https://github.com/pmd/pmd-github-action/pull/17) (@adangel)
+- Add optional token parameter [\#16](https://github.com/pmd/pmd-github-action/pull/16) (@adangel)
+- Create annotations from sarif report [\#12](https://github.com/pmd/pmd-github-action/pull/12) (@adangel)
 
 ## [v1.0.0](https://github.com/pmd/pmd-github-action/tree/v1.0.0) (2021-11-27)
 
