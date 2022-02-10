@@ -46,7 +46,7 @@ inputs:
 
       Note: When using PMD as a code scanner in order to create "Code scanning
       alerts" on GitHub, all files should be analyzed in order to produce a
-      complete picture of the project. Otherwise alerts might get closed soo
+      complete picture of the project. Otherwise alerts might get closed too
       soon.
     required: false
     default: 'true'
