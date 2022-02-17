@@ -2,6 +2,7 @@ const path = require('path');
 const sarif = require('../lib/sarif');
 const io = require('@actions/io');
 const os = require('os');
+const fs = require('fs');
 
 const tempPath = path.join(__dirname, 'TEMP');
 
@@ -23,6 +24,11 @@ describe('pmd-github-action-sarif', function () {
   it('can count violations', () => {
     const count = sarif.countViolations(path.join(__dirname, 'data', 'pmd-report.sarif'));
     expect(count).toBe(1);
+  })
+
+  it('can count violations multiple', () => {
+    const count = sarif.countViolations(path.join(__dirname, 'data', 'pmd-report-multiple.sarif'));
+    expect(count).toBe(1); // still only one violation, but with two locations
   })
 
   it('can deal with empty report', () => {
@@ -79,5 +85,40 @@ describe('pmd-github-action-sarif', function () {
     sarif.relativizeReport(reportPath);
     const reportAfter = sarif.loadReport(reportPath);
     expect(reportAfter.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri).toBe('src/classes/UnusedLocalVariableSample.cls');
+  })
+
+  test('sarif report result fix is skipped when no report', async () => {
+    const reportPath = path.join(tempPath, 'pmd-report-not-existing.sarif');
+    sarif.fixResults(reportPath);
+  })
+
+  test('sarif report results are fixed', async () => {
+    const reportPath = path.join(tempPath, 'pmd-report-multiple.sarif');
+    await io.cp(path.join(__dirname, 'data', 'pmd-report-multiple.sarif'), reportPath);
+
+    const reportBefore = sarif.loadReport(reportPath);
+    expect(reportBefore.runs[0].results.length).toBe(1);
+    sarif.fixResults(reportPath);
+    const reportAfter = sarif.loadReport(reportPath);
+    expect(reportAfter.runs[0].results.length).toBe(2);
+
+    const expectedReport = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'pmd-report-multiple-fixed.sarif')));
+    expect(reportAfter).toStrictEqual(expectedReport);
+  })
+
+  test('sarif report results are not fixed for PMD >= 6.43.0', async () => {
+    const reportPath = path.join(tempPath, 'pmd-report-multiple.sarif');
+    await io.cp(path.join(__dirname, 'data', 'pmd-report-multiple.sarif'), reportPath);
+
+    const reportBefore = sarif.loadReport(reportPath);
+    reportBefore.runs[0].tool.driver.version = '6.43.0';
+    fs.writeFileSync(reportPath, JSON.stringify(reportBefore));
+
+    expect(reportBefore.runs[0].results.length).toBe(1);
+    sarif.fixResults(reportPath);
+    const reportAfter = sarif.loadReport(reportPath);
+    expect(reportAfter.runs[0].results.length).toBe(1);
+
+    expect(reportAfter).toStrictEqual(reportBefore);
   })
 });
