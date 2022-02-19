@@ -1,0 +1,38 @@
+{
+    "url": "https://api.github.com/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1",
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "commits": [],
+    "files": [
+        {
+            "sha": "879c25e370bb62b991c95adf0e4becf220d394fb",
+            "filename": "src/main/java/AvoidCatchingThrowableSample.java",
+            "status": "modified",
+            "additions": 2,
+            "deletions": 1,
+            "changes": 3,
+            "blob_url": "https://github.com/pmd/pmd-github-action-tests/blob/cfe417bd477804d0dd4cd9a6fd56e0bee5235b3f/src/main/java/AvoidCatchingThrowableSample.java",
+            "raw_url": "https://github.com/pmd/pmd-github-action-tests/raw/cfe417bd477804d0dd4cd9a6fd56e0bee5235b3f/src/main/java/AvoidCatchingThrowableSample.java",
+            "contents_url": "https://api.github.com/repos/pmd/pmd-github-action-tests/contents/src/main/java/AvoidCatchingThrowableSample.java?ref=cfe417bd477804d0dd4cd9a6fd56e0bee5235b3f",
+            "patch": "@@ -1,9 +1,10 @@\n public class AvoidCatchingThrowableSample {\n+    \n     public void bar() {\n         try {\n             // do something\n         } catch (Throwable th) {  // should not catch Throwable\n             th.printStackTrace();\n         }\n     }\n-}\n\\ No newline at end of file\n+}"
+        },
+        {
+            "filename": "src/main/java/DeletedFile.java",
+            "status": "removed"
+        },
+        {
+            "filename": "src/main/java2/NewFile.java",
+            "status": "added"
+        },
+        {
+            "filename": "src/main/java/ChangedFile.java",
+            "status": "changed"
+        },
+        {
+            "filename": "README.md",
+            "status": "modified"
+        }
+    ]
+}

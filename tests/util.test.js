@@ -325,6 +325,60 @@ describe('pmd-github-action-util', function () {
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
+
+  test('sourcePath is applied correctly for analyzeModifiedFiles - issue #52', async () => {
+    // disable ACTIONS_STEP_DEBUG
+    delete process.env['RUNNER_DEBUG'];
+    process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
+    process.env['GITHUB_EVENT_NAME'] = 'push';
+    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
+    for (let page = 1; page <= 10; page++) {
+      nock('https://api.github.com')
+        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .replyWithFile(200, __dirname + '/data/compare-files-page1-issue52.json', {
+          'Content-Type': 'application/json',
+        });
+    }
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/ChangedFile.java']
+      .map(f => path.normalize(f)));
+  })
+
+  test('sourcePath with trailing slash is applied correctly for analyzeModifiedFiles - issue #52', async () => {
+    // disable ACTIONS_STEP_DEBUG
+    delete process.env['RUNNER_DEBUG'];
+    process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
+    process.env['GITHUB_EVENT_NAME'] = 'push';
+    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
+    for (let page = 1; page <= 10; page++) {
+      nock('https://api.github.com')
+        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .replyWithFile(200, __dirname + '/data/compare-files-page1-issue52.json', {
+          'Content-Type': 'application/json',
+        });
+    }
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java/'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/ChangedFile.java']
+      .map(f => path.normalize(f)));
+  })
+
+  test('sourcePath with current dir is applied correctly for analyzeModifiedFiles - issue #52', async () => {
+    // disable ACTIONS_STEP_DEBUG
+    delete process.env['RUNNER_DEBUG'];
+    process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
+    process.env['GITHUB_EVENT_NAME'] = 'push';
+    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
+    for (let page = 1; page <= 10; page++) {
+      nock('https://api.github.com')
+        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .replyWithFile(200, __dirname + '/data/compare-files-page1-issue52.json', {
+          'Content-Type': 'application/json',
+        });
+    }
+    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('.'));
+    expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java2/NewFile.java', 'src/main/java/ChangedFile.java', 'README.md']
+      .map(f => path.normalize(f)));
+  })
 });
 
 function setGlobal(key, value) {
