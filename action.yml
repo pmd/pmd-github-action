@@ -19,7 +19,11 @@ inputs:
       PMD version to use. Using "latest" automatically downloads the latest
       version.
 
-      Available versions: https://github.com/pmd/pmd/releases
+      Available versions: <https://github.com/pmd/pmd/releases>
+
+      Note: Only PMD 6.31.0 and later is supported due to required support for
+      [Sarif report
+      format](https://pmd.github.io/latest/pmd_userdocs_report_formats.html#sarif).
     required: false
     default: latest
   sourcePath:
