@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.0...HEAD)
+
+**Dependency updates:**
+
+- Bump @vercel/ncc from 0.33.1 to 0.33.3 [\#56](https://github.com/pmd/pmd-github-action/pull/56) (@dependabot[bot])
+- Bump eslint from 8.8.0 to 8.9.0 [\#55](https://github.com/pmd/pmd-github-action/pull/55) (@dependabot[bot])
+
 ## [v1.2.0](https://github.com/pmd/pmd-github-action/tree/v1.2.0) (2022-02-10)
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.1.0...v1.2.0)
