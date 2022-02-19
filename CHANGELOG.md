@@ -4,18 +4,18 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.0...HEAD)
 
-**Fixed bugs:**
+**🐛 Fixed bugs:**
 
 - Code scanning doesn't contain all violations from PMD [\#53](https://github.com/pmd/pmd-github-action/issues/53)
 - Sourcepath is not applied correctly with analyzeModifiedFilesOnly [\#52](https://github.com/pmd/pmd-github-action/issues/52)
 - No annotations created under Windows [\#51](https://github.com/pmd/pmd-github-action/issues/51)
 
-**Dependency updates:**
+**📦 Dependency updates:**
 
 - Bump @vercel/ncc from 0.33.1 to 0.33.3 [\#56](https://github.com/pmd/pmd-github-action/pull/56) (@dependabot[bot])
 - Bump eslint from 8.8.0 to 8.9.0 [\#55](https://github.com/pmd/pmd-github-action/pull/55) (@dependabot[bot])
 
-**Merged pull requests:**
+**🎉 Merged pull requests:**
 
 - Fixes \#51 Convert Windows paths [\#59](https://github.com/pmd/pmd-github-action/pull/59) (@adangel)
 - Fixes \#52 sourcePath without trailing slash [\#58](https://github.com/pmd/pmd-github-action/pull/58) (@adangel)
@@ -25,16 +25,16 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.1.0...v1.2.0)
 
-**Implemented enhancements:**
+**🚀 Implemented enhancements:**
 
 - Create a starter workflow [\#1](https://github.com/pmd/pmd-github-action/issues/1)
 - Add an option to disable GitHub annotations \(`createGitHubAnnotations`\) [\#45](https://github.com/pmd/pmd-github-action/pull/45) (@smetanink)
 
-**Fixed bugs:**
+**🐛 Fixed bugs:**
 
 - Code scanning alert doesn't find file in repository [\#34](https://github.com/pmd/pmd-github-action/issues/34)
 
-**Dependency updates:**
+**📦 Dependency updates:**
 
 - Bump jest from 27.4.7 to 27.5.1 [\#50](https://github.com/pmd/pmd-github-action/pull/50) (@dependabot[bot])
 - Bump nock from 13.2.2 to 13.2.4 [\#48](https://github.com/pmd/pmd-github-action/pull/48) (@dependabot[bot])
@@ -46,11 +46,11 @@
 - Bump @vercel/ncc from 0.33.0 to 0.33.1 [\#38](https://github.com/pmd/pmd-github-action/pull/38) (@dependabot[bot])
 - Bump eslint from 8.4.1 to 8.5.0 [\#33](https://github.com/pmd/pmd-github-action/pull/33) (@dependabot[bot])
 
-**Closed issues:**
+**✔️ Closed issues:**
 
 - Code scanning doesn't work well with analyzeModifiedFilesOnly [\#35](https://github.com/pmd/pmd-github-action/issues/35)
 
-**Merged pull requests:**
+**🎉 Merged pull requests:**
 
 - Update documentation for code scanning alerts [\#37](https://github.com/pmd/pmd-github-action/pull/37) (@adangel)
 - Relativize paths in SARIF report [\#36](https://github.com/pmd/pmd-github-action/pull/36) (@adangel)
@@ -59,16 +59,16 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.0.0...v1.1.0)
 
-**Implemented enhancements:**
+**🚀 Implemented enhancements:**
 
 - Create inline annotations for found violations [\#7](https://github.com/pmd/pmd-github-action/issues/7)
 - Support analyzing only modified files [\#6](https://github.com/pmd/pmd-github-action/issues/6)
 
-**Fixed bugs:**
+**🐛 Fixed bugs:**
 
 - Action doesn't work under Windows runner [\#21](https://github.com/pmd/pmd-github-action/issues/21)
 
-**Dependency updates:**
+**📦 Dependency updates:**
 
 - Bump @actions/artifact from 0.6.0 to 0.6.1 [\#27](https://github.com/pmd/pmd-github-action/pull/27) (@dependabot[bot])
 - Bump jest from 27.4.3 to 27.4.5 [\#26](https://github.com/pmd/pmd-github-action/pull/26) (@dependabot[bot])
@@ -80,7 +80,7 @@
 - Bump jest from 27.3.1 to 27.4.0 [\#9](https://github.com/pmd/pmd-github-action/pull/9) (@dependabot[bot])
 - Bump actions/setup-node from 2.4.1 to 2.5.0 [\#8](https://github.com/pmd/pmd-github-action/pull/8) (@dependabot[bot])
 
-**Merged pull requests:**
+**🎉 Merged pull requests:**
 
 - Determine modified files for pull requests and pushes [\#24](https://github.com/pmd/pmd-github-action/pull/24) (@adangel)
 - Add "Check changelog" job [\#23](https://github.com/pmd/pmd-github-action/pull/23) (@adangel)
