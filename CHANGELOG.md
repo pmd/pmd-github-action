@@ -4,10 +4,22 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.0...HEAD)
 
+**Fixed bugs:**
+
+- Code scanning doesn't contain all violations from PMD [\#53](https://github.com/pmd/pmd-github-action/issues/53)
+- Sourcepath is not applied correctly with analyzeModifiedFilesOnly [\#52](https://github.com/pmd/pmd-github-action/issues/52)
+- No annotations created under Windows [\#51](https://github.com/pmd/pmd-github-action/issues/51)
+
 **Dependency updates:**
 
 - Bump @vercel/ncc from 0.33.1 to 0.33.3 [\#56](https://github.com/pmd/pmd-github-action/pull/56) (@dependabot[bot])
 - Bump eslint from 8.8.0 to 8.9.0 [\#55](https://github.com/pmd/pmd-github-action/pull/55) (@dependabot[bot])
+
+**Merged pull requests:**
+
+- Fixes \#51 Convert Windows paths [\#59](https://github.com/pmd/pmd-github-action/pull/59) (@adangel)
+- Fixes \#52 sourcePath without trailing slash [\#58](https://github.com/pmd/pmd-github-action/pull/58) (@adangel)
+- Fix Sarif report for multiple results [\#57](https://github.com/pmd/pmd-github-action/pull/57) (@adangel)
 
 ## [v1.2.0](https://github.com/pmd/pmd-github-action/tree/v1.2.0) (2022-02-10)
 
