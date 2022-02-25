@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.1...HEAD)
+
+**📦 Dependency updates:**
+
+- Bump actions/setup-node from 2.5.1 to 3.0.0 [\#60](https://github.com/pmd/pmd-github-action/pull/60) (@dependabot[bot])
+
 ## [v1.2.1](https://github.com/pmd/pmd-github-action/tree/v1.2.1) (2022-02-19)
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.0...v1.2.1)
