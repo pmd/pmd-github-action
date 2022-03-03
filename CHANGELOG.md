@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump actions/checkout from 2 to 3 [\#62](https://github.com/pmd/pmd-github-action/pull/62) (@dependabot[bot])
 - Bump eslint from 8.9.0 to 8.10.0 [\#61](https://github.com/pmd/pmd-github-action/pull/61) (@dependabot[bot])
 - Bump actions/setup-node from 2.5.1 to 3.0.0 [\#60](https://github.com/pmd/pmd-github-action/pull/60) (@dependabot[bot])
 
