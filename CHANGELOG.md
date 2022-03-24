@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @actions/io from 1.1.1 to 1.1.2 [\#65](https://github.com/pmd/pmd-github-action/pull/65) (@dependabot[bot])
 - Bump eslint from 8.10.0 to 8.11.0 [\#64](https://github.com/pmd/pmd-github-action/pull/64) (@dependabot[bot])
 - Bump @actions/artifact from 0.6.1 to 1.0.0 [\#63](https://github.com/pmd/pmd-github-action/pull/63) (@dependabot[bot])
 - Bump actions/checkout from 2 to 3 [\#62](https://github.com/pmd/pmd-github-action/pull/62) (@dependabot[bot])
