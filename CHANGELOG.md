@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @actions/github from 5.0.0 to 5.0.1 [\#69](https://github.com/pmd/pmd-github-action/pull/69) (@dependabot[bot])
 - Bump eslint from 8.11.0 to 8.12.0 [\#68](https://github.com/pmd/pmd-github-action/pull/68) (@dependabot[bot])
 - Bump @actions/tool-cache from 1.7.1 to 1.7.2 [\#67](https://github.com/pmd/pmd-github-action/pull/67) (@dependabot[bot])
 - Bump @actions/exec from 1.1.0 to 1.1.1 [\#66](https://github.com/pmd/pmd-github-action/pull/66) (@dependabot[bot])
