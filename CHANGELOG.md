@@ -10,6 +10,7 @@
 - Bump actions/setup-node from 3.0.0 to 3.1.1 [\#74](https://github.com/pmd/pmd-github-action/pull/74) (@dependabot[bot])
 - Bump actions/upload-artifact from 2 to 3 [\#73](https://github.com/pmd/pmd-github-action/pull/73) (@dependabot[bot])
 - Bump eslint from 8.12.0 to 8.13.0 [\#72](https://github.com/pmd/pmd-github-action/pull/72) (@dependabot[bot])
+- Bump semver from 7.3.5 to 7.3.6 [\#71](https://github.com/pmd/pmd-github-action/pull/71) (@dependabot[bot])
 - Bump @actions/github from 5.0.0 to 5.0.1 [\#69](https://github.com/pmd/pmd-github-action/pull/69) (@dependabot[bot])
 - Bump eslint from 8.11.0 to 8.12.0 [\#68](https://github.com/pmd/pmd-github-action/pull/68) (@dependabot[bot])
 - Bump @actions/tool-cache from 1.7.1 to 1.7.2 [\#67](https://github.com/pmd/pmd-github-action/pull/67) (@dependabot[bot])
