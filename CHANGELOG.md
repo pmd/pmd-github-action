@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump semver from 7.3.6 to 7.3.7 [\#76](https://github.com/pmd/pmd-github-action/pull/76) (@dependabot[bot])
 - Bump @vercel/ncc from 0.33.3 to 0.33.4 [\#75](https://github.com/pmd/pmd-github-action/pull/75) (@dependabot[bot])
 - Bump actions/setup-node from 3.0.0 to 3.1.1 [\#74](https://github.com/pmd/pmd-github-action/pull/74) (@dependabot[bot])
 - Bump actions/upload-artifact from 2 to 3 [\#73](https://github.com/pmd/pmd-github-action/pull/73) (@dependabot[bot])
