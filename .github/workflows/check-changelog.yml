@@ -37,13 +37,6 @@ jobs:
           fi
         id: diff
 
-      # If CHANGELOG.md was different than expected, upload the expected version as an artifact
-      - uses: actions/upload-artifact@v3
-        if: ${{ env.changelog == 'outdated' }}
-        with:
-          name: changelog
-          path: CHANGELOG.md
-
       - name: Push changes to CHANGELOG.md
         if: ${{ github.repository == 'pmd/pmd-github-action' && env.changelog == 'outdated' }}
         run: |

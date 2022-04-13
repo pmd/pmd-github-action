@@ -3,6 +3,8 @@
 # `index.js` is the code that will run.
 # For our project, we generate this file through a build process from other source files.
 # We need to make sure the checked-in `index.js` actually matches what we expect it to be.
+# This job verifies, that it contains always the current content
+# and also pushes the any necessary updates
 name: Check dist
 
 on:
@@ -39,13 +41,15 @@ jobs:
           if [ "$(git diff --ignore-space-at-eol dist/ | wc -l)" -gt "0" ]; then
             echo "Detected uncommitted changes after build.  See status below:"
             git diff
-            exit 1
+            echo "dist=outdated" >> $GITHUB_ENV
+          else
+            echo "dist=current" >> $GITHUB_ENV
           fi
         id: diff
 
-      # If index.js was different than expected, upload the expected version as an artifact
-      - uses: actions/upload-artifact@v3
-        if: ${{ failure() && steps.diff.conclusion == 'failure' }}
-        with:
-          name: dist
-          path: dist/
+      - name: Push changes to dist/
+        if: ${{ github.repository == 'pmd/pmd-github-action' && env.dist == 'outdated' }}
+        run: |
+          git config --local user.email "pmd-bot@users.noreply.github.com"
+          git config --local user.name "GitHub Actions (pmd-bot)"
+          git add dist && git commit -m 'Updated dist' && git push origin main
