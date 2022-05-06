@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @actions/core from 1.7.0 to 1.8.0 [\#83](https://github.com/pmd/pmd-github-action/pull/83) (@dependabot[bot])
 - Bump jest from 28.0.2 to 28.0.3 [\#82](https://github.com/pmd/pmd-github-action/pull/82) (@dependabot[bot])
 - Bump jest from 27.5.1 to 28.0.2 [\#81](https://github.com/pmd/pmd-github-action/pull/81) (@dependabot[bot])
 - Bump @actions/core from 1.6.0 to 1.7.0 [\#79](https://github.com/pmd/pmd-github-action/pull/79) (@dependabot[bot])
