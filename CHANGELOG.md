@@ -7,6 +7,7 @@
 **📦 Dependency updates:**
 
 - Bump @actions/github from 5.0.1 to 5.0.2 [\#88](https://github.com/pmd/pmd-github-action/pull/88) (@dependabot[bot])
+- Bump @actions/artifact from 1.0.0 to 1.0.1 [\#87](https://github.com/pmd/pmd-github-action/pull/87) (@dependabot[bot])
 - Bump @actions/tool-cache from 1.7.2 to 2.0.0 [\#86](https://github.com/pmd/pmd-github-action/pull/86) (@dependabot[bot])
 - Bump @actions/core from 1.7.0 to 1.8.0 [\#83](https://github.com/pmd/pmd-github-action/pull/83) (@dependabot[bot])
 - Bump jest from 28.0.2 to 28.0.3 [\#82](https://github.com/pmd/pmd-github-action/pull/82) (@dependabot[bot])
