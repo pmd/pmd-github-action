@@ -48,8 +48,9 @@ jobs:
         id: diff
 
       - name: Push changes to dist/
-        if: ${{ github.repository == 'pmd/pmd-github-action' && env.dist == 'outdated' }}
+        if: ${{ github.repository == 'pmd/pmd-github-action' && github.event_name == 'push' && env.dist == 'outdated' }}
         run: |
           git config --local user.email "pmd-bot@users.noreply.github.com"
           git config --local user.name "GitHub Actions (pmd-bot)"
+          git fetch origin main && git merge --ff-only origin/main
           git add dist && git commit -m 'Updated dist' && git push origin main
