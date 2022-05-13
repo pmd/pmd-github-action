@@ -45,7 +45,6 @@ jobs:
           else
             echo "changelog=current" >> $GITHUB_ENV
           fi
-        id: diff
 
       - name: Push changes to CHANGELOG.md
         if: ${{ github.repository == 'pmd/pmd-github-action' && github.event_name == 'push' && env.changelog == 'outdated' }}
@@ -74,7 +73,6 @@ jobs:
           else
             echo "dist=current" >> $GITHUB_ENV
           fi
-        id: diff
 
       - name: Push changes to dist/
         if: ${{ github.repository == 'pmd/pmd-github-action' && github.event_name == 'push' && env.dist == 'outdated' }}
