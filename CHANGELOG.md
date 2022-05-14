@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @actions/core from 1.8.0 to 1.8.2 [\#92](https://github.com/pmd/pmd-github-action/pull/92) (@dependabot[bot])
 - Bump @actions/tool-cache from 2.0.0 to 2.0.1 [\#91](https://github.com/pmd/pmd-github-action/pull/91) (@dependabot[bot])
 - Bump @actions/github from 5.0.2 to 5.0.3 [\#90](https://github.com/pmd/pmd-github-action/pull/90) (@dependabot[bot])
 - Bump @actions/artifact from 1.0.1 to 1.0.2 [\#89](https://github.com/pmd/pmd-github-action/pull/89) (@dependabot[bot])
