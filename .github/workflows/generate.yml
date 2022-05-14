@@ -47,7 +47,7 @@ jobs:
           fi
 
       - name: Push changes to CHANGELOG.md
-        if: ${{ github.repository == 'pmd/pmd-github-action' && github.event_name == 'push' && env.changelog == 'outdated' }}
+        if: ${{ github.repository == 'pmd/pmd-github-action' && ( github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && env.changelog == 'outdated' }}
         run: |
           git config --local user.email "pmd-bot@users.noreply.github.com"
           git config --local user.name "GitHub Actions (pmd-bot)"
@@ -75,7 +75,7 @@ jobs:
           fi
 
       - name: Push changes to dist/
-        if: ${{ github.repository == 'pmd/pmd-github-action' && github.event_name == 'push' && env.dist == 'outdated' }}
+        if: ${{ github.repository == 'pmd/pmd-github-action' && ( github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && env.dist == 'outdated' }}
         run: |
           git config --local user.email "pmd-bot@users.noreply.github.com"
           git config --local user.name "GitHub Actions (pmd-bot)"
