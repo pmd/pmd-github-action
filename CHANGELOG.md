@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @actions/artifact from 1.0.2 to 1.1.0 [\#94](https://github.com/pmd/pmd-github-action/pull/94) (@dependabot[bot])
 - Bump actions/setup-node from 3.1.1 to 3.2.0 [\#93](https://github.com/pmd/pmd-github-action/pull/93) (@dependabot[bot])
 - Bump @actions/core from 1.8.0 to 1.8.2 [\#92](https://github.com/pmd/pmd-github-action/pull/92) (@dependabot[bot])
 - Bump @actions/tool-cache from 2.0.0 to 2.0.1 [\#91](https://github.com/pmd/pmd-github-action/pull/91) (@dependabot[bot])
