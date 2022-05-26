@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump eslint from 8.15.0 to 8.16.0 [\#95](https://github.com/pmd/pmd-github-action/pull/95) (@dependabot[bot])
 - Bump @actions/artifact from 1.0.2 to 1.1.0 [\#94](https://github.com/pmd/pmd-github-action/pull/94) (@dependabot[bot])
 - Bump actions/setup-node from 3.1.1 to 3.2.0 [\#93](https://github.com/pmd/pmd-github-action/pull/93) (@dependabot[bot])
 - Bump @actions/core from 1.8.0 to 1.8.2 [\#92](https://github.com/pmd/pmd-github-action/pull/92) (@dependabot[bot])
