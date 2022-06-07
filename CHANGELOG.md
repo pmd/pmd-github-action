@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump actions/setup-node from 3.2.0 to 3.3.0 [\#100](https://github.com/pmd/pmd-github-action/pull/100) (@dependabot[bot])
 - Bump eslint from 8.16.0 to 8.17.0 [\#99](https://github.com/pmd/pmd-github-action/pull/99) (@dependabot[bot])
 - Bump nock from 13.2.4 to 13.2.6 [\#98](https://github.com/pmd/pmd-github-action/pull/98) (@dependabot[bot])
 - Bump @vercel/ncc from 0.33.4 to 0.34.0 [\#96](https://github.com/pmd/pmd-github-action/pull/96) (@dependabot[bot])
