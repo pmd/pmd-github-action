@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump jest from 28.1.1 to 28.1.2 [\#105](https://github.com/pmd/pmd-github-action/pull/105) (@dependabot[bot])
 - Bump jest from 28.1.0 to 28.1.1 [\#101](https://github.com/pmd/pmd-github-action/pull/101) (@dependabot[bot])
 - Bump actions/setup-node from 3.2.0 to 3.3.0 [\#100](https://github.com/pmd/pmd-github-action/pull/100) (@dependabot[bot])
 - Bump eslint from 8.16.0 to 8.17.0 [\#99](https://github.com/pmd/pmd-github-action/pull/99) (@dependabot[bot])
