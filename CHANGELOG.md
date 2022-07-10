@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.1...HEAD)
 
+**🚀 Implemented enhancements:**
+
+- Upgrade to use node 16 [\#110](https://github.com/pmd/pmd-github-action/pull/110) (@adangel)
+
 **📦 Dependency updates:**
 
 - Bump @octokit/rest from 18.12.0 to 19.0.3 [\#109](https://github.com/pmd/pmd-github-action/pull/109) (@dependabot[bot])
