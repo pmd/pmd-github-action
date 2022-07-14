@@ -10,6 +10,7 @@
 
 **📦 Dependency updates:**
 
+- Bump jest from 28.1.2 to 28.1.3 [\#112](https://github.com/pmd/pmd-github-action/pull/112) (@dependabot[bot])
 - Bump @octokit/rest from 18.12.0 to 19.0.3 [\#109](https://github.com/pmd/pmd-github-action/pull/109) (@dependabot[bot])
 - Bump eslint from 8.18.0 to 8.19.0 [\#107](https://github.com/pmd/pmd-github-action/pull/107) (@dependabot[bot])
 - Bump nock from 13.2.7 to 13.2.8 [\#106](https://github.com/pmd/pmd-github-action/pull/106) (@dependabot[bot])
