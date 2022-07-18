@@ -10,6 +10,7 @@
 
 **📦 Dependency updates:**
 
+- Bump actions/setup-node from 3.4.0 to 3.4.1 [\#113](https://github.com/pmd/pmd-github-action/pull/113) (@dependabot[bot])
 - Bump jest from 28.1.2 to 28.1.3 [\#112](https://github.com/pmd/pmd-github-action/pull/112) (@dependabot[bot])
 - Bump actions/setup-node from 3.3.0 to 3.4.0 [\#111](https://github.com/pmd/pmd-github-action/pull/111) (@dependabot[bot])
 - Bump @octokit/rest from 18.12.0 to 19.0.3 [\#109](https://github.com/pmd/pmd-github-action/pull/109) (@dependabot[bot])
@@ -57,6 +58,10 @@
 - Bump actions/checkout from 2 to 3 [\#62](https://github.com/pmd/pmd-github-action/pull/62) (@dependabot[bot])
 - Bump eslint from 8.9.0 to 8.10.0 [\#61](https://github.com/pmd/pmd-github-action/pull/61) (@dependabot[bot])
 - Bump actions/setup-node from 2.5.1 to 3.0.0 [\#60](https://github.com/pmd/pmd-github-action/pull/60) (@dependabot[bot])
+
+**✔️ Closed issues:**
+
+- PMD version 6.46.0 run check on "Unchanged files with check annotations" [\#97](https://github.com/pmd/pmd-github-action/issues/97)
 
 ## [v1.2.1](https://github.com/pmd/pmd-github-action/tree/v1.2.1) (2022-02-19)
 
