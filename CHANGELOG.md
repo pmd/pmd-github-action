@@ -10,6 +10,7 @@
 
 **📦 Dependency updates:**
 
+- Bump nock from 13.2.8 to 13.2.9 [\#115](https://github.com/pmd/pmd-github-action/pull/115) (@dependabot[bot])
 - Bump eslint from 8.19.0 to 8.20.0 [\#114](https://github.com/pmd/pmd-github-action/pull/114) (@dependabot[bot])
 - Bump actions/setup-node from 3.4.0 to 3.4.1 [\#113](https://github.com/pmd/pmd-github-action/pull/113) (@dependabot[bot])
 - Bump jest from 28.1.2 to 28.1.3 [\#112](https://github.com/pmd/pmd-github-action/pull/112) (@dependabot[bot])
