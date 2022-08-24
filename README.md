@@ -18,10 +18,11 @@ The input `rulesets` is mandatory.
 
 ```yaml
 steps:
-  - uses: actions/setup-java@v2
+  - uses: actions/checkout@v3
+  - uses: actions/setup-java@v3
     with:
-      java-version: '11'
       distribution: 'temurin'
+      java-version: '11'
   - uses: pmd/pmd-github-action@v1
     with:
       rulesets: 'ruleset.xml'
@@ -33,10 +34,11 @@ Use a specific PMD version (6.40.0) and fail the build based on the number of vi
 
 ```yaml
 steps:
-  - uses: actions/setup-java@v2
+  - uses: actions/checkout@v3
+  - uses: actions/setup-java@v3
     with:
-      java-version: '11'
       distribution: 'temurin'
+      java-version: '11'
   - uses: pmd/pmd-github-action@v1
     id: pmd
     with:
@@ -52,10 +54,11 @@ Create Code scanning alerts by uploading a SARIF file to GitHub:
 
 ```yaml
 steps:
-  - uses: actions/setup-java@v2
+  - uses: actions/checkout@v3
+  - uses: actions/setup-java@v3
     with:
-      java-version: '11'
       distribution: 'temurin'
+      java-version: '11'
   - uses: pmd/pmd-github-action@v1
     with:
       rulesets: 'ruleset.xml'
