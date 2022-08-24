@@ -120,6 +120,7 @@ Below are a list of known limitations for the **PMD GitHub Action**:
 |https://github.com/marketplace/actions/pmd-source-code-analyzer-action-for-sap | https://github.com/ashkumar-wtc/setup-pmd | MIT |
 |https://github.com/marketplace/actions/pmd-salesforce-apex-code-analyzer-action | https://github.com/legetz/setup-pmd | MIT |
 |https://github.com/marketplace/actions/powermode-scan | https://github.com/ncino/powermode-scan |
+|https://github.com/marketplace/actions/sfdx-scan-pull-request | https://github.com/mitchspano/sfdx-scan-pull-request | Apache 2.0 |
 
 ## License
 
