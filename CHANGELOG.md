@@ -10,6 +10,7 @@
 
 **📦 Dependency updates:**
 
+- Bump eslint from 8.22.0 to 8.23.0 [\#123](https://github.com/pmd/pmd-github-action/pull/123) (@dependabot[bot])
 - Bump @octokit/rest from 19.0.3 to 19.0.4 [\#120](https://github.com/pmd/pmd-github-action/pull/120) (@dependabot[bot])
 - Bump eslint from 8.21.0 to 8.22.0 [\#119](https://github.com/pmd/pmd-github-action/pull/119) (@dependabot[bot])
 - Bump @actions/core from 1.9.0 to 1.9.1 [\#118](https://github.com/pmd/pmd-github-action/pull/118) (@dependabot[bot])
