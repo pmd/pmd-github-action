@@ -10,6 +10,7 @@
 
 **📦 Dependency updates:**
 
+- Bump jest from 29.0.1 to 29.0.2 [\#124](https://github.com/pmd/pmd-github-action/pull/124) (@dependabot[bot])
 - Bump eslint from 8.22.0 to 8.23.0 [\#123](https://github.com/pmd/pmd-github-action/pull/123) (@dependabot[bot])
 - Bump jest from 28.1.3 to 29.0.1 [\#122](https://github.com/pmd/pmd-github-action/pull/122) (@dependabot[bot])
 - Bump @octokit/rest from 19.0.3 to 19.0.4 [\#120](https://github.com/pmd/pmd-github-action/pull/120) (@dependabot[bot])
