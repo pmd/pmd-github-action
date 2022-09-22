@@ -13,6 +13,13 @@ const tempPath = path.join(__dirname, 'TEMP')
 process.env['RUNNER_TEMP'] = tempPath
 process.env['RUNNER_TOOL_CACHE'] = cachePath
 
+// Personal Access Token to perform tests with.
+// https://github.com/settings/tokens/new
+const token = process.env['TEST_GITHUB_TOKEN'];
+if (!token) {
+    throw new Error('Set `export TEST_GITHUB_TOKEN="<your token>"` to run tests');
+}
+
 describe('pmd-github-action-util', function () {
   let platformMock;
   let execMock;
