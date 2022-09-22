@@ -7,6 +7,8 @@ const fs = require('fs').promises;
 const exec = require('@actions/exec');
 const util = require('../lib/util');
 
+const TOKEN = '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';
+
 const cachePath = path.join(__dirname, 'CACHE')
 const tempPath = path.join(__dirname, 'TEMP')
 // Set temp and tool directories before importing (used to set global state)
@@ -56,7 +58,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('latest', TOKEN);
 
     const toolCache = path.join(cachePath, 'pmd', '6.40.0', os.arch(), 'pmd-bin-6.40.0');
     expect(pmdInfo).toStrictEqual({ path: toolCache, version: '6.40.0' });
@@ -72,7 +74,7 @@ describe('pmd-github-action-util', function () {
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip');
-    const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('6.39.0', TOKEN);
 
     const toolCache = path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0');
     expect(pmdInfo).toStrictEqual({ path: toolCache, version: '6.39.0' });
@@ -90,8 +92,8 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
       .once()
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip');
-    const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token');
-    const pmdInfo2 = await util.downloadPmd('6.39.0', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('6.39.0', TOKEN);
+    const pmdInfo2 = await util.downloadPmd('6.39.0', TOKEN);
 
     const toolCache = path.join(cachePath, 'pmd', '6.39.0', os.arch(), 'pmd-bin-6.39.0');
     expect(pmdInfo).toStrictEqual({ path: toolCache, version: '6.39.0' });
@@ -109,7 +111,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('latest', TOKEN);
     const execOutput = await util.executePmd(pmdInfo, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif');
     const reportFile = path.join('.', 'pmd-report.sarif');
     await expect(fs.access(reportFile)).resolves.toBe(undefined);
@@ -130,7 +132,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.41.0/pmd-bin-6.41.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.41.0.zip')
 
-    const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('6.41.0', TOKEN);
     const execOutput = await util.executePmd(pmdInfo, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif');
     const reportFile = path.join('.', 'pmd-report.sarif');
     await expect(fs.access(reportFile)).resolves.toBe(undefined);
@@ -146,7 +148,7 @@ describe('pmd-github-action-util', function () {
       .get('/repos/pmd/pmd/releases/latest')
         .reply(503, 'Test Internal Server Error');
 
-    expect(() => util.downloadPmd('latest', 'my_test_token')).rejects.toThrow();
+    expect(() => util.downloadPmd('latest', TOKEN)).rejects.toThrow();
   })
 
   it('failure while executing PMD', async () => {
@@ -165,7 +167,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('latest', TOKEN);
     await util.executePmd(pmdInfo, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif');
 
     expect(execMock).toBeCalledWith(`${pmdInfo.path}\\bin\\pmd.bat`, [
@@ -194,7 +196,7 @@ describe('pmd-github-action-util', function () {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=2')
       .reply(200, []);
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
@@ -213,7 +215,7 @@ describe('pmd-github-action-util', function () {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=2')
       .reply(200, []);
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
@@ -231,7 +233,7 @@ describe('pmd-github-action-util', function () {
           'Content-Type': 'application/json',
         });
     }
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
@@ -239,7 +241,7 @@ describe('pmd-github-action-util', function () {
   test('return undefined for unsupported event', async () => {
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'workflow_dispatch';
-    let result = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    let result = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java'));
     expect(result).toBe(undefined);
   })
 
@@ -253,7 +255,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('latest', TOKEN);
     const execOutput = await util.executePmd(pmdInfo, ['src/file1.txt', 'src/file2.txt'], 'ruleset.xml', 'sarif', 'pmd-report.sarif');
     const pmdFilelist = path.join('.', 'pmd.filelist');
     await expect(fs.access(pmdFilelist)).resolves.toBe(undefined);
@@ -275,7 +277,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.41.0/pmd-bin-6.41.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.41.0.zip')
 
-    const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token');
+    const pmdInfo = await util.downloadPmd('6.41.0', TOKEN);
     const execOutput = await util.executePmd(pmdInfo, ['src/file1.txt', 'src/file2.txt'], 'ruleset.xml', 'sarif', 'pmd-report.sarif');
     const pmdFilelist = path.join('.', 'pmd.filelist');
     await expect(fs.access(pmdFilelist)).resolves.toBe(undefined);
@@ -294,16 +296,16 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_EVENT_NAME'] = 'push';
     process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
     nock('https://api.github.com')
-      .get('/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=1')
+      .get('/repos/pmd/pmd-github-action-tests/commits/8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=1')
       .replyWithFile(200, __dirname + '/data/compare-files-page1.json', {
         'Content-Type': 'application/json',
       });
     nock('https://api.github.com')
-      .get('/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=2')
+      .get('/repos/pmd/pmd-github-action-tests/commits/8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=2')
       .replyWithFile(200, __dirname + '/data/compare-files-page2.json', {
         'Content-Type': 'application/json',
       });
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
@@ -316,12 +318,12 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
-        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .get(`/repos/pmd/pmd-github-action-tests/commits/8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
         .replyWithFile(200, __dirname + '/data/compare-files-page1.json', {
           'Content-Type': 'application/json',
         });
     }
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/NewFile.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
@@ -334,12 +336,12 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
-        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .get(`/repos/pmd/pmd-github-action-tests/commits/8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
         .replyWithFile(200, __dirname + '/data/compare-files-page1-issue52.json', {
           'Content-Type': 'application/json',
         });
     }
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
@@ -352,12 +354,12 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
-        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .get(`/repos/pmd/pmd-github-action-tests/commits/8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
         .replyWithFile(200, __dirname + '/data/compare-files-page1-issue52.json', {
           'Content-Type': 'application/json',
         });
     }
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('src/main/java/'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('src/main/java/'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java/ChangedFile.java']
       .map(f => path.normalize(f)));
   })
@@ -370,12 +372,12 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json';
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
-        .get(`/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
+        .get(`/repos/pmd/pmd-github-action-tests/commits/8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`)
         .replyWithFile(200, __dirname + '/data/compare-files-page1-issue52.json', {
           'Content-Type': 'application/json',
         });
     }
-    let fileList = await util.determineModifiedFiles('my_test_token', path.normalize('.'));
+    let fileList = await util.determineModifiedFiles(TOKEN, path.normalize('.'));
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java2/NewFile.java', 'src/main/java/ChangedFile.java', 'README.md']
       .map(f => path.normalize(f)));
   })
