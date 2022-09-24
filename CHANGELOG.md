@@ -8,6 +8,10 @@
 
 - Upgrade to use node 16 [\#110](https://github.com/pmd/pmd-github-action/pull/110) (@adangel)
 
+**🐛 Fixed bugs:**
+
+- Action aborts with: Error: Cannot read property 'split' of undefined [\#127](https://github.com/pmd/pmd-github-action/issues/127)
+
 **📦 Dependency updates:**
 
 - Bump eslint from 8.23.0 to 8.24.0 [\#132](https://github.com/pmd/pmd-github-action/pull/132) (@dependabot[bot])
@@ -74,6 +78,10 @@
 **✔️ Closed issues:**
 
 - PMD version 6.46.0 run check on "Unchanged files with check annotations" [\#97](https://github.com/pmd/pmd-github-action/issues/97)
+
+**🎉 Merged pull requests:**
+
+- Gracefully handle empty rule description [\#133](https://github.com/pmd/pmd-github-action/pull/133) (@adangel)
 
 ## [v1.2.1](https://github.com/pmd/pmd-github-action/tree/v1.2.1) (2022-02-19)
 
