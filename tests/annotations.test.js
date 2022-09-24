@@ -59,4 +59,37 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
         expect(core.notice).toHaveBeenNthCalledWith(1, 'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: '/folder/file5.txt', startLine: 8 });
         expect(core.notice).toHaveBeenNthCalledWith(2, 'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio', { title: 'Low Prio Rule', file: '/folder/file6.txt', startLine: 9 });
     });
+
+    it('can deal with empty full description (issue #127)', () => {
+        const report = sarif.loadReport(path.join(__dirname, 'data', 'pmd-report-empty-full-description.sarif'));
+        annotations.processSarifReport(report);
+
+        expect(core.error).toHaveBeenCalledTimes(0);
+        expect(core.warning).toHaveBeenCalledTimes(1);
+        expect(core.warning).toHaveBeenNthCalledWith(1, `The first parameter of System.debug, when using the signature with two parameters, is a LoggingLevel enum.
+
+Having the Logging Level specified provides a cleaner log, and improves readability of it.
+
+DebugsShouldUseLoggingLevel (Priority: 3, Ruleset: Best Practices)
+https://pmd.github.io/pmd-6.49.0/pmd_rules_apex_bestpractices.html#debugsshoulduselogginglevel`,
+            {
+                title: 'Calls to System.debug should specify a logging level.',
+                file: '/home/andreas/PMD/source/pmd-it/pmd-github-action-issue-127/src/Test.cls',
+                startLine: 3,
+                endLine: 3
+            }
+        );
+        expect(core.notice).toHaveBeenCalledTimes(1);
+        expect(core.notice).toHaveBeenNthCalledWith(1, `
+
+AvoidProductionDebugLogs (Priority: 5, Ruleset: My Default)
+`,
+            {
+                title: 'Avoid leaving System.debug() statments in code as they negativly influence performance.',
+                file: '/home/andreas/PMD/source/pmd-it/pmd-github-action-issue-127/src/Test.cls',
+                startLine: 3,
+                endLine: 3
+            }
+        );
+    });
 });
