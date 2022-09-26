@@ -1,15 +1,22 @@
 # Changelog
 
-## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+## [v1.3.0](https://github.com/pmd/pmd-github-action/tree/v1.3.0) (2022-09-25)
 
-[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.1...HEAD)
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.1...v1.3.0)
 
 **🚀 Implemented enhancements:**
 
 - Upgrade to use node 16 [\#110](https://github.com/pmd/pmd-github-action/pull/110) (@adangel)
 
+**🐛 Fixed bugs:**
+
+- Action aborts with: Error: Cannot read property 'split' of undefined [\#127](https://github.com/pmd/pmd-github-action/issues/127)
+
 **📦 Dependency updates:**
 
+- Bump eslint from 8.23.0 to 8.24.0 [\#132](https://github.com/pmd/pmd-github-action/pull/132) (@dependabot[bot])
+- Bump @actions/github from 5.0.3 to 5.1.0 [\#131](https://github.com/pmd/pmd-github-action/pull/131) (@dependabot[bot])
+- Bump jest from 29.0.2 to 29.0.3 [\#125](https://github.com/pmd/pmd-github-action/pull/125) (@dependabot[bot])
 - Bump jest from 29.0.1 to 29.0.2 [\#124](https://github.com/pmd/pmd-github-action/pull/124) (@dependabot[bot])
 - Bump eslint from 8.22.0 to 8.23.0 [\#123](https://github.com/pmd/pmd-github-action/pull/123) (@dependabot[bot])
 - Bump jest from 28.1.3 to 29.0.1 [\#122](https://github.com/pmd/pmd-github-action/pull/122) (@dependabot[bot])
@@ -71,6 +78,10 @@
 **✔️ Closed issues:**
 
 - PMD version 6.46.0 run check on "Unchanged files with check annotations" [\#97](https://github.com/pmd/pmd-github-action/issues/97)
+
+**🎉 Merged pull requests:**
+
+- Gracefully handle empty rule description [\#133](https://github.com/pmd/pmd-github-action/pull/133) (@adangel)
 
 ## [v1.2.1](https://github.com/pmd/pmd-github-action/tree/v1.2.1) (2022-02-19)
 
