@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.3.0...HEAD)
+
+**📦 Dependency updates:**
+
+- Bump jest from 29.0.3 to 29.1.1 [\#135](https://github.com/pmd/pmd-github-action/pull/135) (@dependabot[bot])
+
 ## [v1.3.0](https://github.com/pmd/pmd-github-action/tree/v1.3.0) (2022-09-25)
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.1...v1.3.0)
