@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump eslint from 8.24.0 to 8.25.0 [\#140](https://github.com/pmd/pmd-github-action/pull/140) (@dependabot[bot])
 - Bump semver from 7.3.7 to 7.3.8 [\#139](https://github.com/pmd/pmd-github-action/pull/139) (@dependabot[bot])
 - Bump @actions/github from 5.1.0 to 5.1.1 [\#138](https://github.com/pmd/pmd-github-action/pull/138) (@dependabot[bot])
 - Bump jest from 29.1.1 to 29.1.2 [\#137](https://github.com/pmd/pmd-github-action/pull/137) (@dependabot[bot])
