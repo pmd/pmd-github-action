@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump jest from 29.2.0 to 29.2.1 [\#144](https://github.com/pmd/pmd-github-action/pull/144) (@dependabot[bot])
 - Bump jest from 29.1.2 to 29.2.0 [\#143](https://github.com/pmd/pmd-github-action/pull/143) (@dependabot[bot])
 - Bump @octokit/rest from 19.0.4 to 19.0.5 [\#142](https://github.com/pmd/pmd-github-action/pull/142) (@dependabot[bot])
 - Bump actions/setup-node from 3.5.0 to 3.5.1 [\#141](https://github.com/pmd/pmd-github-action/pull/141) (@dependabot[bot])
