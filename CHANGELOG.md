@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump eslint from 8.27.0 to 8.28.0 [\#151](https://github.com/pmd/pmd-github-action/pull/151) (@dependabot[bot])
 - Bump jest from 29.3.0 to 29.3.1 [\#150](https://github.com/pmd/pmd-github-action/pull/150) (@dependabot[bot])
 - Bump eslint from 8.26.0 to 8.27.0 [\#149](https://github.com/pmd/pmd-github-action/pull/149) (@dependabot[bot])
 - Bump convert-action from 0.1.3 to 0.2.0 [\#148](https://github.com/pmd/pmd-github-action/pull/148) (@dependabot[bot])
