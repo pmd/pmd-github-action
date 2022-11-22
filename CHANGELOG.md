@@ -25,6 +25,10 @@
 - Bump jest from 29.0.3 to 29.1.1 [\#135](https://github.com/pmd/pmd-github-action/pull/135) (@dependabot[bot])
 - Bump actions/setup-node from 3.4.1 to 3.5.0 [\#134](https://github.com/pmd/pmd-github-action/pull/134) (@dependabot[bot])
 
+**🎉 Merged pull requests:**
+
+- Fix typo in example workflow [\#152](https://github.com/pmd/pmd-github-action/pull/152) (@chemmi)
+
 ## [v1.3.0](https://github.com/pmd/pmd-github-action/tree/v1.3.0) (2022-09-25)
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.2.1...v1.3.0)
