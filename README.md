@@ -45,7 +45,7 @@ steps:
       version: '6.40.0'
       sourcePath: 'src/main/java'
       rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
-  - name: Fail build if there a violations
+  - name: Fail build if there are violations
     if: steps.pmd.outputs.violations != 0
     run: exit 1
 ```
