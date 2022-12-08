@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @vercel/ncc from 0.34.0 to 0.36.0 [\#154](https://github.com/pmd/pmd-github-action/pull/154) (@dependabot[bot])
 - Bump eslint from 8.28.0 to 8.29.0 [\#153](https://github.com/pmd/pmd-github-action/pull/153) (@dependabot[bot])
 - Bump eslint from 8.27.0 to 8.28.0 [\#151](https://github.com/pmd/pmd-github-action/pull/151) (@dependabot[bot])
 - Bump jest from 29.3.0 to 29.3.1 [\#150](https://github.com/pmd/pmd-github-action/pull/150) (@dependabot[bot])
