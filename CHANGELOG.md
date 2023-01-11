@@ -8,6 +8,7 @@
 
 - Bump nock from 13.2.9 to 13.3.0 [\#159](https://github.com/pmd/pmd-github-action/pull/159) (@dependabot[bot])
 - Bump actions/setup-node from 3.5.1 to 3.6.0 [\#158](https://github.com/pmd/pmd-github-action/pull/158) (@dependabot[bot])
+- Bump eslint from 8.30.0 to 8.31.0 [\#156](https://github.com/pmd/pmd-github-action/pull/156) (@dependabot[bot])
 - Bump eslint from 8.29.0 to 8.30.0 [\#155](https://github.com/pmd/pmd-github-action/pull/155) (@dependabot[bot])
 - Bump @vercel/ncc from 0.34.0 to 0.36.0 [\#154](https://github.com/pmd/pmd-github-action/pull/154) (@dependabot[bot])
 - Bump eslint from 8.28.0 to 8.29.0 [\#153](https://github.com/pmd/pmd-github-action/pull/153) (@dependabot[bot])
