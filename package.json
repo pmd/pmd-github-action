@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@actions/io": "^1.1.2",
-    "@vercel/ncc": "^0.36.0",
+    "@vercel/ncc": "^0.36.1",
     "convert-action": "^0.2.0",
     "eslint": "^8.32.0",
     "jest": "^29.4.0",
