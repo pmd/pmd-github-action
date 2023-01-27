@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump jest from 29.4.0 to 29.4.1 [\#164](https://github.com/pmd/pmd-github-action/pull/164) (@dependabot[bot])
 - Bump @vercel/ncc from 0.36.0 to 0.36.1 [\#163](https://github.com/pmd/pmd-github-action/pull/163) (@dependabot[bot])
 - Bump jest from 29.3.1 to 29.4.0 [\#162](https://github.com/pmd/pmd-github-action/pull/162) (@dependabot[bot])
 - Bump @octokit/rest from 19.0.5 to 19.0.7 [\#161](https://github.com/pmd/pmd-github-action/pull/161) (@dependabot[bot])
