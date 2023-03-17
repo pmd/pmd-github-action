@@ -7,6 +7,7 @@ const fs = require('fs').promises;
 const exec = require('@actions/exec');
 const util = require('../lib/util');
 const github_utils = require('@actions/github/lib/utils')
+const semver = require('semver');
 
 const cachePath = path.join(__dirname, 'CACHE')
 const tempPath = path.join(__dirname, 'TEMP')
@@ -403,6 +404,37 @@ describe('pmd-github-action-util', function () {
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java2/NewFile.java', 'src/main/java/ChangedFile.java', 'README.md']
       .map(f => path.normalize(f)));
   })
+
+  test('can execute PMD 7 with correct parameters', async () => {
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F7.0.0-rc1')
+      .replyWithFile(200, __dirname + '/data/releases-7.0.0-rc1.json', {
+        'Content-Type': 'application/json',
+      })
+    nock('https://github.com')
+      .get('/pmd/pmd/releases/download/pmd_releases/7.0.0-rc1/pmd-bin-7.0.0-rc1.zip')
+      .replyWithFile(200, __dirname + '/data/pmd-bin-7.0.0-rc1.zip')
+
+    const pmdInfo = await util.downloadPmd('7.0.0-rc1', 'my_test_token');
+    const execOutput = await util.executePmd(pmdInfo, ['src/file1.txt', 'src/file2.txt'], 'ruleset.xml', 'sarif', 'pmd-report.sarif');
+    const pmdFilelist = path.join('.', 'pmd.filelist');
+    await expect(fs.access(pmdFilelist)).resolves.toBe(undefined);
+    const pmdFilelistContent = await fs.readFile(pmdFilelist, 'utf8');
+    expect(pmdFilelistContent).toBe('src/file1.txt,src/file2.txt');
+    expect(execOutput.exitCode).toBe(0);
+    expect(execOutput.stdout.trim()).toBe('Running PMD 7.0.0-rc1 with: check --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif');
+    await io.rmRF(pmdFilelist);
+    await io.rmRF(path.join('.', 'pmd-report.sarif'));
+  });
+
+  test('PMD 7 release candidates and final release version ordering', () => {
+    // see method util#isPmd7Cli
+    expect(semver.gte('6.55.0', '7.0.0-rc1')).toBe(false);
+    expect(semver.gte('7.0.0-rc1', '7.0.0-rc1')).toBe(true);
+    expect(semver.gte('7.0.0-rc2', '7.0.0-rc1')).toBe(true);
+    expect(semver.gte('7.0.0-rc3', '7.0.0-rc1')).toBe(true);
+    expect(semver.gte('7.0.0', '7.0.0-rc1')).toBe(true);
+  });
 });
 
 function setGlobal(key, value) {
