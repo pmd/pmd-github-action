@@ -6,6 +6,7 @@ const os = require('os');
 const fs = require('fs').promises;
 const exec = require('@actions/exec');
 const util = require('../lib/util');
+const github_utils = require('@actions/github/lib/utils')
 
 const cachePath = path.join(__dirname, 'CACHE')
 const tempPath = path.join(__dirname, 'TEMP')
@@ -32,6 +33,9 @@ describe('pmd-github-action-util', function () {
 
     // disable ACTIONS_STEP_DEBUG
     delete process.env['RUNNER_DEBUG'];
+
+    delete process.env['GITHUB_API_URL'];
+    github_utils.defaults.baseUrl = 'https://api.github.com';
   })
 
   afterEach(function () {
@@ -52,6 +56,26 @@ describe('pmd-github-action-util', function () {
       .replyWithFile(200, __dirname + '/data/releases-latest.json', {
         'Content-Type': 'application/json',
       })
+    nock('https://github.com')
+      .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
+      .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
+
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
+
+    const toolCache = path.join(cachePath, 'pmd', '6.40.0', os.arch(), 'pmd-bin-6.40.0');
+    expect(pmdInfo).toStrictEqual({ path: toolCache, version: '6.40.0' });
+    await expect(fs.access(toolCache)).resolves.toBe(undefined);
+  })
+
+  it('use latest PMD with custom API URL', async () => {
+    // simulate that the env variable GITHUB_API_URL has been set to something
+    github_utils.defaults.baseUrl = 'https://api.example.com';
+
+    const latestReleaseResponse = (await fs.readFile(__dirname + '/data/releases-latest.json')).toString();
+    const fetchMock = require('fetch-mock');
+    fetchMock.mock({url: 'https://api.github.com/repos/pmd/pmd/releases/latest'},
+      {'body': latestReleaseResponse, status: 200, headers: {'Content-Type': 'application/json'}});
+
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
