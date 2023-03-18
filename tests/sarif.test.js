@@ -91,6 +91,22 @@ describe('pmd-github-action-sarif', function () {
       .toBe('src/classes/UnusedLocalVariableSample.cls');
   })
 
+  test('convert backslash to forward slash for already relativized report - windows paths - issue #177', async () => {
+    const reportPath = path.join(tempPath, 'pmd-report.sarif');
+    await io.cp(path.join(__dirname, 'data', 'pmd-report-win-relativized.sarif'), reportPath);
+
+    const reportBefore = sarif.loadReport(reportPath);
+    const windowsPath = 'src\\classes\\UnusedLocalVariableSample.cls';
+    expect(reportBefore.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri).toBe(windowsPath);
+
+    process.env['GITHUB_WORKSPACE'] = 'D:\\a\\pmd-github-action-test';
+    sarif.relativizeReport(reportPath);
+    const reportAfter = sarif.loadReport(reportPath);
+    // note: not normalizing the paths to platform dependent paths - it must be a valid URI with forward slashes
+    expect(reportAfter.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri)
+      .toBe('src/classes/UnusedLocalVariableSample.cls');
+  })
+
   test('can properly relativize already relativized report', async () => {
     const reportPath = path.join(tempPath, 'pmd-report.sarif');
     await io.cp(path.join(__dirname, 'data', 'pmd-report-relativized.sarif'), reportPath);
