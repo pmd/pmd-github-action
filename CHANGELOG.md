@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.3.0...HEAD)
 
+**🐛 Fixed bugs:**
+
+- Can't run action on GHES [\#173](https://github.com/pmd/pmd-github-action/issues/173)
+
 **📦 Dependency updates:**
 
 - Bump @actions/io from 1.1.2 to 1.1.3 [\#174](https://github.com/pmd/pmd-github-action/pull/174) (@dependabot[bot])
@@ -47,6 +51,7 @@
 
 **🎉 Merged pull requests:**
 
+- Always use api.github.com to determine latest PMD version [\#175](https://github.com/pmd/pmd-github-action/pull/175) (@adangel)
 - Fix typo in example workflow [\#152](https://github.com/pmd/pmd-github-action/pull/152) (@chemmi)
 
 ## [v1.3.0](https://github.com/pmd/pmd-github-action/tree/v1.3.0) (2022-09-25)
