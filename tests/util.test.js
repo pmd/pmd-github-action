@@ -429,11 +429,36 @@ describe('pmd-github-action-util', function () {
 
   test('PMD 7 release candidates and final release version ordering', () => {
     // see method util#isPmd7Cli
-    expect(semver.gte('6.55.0', '7.0.0-rc1')).toBe(false);
-    expect(semver.gte('7.0.0-rc1', '7.0.0-rc1')).toBe(true);
-    expect(semver.gte('7.0.0-rc2', '7.0.0-rc1')).toBe(true);
-    expect(semver.gte('7.0.0-rc3', '7.0.0-rc1')).toBe(true);
-    expect(semver.gte('7.0.0', '7.0.0-rc1')).toBe(true);
+    expect(semver.major('6.55.0') >= 7).toBe(false);
+    expect(semver.major('7.0.0-SNAPSHOT') >= 7).toBe(true);
+    expect(semver.major('7.0.0-rc1') >= 7).toBe(true);
+    expect(semver.major('7.0.0-rc2') >= 7).toBe(true);
+    expect(semver.major('7.0.0-rc3') >= 7).toBe(true);
+    expect(semver.major('7.0.0') >= 7).toBe(true);
+    expect(semver.major('7.0.1') >= 7).toBe(true);
+    expect(semver.major('7.1.0') >= 7).toBe(true);
+  });
+
+  test('Use downloadUrl', async () => {
+    nock('https://sourceforge.net')
+      .get('/projects/pmd/files/pmd/7.0.0-SNAPSHOT/pmd-bin-7.0.0-SNAPSHOT.zip/download')
+      .replyWithFile(200, __dirname + '/data/pmd-bin-7.0.0-SNAPSHOT.zip')
+
+    const pmdInfo = await util.downloadPmd('7.0.0-SNAPSHOT', 'my-token', 'https://sourceforge.net/projects/pmd/files/pmd/7.0.0-SNAPSHOT/pmd-bin-7.0.0-SNAPSHOT.zip/download');
+
+    const execOutput = await util.executePmd(pmdInfo, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif');
+    const reportFile = path.join('.', 'pmd-report.sarif');
+    await expect(fs.access(reportFile)).resolves.toBe(undefined);
+    const report = JSON.parse(await fs.readFile(reportFile, 'utf8'));
+    expect(report.runs[0].tool.driver.version).toBe('7.0.0-SNAPSHOT');
+    expect(execOutput.exitCode).toBe(0);
+    expect(execOutput.stdout.trim()).toBe('Running PMD 7.0.0-SNAPSHOT with: check --no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif');
+    await io.rmRF(reportFile)
+  });
+
+  test('Use downloadUrl invalid version', async () => {
+    await expect(util.downloadPmd('latest', 'my-token', 'https://example.org/download')).rejects
+      .toBe('Can\'t combine version=latest with custom downloadUrl=https://example.org/download');
   });
 });
 

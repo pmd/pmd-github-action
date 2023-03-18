@@ -33,4 +33,11 @@ describe('pmd-github-action-validator', function() {
     it('validate rulesets should throw', () => {
         expect(() => validator.validateRulesets('; /bin/bash')).toThrow('Invalid rulesets');
     });
+
+    test('validate download url', () => {
+        expect(() => validator.validateDownloadUrl('foo')).toThrow('Invalid downloadUrl');
+        expect(validator.validateDownloadUrl('')).toBe('');
+        expect(validator.validateDownloadUrl('https://sourceforge.net/projects/pmd/files/pmd/7.0.0-SNAPSHOT/pmd-bin-7.0.0-SNAPSHOT.zip/download'))
+            .toBe('https://sourceforge.net/projects/pmd/files/pmd/7.0.0-SNAPSHOT/pmd-bin-7.0.0-SNAPSHOT.zip/download');
+    });
 });
