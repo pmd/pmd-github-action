@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.3.0...HEAD)
 
+**🚀 Implemented enhancements:**
+
+- Support upcoming PMD 7.0.0-rc1 release [\#176](https://github.com/pmd/pmd-github-action/pull/176) (@adangel)
+
 **🐛 Fixed bugs:**
 
 - Can't run action on GHES [\#173](https://github.com/pmd/pmd-github-action/issues/173)
