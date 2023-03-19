@@ -1,0 +1,11 @@
+{
+    "id": "2",
+    "name": "latest pmd release for test (7.0.0-rc1)",
+    "tag_name": "pmd_releases/7.0.0-rc1",
+    "assets": [
+        {
+            "browser_download_url": "https://github.com/pmd/pmd/releases/download/pmd_releases/7.0.0-rc1/pmd-bin-7.0.0-rc1.zip",
+            "name": "pmd-bin-7.0.0-rc1.zip"
+        }
+    ]
+}

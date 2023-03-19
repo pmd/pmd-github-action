@@ -7,6 +7,7 @@ const fs = require('fs').promises;
 const exec = require('@actions/exec');
 const util = require('../lib/util');
 const github_utils = require('@actions/github/lib/utils')
+const semver = require('semver');
 
 const cachePath = path.join(__dirname, 'CACHE')
 const tempPath = path.join(__dirname, 'TEMP')
@@ -403,6 +404,62 @@ describe('pmd-github-action-util', function () {
     expect(fileList).toStrictEqual(['src/main/java/AvoidCatchingThrowableSample.java', 'src/main/java2/NewFile.java', 'src/main/java/ChangedFile.java', 'README.md']
       .map(f => path.normalize(f)));
   })
+
+  test('can execute PMD 7 with correct parameters', async () => {
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F7.0.0-rc1')
+      .replyWithFile(200, __dirname + '/data/releases-7.0.0-rc1.json', {
+        'Content-Type': 'application/json',
+      })
+    nock('https://github.com')
+      .get('/pmd/pmd/releases/download/pmd_releases/7.0.0-rc1/pmd-bin-7.0.0-rc1.zip')
+      .replyWithFile(200, __dirname + '/data/pmd-bin-7.0.0-rc1.zip')
+
+    const pmdInfo = await util.downloadPmd('7.0.0-rc1', 'my_test_token');
+    const execOutput = await util.executePmd(pmdInfo, ['src/file1.txt', 'src/file2.txt'], 'ruleset.xml', 'sarif', 'pmd-report.sarif');
+    const pmdFilelist = path.join('.', 'pmd.filelist');
+    await expect(fs.access(pmdFilelist)).resolves.toBe(undefined);
+    const pmdFilelistContent = await fs.readFile(pmdFilelist, 'utf8');
+    expect(pmdFilelistContent).toBe('src/file1.txt,src/file2.txt');
+    expect(execOutput.exitCode).toBe(0);
+    expect(execOutput.stdout.trim()).toBe('Running PMD 7.0.0-rc1 with: check --no-progress --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif');
+    await io.rmRF(pmdFilelist);
+    await io.rmRF(path.join('.', 'pmd-report.sarif'));
+  });
+
+  test('PMD 7 release candidates and final release version ordering', () => {
+    // see method util#isPmd7Cli
+    expect(semver.major('6.55.0') >= 7).toBe(false);
+    expect(semver.major('7.0.0-SNAPSHOT') >= 7).toBe(true);
+    expect(semver.major('7.0.0-rc1') >= 7).toBe(true);
+    expect(semver.major('7.0.0-rc2') >= 7).toBe(true);
+    expect(semver.major('7.0.0-rc3') >= 7).toBe(true);
+    expect(semver.major('7.0.0') >= 7).toBe(true);
+    expect(semver.major('7.0.1') >= 7).toBe(true);
+    expect(semver.major('7.1.0') >= 7).toBe(true);
+  });
+
+  test('Use downloadUrl', async () => {
+    nock('https://sourceforge.net')
+      .get('/projects/pmd/files/pmd/7.0.0-SNAPSHOT/pmd-bin-7.0.0-SNAPSHOT.zip/download')
+      .replyWithFile(200, __dirname + '/data/pmd-bin-7.0.0-SNAPSHOT.zip')
+
+    const pmdInfo = await util.downloadPmd('7.0.0-SNAPSHOT', 'my-token', 'https://sourceforge.net/projects/pmd/files/pmd/7.0.0-SNAPSHOT/pmd-bin-7.0.0-SNAPSHOT.zip/download');
+
+    const execOutput = await util.executePmd(pmdInfo, '.', 'ruleset.xml', 'sarif', 'pmd-report.sarif');
+    const reportFile = path.join('.', 'pmd-report.sarif');
+    await expect(fs.access(reportFile)).resolves.toBe(undefined);
+    const report = JSON.parse(await fs.readFile(reportFile, 'utf8'));
+    expect(report.runs[0].tool.driver.version).toBe('7.0.0-SNAPSHOT');
+    expect(execOutput.exitCode).toBe(0);
+    expect(execOutput.stdout.trim()).toBe('Running PMD 7.0.0-SNAPSHOT with: check --no-progress --no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif');
+    await io.rmRF(reportFile)
+  });
+
+  test('Use downloadUrl invalid version', async () => {
+    await expect(util.downloadPmd('latest', 'my-token', 'https://example.org/download')).rejects
+      .toBe('Can\'t combine version=latest with custom downloadUrl=https://example.org/download');
+  });
 });
 
 function setGlobal(key, value) {
