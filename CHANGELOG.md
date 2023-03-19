@@ -10,6 +10,7 @@
 
 **🐛 Fixed bugs:**
 
+- No annotations created under Windows [\#177](https://github.com/pmd/pmd-github-action/issues/177)
 - Can't run action on GHES [\#173](https://github.com/pmd/pmd-github-action/issues/173)
 
 **📦 Dependency updates:**
@@ -55,6 +56,7 @@
 
 **🎉 Merged pull requests:**
 
+- Fix relative windows paths in sarif report [\#178](https://github.com/pmd/pmd-github-action/pull/178) (@adangel)
 - Always use api.github.com to determine latest PMD version [\#175](https://github.com/pmd/pmd-github-action/pull/175) (@adangel)
 - Fix typo in example workflow [\#152](https://github.com/pmd/pmd-github-action/pull/152) (@chemmi)
 
