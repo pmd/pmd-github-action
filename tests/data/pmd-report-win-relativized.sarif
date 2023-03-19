@@ -1,0 +1,68 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "PMD",
+          "version": "6.54.0",
+          "informationUri": "https://pmd.github.io/pmd/",
+          "rules": [
+            {
+              "id": "UnusedLocalVariable",
+              "shortDescription": {
+                "text": "Variable 'x' defined but not used"
+              },
+              "fullDescription": {
+                "text": "\n        Detects when a local variable is declared and/or assigned but not used.\n        Second line.\n          Third line with additional indentation.\n      Fourth line with less indentation.\n          "
+              },
+              "helpUri": "https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalvariable",
+              "help": {
+                "text": "\nDetects when a local variable is declared and/or assigned but not used.\n        "
+              },
+              "properties": {
+                "ruleset": "Best Practices",
+                "priority": 5,
+                "tags": [
+                  "Best Practices"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UnusedLocalVariable",
+          "ruleIndex": 0,
+          "message": {
+            "text": "Variable 'x' defined but not used"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src\\classes\\UnusedLocalVariableSample.cls"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 16,
+                  "endLine": 3,
+                  "endColumn": 16
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolConfigurationNotifications": [],
+          "toolExecutionNotifications": []
+        }
+      ]
+    }
+  ]
+}
