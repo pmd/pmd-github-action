@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+echo "Running PMD 7.0.0-rc3 with: $@"
+
+echo '{
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "PMD",
+          "version": "7.0.0-rc3"
+        }
+      }
+    }
+  ]
+}' > pmd-report.sarif
+
