@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @octokit/rest from 19.0.7 to 19.0.8 [\#188](https://github.com/pmd/pmd-github-action/pull/188) (@dependabot[bot])
 - Bump semver from 7.5.0 to 7.5.1 [\#187](https://github.com/pmd/pmd-github-action/pull/187) (@dependabot[bot])
 - Bump eslint from 8.39.0 to 8.40.0 [\#186](https://github.com/pmd/pmd-github-action/pull/186) (@dependabot[bot])
 - Bump nock from 13.3.0 to 13.3.1 [\#185](https://github.com/pmd/pmd-github-action/pull/185) (@dependabot[bot])
