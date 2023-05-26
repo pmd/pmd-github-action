@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.4.0...HEAD)
 
+**🚀 Implemented enhancements:**
+
+- Support new binary dist filenames with PMD 7.0.0-rc3 [\#180](https://github.com/pmd/pmd-github-action/pull/180) (@adangel)
+
 **📦 Dependency updates:**
 
 - Bump @octokit/rest from 19.0.8 to 19.0.11 [\#190](https://github.com/pmd/pmd-github-action/pull/190) (@dependabot[bot])
