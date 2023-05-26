@@ -460,6 +460,24 @@ describe('pmd-github-action-util', function () {
     await expect(util.downloadPmd('latest', 'my-token', 'https://example.org/download')).rejects
       .toBe('Can\'t combine version=latest with custom downloadUrl=https://example.org/download');
   });
+
+  it('use latest PMD 7.0.0-rc3 with new binary filename', async () => {
+    nock('https://api.github.com')
+      .get('/repos/pmd/pmd/releases/latest')
+      .replyWithFile(200, __dirname + '/data/releases-7.0.0-rc3.json', {
+        'Content-Type': 'application/json',
+      })
+    nock('https://github.com')
+      .get('/pmd/pmd/releases/download/pmd_releases/7.0.0-rc3/pmd-dist-7.0.0-rc3-bin.zip')
+      .replyWithFile(200, __dirname + '/data/pmd-dist-7.0.0-rc3-bin.zip')
+
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token');
+
+    const toolCache = path.join(cachePath, 'pmd', '7.0.0-rc3', os.arch(), 'pmd-bin-7.0.0-rc3');
+    expect(pmdInfo).toStrictEqual({ path: toolCache, version: '7.0.0-rc3' });
+    await expect(fs.access(toolCache)).resolves.toBe(undefined);
+  })
+
 });
 
 function setGlobal(key, value) {
