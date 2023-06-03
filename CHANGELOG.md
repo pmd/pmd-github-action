@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.4.1...HEAD)
+
+**📦 Dependency updates:**
+
+- Bump eslint from 8.41.0 to 8.42.0 [\#192](https://github.com/pmd/pmd-github-action/pull/192) (@dependabot[bot])
+
 ## [v1.4.1](https://github.com/pmd/pmd-github-action/tree/v1.4.1) (2023-05-26)
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.4.0...v1.4.1)
