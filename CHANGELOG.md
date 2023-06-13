@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump convert-action from 0.2.0 to 0.2.2 [\#194](https://github.com/pmd/pmd-github-action/pull/194) (@dependabot[bot])
 - Bump eslint from 8.41.0 to 8.42.0 [\#192](https://github.com/pmd/pmd-github-action/pull/192) (@dependabot[bot])
 
 ## [v1.4.1](https://github.com/pmd/pmd-github-action/tree/v1.4.1) (2023-05-26)
