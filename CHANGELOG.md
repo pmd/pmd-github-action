@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump semver from 7.5.1 to 7.5.3 [\#198](https://github.com/pmd/pmd-github-action/pull/198) (@dependabot[bot])
 - Bump @octokit/rest from 19.0.11 to 19.0.13 [\#196](https://github.com/pmd/pmd-github-action/pull/196) (@dependabot[bot])
 - Bump convert-action from 0.2.0 to 0.2.2 [\#194](https://github.com/pmd/pmd-github-action/pull/194) (@dependabot[bot])
 - Bump eslint from 8.41.0 to 8.42.0 [\#192](https://github.com/pmd/pmd-github-action/pull/192) (@dependabot[bot])
