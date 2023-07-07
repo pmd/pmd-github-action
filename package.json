@@ -30,7 +30,7 @@
     "@actions/github": "^5.1.1",
     "@actions/tool-cache": "^2.0.1",
     "@octokit/rest": "^19.0.13",
-    "semver": "^7.5.3"
+    "semver": "^7.5.4"
   },
   "devDependencies": {
     "@actions/io": "^1.1.3",
