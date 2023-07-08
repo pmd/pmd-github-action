@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump semver from 7.5.3 to 7.5.4 [\#203](https://github.com/pmd/pmd-github-action/pull/203) (@dependabot[bot])
 - Bump jest from 29.6.0 to 29.6.1 [\#202](https://github.com/pmd/pmd-github-action/pull/202) (@dependabot[bot])
 - Bump actions/setup-node from 3.6.0 to 3.7.0 [\#201](https://github.com/pmd/pmd-github-action/pull/201) (@dependabot[bot])
 - Bump jest from 29.5.0 to 29.6.0 [\#200](https://github.com/pmd/pmd-github-action/pull/200) (@dependabot[bot])
