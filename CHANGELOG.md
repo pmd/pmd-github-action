@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump eslint from 8.44.0 to 8.46.0 [\#208](https://github.com/pmd/pmd-github-action/pull/208) (@dependabot[bot])
 - Bump jest from 29.6.1 to 29.6.2 [\#207](https://github.com/pmd/pmd-github-action/pull/207) (@dependabot[bot])
 - Bump nock from 13.3.1 to 13.3.2 [\#205](https://github.com/pmd/pmd-github-action/pull/205) (@dependabot[bot])
 - Bump semver from 7.5.3 to 7.5.4 [\#203](https://github.com/pmd/pmd-github-action/pull/203) (@dependabot[bot])
