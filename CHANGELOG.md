@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump nock from 13.3.1 to 13.3.2 [\#205](https://github.com/pmd/pmd-github-action/pull/205) (@dependabot[bot])
 - Bump semver from 7.5.3 to 7.5.4 [\#203](https://github.com/pmd/pmd-github-action/pull/203) (@dependabot[bot])
 - Bump jest from 29.6.0 to 29.6.1 [\#202](https://github.com/pmd/pmd-github-action/pull/202) (@dependabot[bot])
 - Bump actions/setup-node from 3.6.0 to 3.7.0 [\#201](https://github.com/pmd/pmd-github-action/pull/201) (@dependabot[bot])
