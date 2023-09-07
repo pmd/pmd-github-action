@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump convert-action from 0.2.2 to 0.3.0 [\#217](https://github.com/pmd/pmd-github-action/pull/217) (@dependabot[bot])
 - Bump actions/checkout from 3 to 4 [\#216](https://github.com/pmd/pmd-github-action/pull/216) (@dependabot[bot])
 - Bump eslint from 8.47.0 to 8.48.0 [\#215](https://github.com/pmd/pmd-github-action/pull/215) (@dependabot[bot])
 - Bump jest from 29.6.3 to 29.6.4 [\#214](https://github.com/pmd/pmd-github-action/pull/214) (@dependabot[bot])
