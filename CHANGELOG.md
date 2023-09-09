@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.4.1...HEAD)
 
+**🚀 Implemented enhancements:**
+
+- Upgrade to node20 [\#221](https://github.com/pmd/pmd-github-action/pull/221) (@adangel)
+
 **📦 Dependency updates:**
 
 - Bump eslint from 8.48.0 to 8.49.0 [\#220](https://github.com/pmd/pmd-github-action/pull/220) (@dependabot[bot])
