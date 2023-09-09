@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump eslint from 8.48.0 to 8.49.0 [\#220](https://github.com/pmd/pmd-github-action/pull/220) (@dependabot[bot])
 - Bump @actions/artifact from 1.1.1 to 1.1.2 [\#219](https://github.com/pmd/pmd-github-action/pull/219) (@dependabot[bot])
 - Bump @vercel/ncc from 0.36.1 to 0.38.0 [\#218](https://github.com/pmd/pmd-github-action/pull/218) (@dependabot[bot])
 - Bump convert-action from 0.2.2 to 0.3.0 [\#217](https://github.com/pmd/pmd-github-action/pull/217) (@dependabot[bot])
