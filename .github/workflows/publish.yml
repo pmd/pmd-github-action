@@ -20,6 +20,8 @@ jobs:
           
       - name: Setup Node
         uses: actions/setup-node@v3.8.1
+        with:
+          node-version: 20
 
       # Compile dist/index.js and bundle with action.yml
       # Force push major and minor tags, e.g. v1, v1.0
