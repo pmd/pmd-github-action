@@ -10,6 +10,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @actions/core from 1.10.0 to 1.10.1 [\#223](https://github.com/pmd/pmd-github-action/pull/223) (@dependabot[bot])
 - Bump semver from 6.3.0 to 6.3.1 [\#222](https://github.com/pmd/pmd-github-action/pull/222) (@adangel)
 - Bump eslint from 8.48.0 to 8.49.0 [\#220](https://github.com/pmd/pmd-github-action/pull/220) (@dependabot[bot])
 - Bump @actions/artifact from 1.1.1 to 1.1.2 [\#219](https://github.com/pmd/pmd-github-action/pull/219) (@dependabot[bot])
