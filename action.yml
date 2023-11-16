@@ -1,5 +1,6 @@
 name: PMD
 description: Execute PMD static code analysis.
+author: PMD
 inputs:
   token:
     description: >-
