@@ -3,10 +3,6 @@ import { Log, PhysicalLocation, ReportingDescriptor } from "sarif"
 import * as core from "@actions/core"
 
 const processSarifReport = function (report : Log) {
-  if (!report) {
-    return
-  }
-
   const rules = report.runs[0].tool.driver.rules
   const results = report.runs[0].results
 

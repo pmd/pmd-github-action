@@ -58,7 +58,7 @@ async function downloadPmdUrl(version : string, downloadUrl : string) : Promise<
   }
 }
 
-const downloadPmd = async function (version : string, token : string, downloadUrl : string) : Promise<PmdInfo> {
+const downloadPmd = async function (version : string, token : string, downloadUrl : string | undefined) : Promise<PmdInfo> {
   if (version === 'latest' && downloadUrl !== undefined && downloadUrl !== '')
     throw `Can't combine version=${version} with custom downloadUrl=${downloadUrl}`
 

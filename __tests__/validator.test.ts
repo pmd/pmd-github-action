@@ -1,5 +1,5 @@
-const path = require('path')
-const validator = require('../lib/validator')
+import * as path from "path"
+import * as validator from "../src/validator"
 
 describe('pmd-github-action-validator', function () {
   it('validate input version', () => {

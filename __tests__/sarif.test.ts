@@ -1,8 +1,9 @@
-const path = require('path')
-const sarif = require('../lib/sarif')
-const io = require('@actions/io')
-const os = require('os')
-const fs = require('fs')
+import * as path from "path"
+import * as sarif from "../src/sarif"
+import * as io from "@actions/io"
+import * as os from "os"
+import * as fs from "fs"
+import { Log } from "sarif"
 
 const tempPath = path.join(__dirname, 'TEMP')
 
@@ -52,7 +53,9 @@ describe('pmd-github-action-sarif', function () {
     const report = sarif.loadReport(
       path.join(__dirname, 'data', 'pmd-report.sarif')
     )
-    expect(report).not.toBe(null)
+    if (!report) {
+      fail("no report")
+    }
     expect(report.runs[0].tool.driver.name).toBe('PMD')
   })
 
@@ -60,7 +63,7 @@ describe('pmd-github-action-sarif', function () {
     const report = sarif.loadReport(
       path.join(__dirname, 'data', 'pmd-report-not-existing.sarif')
     )
-    expect(report).toBe(null)
+    expect(report).toBe(undefined)
   })
 
   test('relativize can deal with missing report', () => {
@@ -71,6 +74,20 @@ describe('pmd-github-action-sarif', function () {
     )
     sarif.relativizeReport(reportPath)
   })
+
+  function extractFirstViolationLocationUri(report : Log | undefined) : string {
+    if (report && report.runs.length > 0) {
+      let run = report.runs[0];
+      if (run.results && run.results.length > 0) {
+        let result = run.results[0];
+        if (result.locations && result.locations.length > 0) {
+          let location = result.locations[0];
+          return location.physicalLocation?.artifactLocation?.uri ?? '!!no-uri!!';
+        }
+      }
+    }
+    return '!!no-result!!';
+  }
 
   test('can properly relativize report', async () => {
     const isWindows = os.platform() === 'win32'
@@ -89,10 +106,7 @@ describe('pmd-github-action-sarif', function () {
     const fullPath = isWindows
       ? 'D:\\a\\pmd-github-action-test\\src\\classes\\UnusedLocalVariableSample.cls'
       : '/home/andreas/PMD/source/pmd-github-action-test/src/classes/UnusedLocalVariableSample.cls'
-    expect(
-      reportBefore.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe(fullPath)
+    expect(extractFirstViolationLocationUri(reportBefore)).toBe(fullPath)
 
     process.env['GITHUB_WORKSPACE'] = isWindows
       ? 'D:\\a\\pmd-github-action-test'
@@ -100,10 +114,7 @@ describe('pmd-github-action-sarif', function () {
     sarif.relativizeReport(reportPath)
     const reportAfter = sarif.loadReport(reportPath)
     // note: not normalizing the paths to platform dependent paths - it must be a valid URI
-    expect(
-      reportAfter.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe('src/classes/UnusedLocalVariableSample.cls')
+    expect(extractFirstViolationLocationUri(reportAfter)).toBe('src/classes/UnusedLocalVariableSample.cls')
   })
 
   test('can properly relativize report - windows paths - issue #51', async () => {
@@ -116,19 +127,13 @@ describe('pmd-github-action-sarif', function () {
     const reportBefore = sarif.loadReport(reportPath)
     const fullPath =
       'D:\\a\\pmd-github-action-test\\src\\classes\\UnusedLocalVariableSample.cls'
-    expect(
-      reportBefore.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe(fullPath)
+    expect(extractFirstViolationLocationUri(reportBefore)).toBe(fullPath)
 
     process.env['GITHUB_WORKSPACE'] = 'D:\\a\\pmd-github-action-test'
     sarif.relativizeReport(reportPath)
     const reportAfter = sarif.loadReport(reportPath)
     // note: not normalizing the paths to platform dependent paths - it must be a valid URI
-    expect(
-      reportAfter.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe('src/classes/UnusedLocalVariableSample.cls')
+    expect(extractFirstViolationLocationUri(reportAfter)).toBe('src/classes/UnusedLocalVariableSample.cls')
   })
 
   test('convert backslash to forward slash for already relativized report - windows paths - issue #177', async () => {
@@ -140,19 +145,13 @@ describe('pmd-github-action-sarif', function () {
 
     const reportBefore = sarif.loadReport(reportPath)
     const windowsPath = 'src\\classes\\UnusedLocalVariableSample.cls'
-    expect(
-      reportBefore.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe(windowsPath)
+    expect(extractFirstViolationLocationUri(reportBefore)).toBe(windowsPath)
 
     process.env['GITHUB_WORKSPACE'] = 'D:\\a\\pmd-github-action-test'
     sarif.relativizeReport(reportPath)
     const reportAfter = sarif.loadReport(reportPath)
     // note: not normalizing the paths to platform dependent paths - it must be a valid URI with forward slashes
-    expect(
-      reportAfter.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe('src/classes/UnusedLocalVariableSample.cls')
+    expect(extractFirstViolationLocationUri(reportAfter)).toBe('src/classes/UnusedLocalVariableSample.cls')
   })
 
   test('can properly relativize already relativized report', async () => {
@@ -163,19 +162,13 @@ describe('pmd-github-action-sarif', function () {
     )
 
     const reportBefore = sarif.loadReport(reportPath)
-    expect(
-      reportBefore.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe('src/classes/UnusedLocalVariableSample.cls')
+    expect(extractFirstViolationLocationUri(reportBefore)).toBe('src/classes/UnusedLocalVariableSample.cls')
 
     process.env['GITHUB_WORKSPACE'] =
       '/home/andreas/PMD/source/pmd-github-action-test'
     sarif.relativizeReport(reportPath)
     const reportAfter = sarif.loadReport(reportPath)
-    expect(
-      reportAfter.runs[0].results[0].locations[0].physicalLocation
-        .artifactLocation.uri
-    ).toBe('src/classes/UnusedLocalVariableSample.cls')
+    expect(extractFirstViolationLocationUri(reportAfter)).toBe('src/classes/UnusedLocalVariableSample.cls')
   })
 
   test('sarif report result fix is skipped when no report', async () => {
@@ -191,15 +184,17 @@ describe('pmd-github-action-sarif', function () {
     )
 
     const reportBefore = sarif.loadReport(reportPath)
-    expect(reportBefore.runs[0].results.length).toBe(1)
+    let resultCountBefore = reportBefore && reportBefore.runs.length > 0 ? reportBefore.runs[0]?.results?.length : 0
+    expect(resultCountBefore).toBe(1)
     sarif.fixResults(reportPath)
     const reportAfter = sarif.loadReport(reportPath)
-    expect(reportAfter.runs[0].results.length).toBe(2)
+    let resultCountAfter = reportAfter && reportAfter.runs.length > 0 ? reportAfter.runs[0]?.results?.length : 0
+    expect(resultCountAfter).toBe(2)
 
     const expectedReport = JSON.parse(
       fs.readFileSync(
         path.join(__dirname, 'data', 'pmd-report-multiple-fixed.sarif')
-      )
+      ).toString()
     )
     expect(reportAfter).toStrictEqual(expectedReport)
   })
@@ -212,13 +207,13 @@ describe('pmd-github-action-sarif', function () {
     )
 
     const reportBefore = sarif.loadReport(reportPath)
-    reportBefore.runs[0].tool.driver.version = '6.43.0'
+    reportBefore!.runs[0].tool.driver.version = '6.43.0'
     fs.writeFileSync(reportPath, JSON.stringify(reportBefore))
 
-    expect(reportBefore.runs[0].results.length).toBe(1)
+    expect(reportBefore!.runs[0]!.results!.length).toBe(1)
     sarif.fixResults(reportPath)
     const reportAfter = sarif.loadReport(reportPath)
-    expect(reportAfter.runs[0].results.length).toBe(1)
+    expect(reportAfter!.runs[0]!.results!.length).toBe(1)
 
     expect(reportAfter).toStrictEqual(reportBefore)
   })

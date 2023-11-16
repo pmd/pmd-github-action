@@ -21,6 +21,9 @@ describe('pmd-github-action-annotations', function () {
     const report = sarif.loadReport(
       path.join(__dirname, 'data', 'pmd-report.sarif')
     )
+    if (!report) {
+      fail("no report")
+    }
 
     annotations.processSarifReport(report)
 
@@ -44,15 +47,13 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
     expect(core.warning).not.toHaveBeenCalled()
   })
 
-  it('can deal with null report', () => {
-    annotations.processSarifReport(null)
-    expect(core.notice).not.toHaveBeenCalled()
-  })
-
   it('can deal with error, warning and notice', () => {
     const report = sarif.loadReport(
       path.join(__dirname, 'data', 'pmd-report-priorities.sarif')
     )
+    if (!report) {
+      fail("no report");
+    }
     annotations.processSarifReport(report)
 
     expect(core.error).toHaveBeenCalledTimes(2)
@@ -103,6 +104,9 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
     const report = sarif.loadReport(
       path.join(__dirname, 'data', 'pmd-report-empty-full-description.sarif')
     )
+    if (!report) {
+      fail("no report");
+    }
     annotations.processSarifReport(report)
 
     expect(core.error).toHaveBeenCalledTimes(0)

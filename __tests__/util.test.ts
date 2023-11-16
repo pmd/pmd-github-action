@@ -1,13 +1,15 @@
 import * as process from "process";
 import * as path from "path";
-const nock = require('nock')
-const io = require('@actions/io')
-const os = require('os')
-const fs = require('fs').promises
-const exec = require('@actions/exec')
-const util = require('../lib/util')
-const github_utils = require('@actions/github/lib/utils')
-const semver = require('semver')
+let nock = require("nock"); //import * as nock from "nock";
+import * as io from "@actions/io"
+import * as os from "os"
+import { promises as fs } from "fs"
+import * as exec from "@actions/exec"
+import * as util from "../src/util"
+import * as github_utils from "@actions/github/lib/utils"
+import * as semver from "semver"
+
+
 
 const cachePath = path.join(__dirname, 'CACHE')
 const tempPath = path.join(__dirname, 'TEMP')
@@ -16,17 +18,18 @@ process.env['RUNNER_TEMP'] = tempPath
 process.env['RUNNER_TOOL_CACHE'] = cachePath
 
 describe('pmd-github-action-util', function () {
-  let platformMock
-  let execMock
+  let platformMock : jest.SpyInstance<ReturnType<typeof os.platform>>
+  let execMock : jest.SpyInstance<ReturnType<typeof exec.getExecOutput>>
 
   beforeAll(function () {
-    setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS', 0)
-    setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS', 0)
+    global.TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS = 0
+    global.TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS = 0
   })
 
   beforeEach(async function () {
     platformMock = jest.spyOn(os, 'platform')
     execMock = jest.spyOn(exec, 'getExecOutput')
+    exec.getExecOutput
     await io.rmRF(cachePath)
     await io.rmRF(tempPath)
     await io.mkdirP(cachePath)
@@ -47,8 +50,8 @@ describe('pmd-github-action-util', function () {
   afterAll(async function () {
     await io.rmRF(tempPath)
     await io.rmRF(cachePath)
-    setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS', undefined)
-    setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS', undefined)
+    global.TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS = undefined;
+    global.TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS = undefined;
   })
 
   it('use latest PMD', async () => {
@@ -61,7 +64,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
 
     const toolCache = path.join(
       cachePath,
@@ -95,7 +98,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
 
     const toolCache = path.join(
       cachePath,
@@ -117,7 +120,7 @@ describe('pmd-github-action-util', function () {
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip')
-    const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token', undefined)
 
     const toolCache = path.join(
       cachePath,
@@ -141,8 +144,8 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
       .once()
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip')
-    const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token')
-    const pmdInfo2 = await util.downloadPmd('6.39.0', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token', undefined)
+    const pmdInfo2 = await util.downloadPmd('6.39.0', 'my_test_token', undefined)
 
     const toolCache = path.join(
       cachePath,
@@ -166,7 +169,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
       pmdInfo,
       '.',
@@ -195,7 +198,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.41.0/pmd-bin-6.41.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.41.0.zip')
 
-    const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
       pmdInfo,
       '.',
@@ -219,13 +222,13 @@ describe('pmd-github-action-util', function () {
       .get('/repos/pmd/pmd/releases/latest')
       .reply(503, 'Test Internal Server Error')
 
-    expect(() => util.downloadPmd('latest', 'my_test_token')).rejects.toThrow()
+    expect(() => util.downloadPmd('latest', 'my_test_token', undefined)).rejects.toThrow()
   })
 
   it('failure while executing PMD', async () => {
     expect(() =>
       util.executePmd(
-        { path: 'non-existing-pmd-path' },
+        { path: 'non-existing-pmd-path', version: 'invalid-version' },
         '.',
         'ruleset.xml',
         'sarif',
@@ -236,7 +239,7 @@ describe('pmd-github-action-util', function () {
 
   it('can execute PMD win32', async () => {
     platformMock.mockReturnValueOnce('win32')
-    execMock.mockReturnValueOnce({ exitCode: 0, stdout: '', stderr: '' })
+    execMock.mockResolvedValueOnce({ exitCode: 0, stdout: '', stderr: '' })
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/latest')
       .replyWithFile(200, __dirname + '/data/releases-latest.json', {
@@ -246,7 +249,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
     await util.executePmd(
       pmdInfo,
       '.',
@@ -387,7 +390,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
       pmdInfo,
       ['src/file1.txt', 'src/file2.txt'],
@@ -417,7 +420,7 @@ describe('pmd-github-action-util', function () {
       .get('/pmd/pmd/releases/download/pmd_releases/6.41.0/pmd-bin-6.41.0.zip')
       .replyWithFile(200, __dirname + '/data/pmd-bin-6.41.0.zip')
 
-    const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
       pmdInfo,
       ['src/file1.txt', 'src/file2.txt'],
@@ -605,7 +608,7 @@ describe('pmd-github-action-util', function () {
       )
       .replyWithFile(200, __dirname + '/data/pmd-bin-7.0.0-rc1.zip')
 
-    const pmdInfo = await util.downloadPmd('7.0.0-rc1', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('7.0.0-rc1', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
       pmdInfo,
       ['src/file1.txt', 'src/file2.txt'],
@@ -688,7 +691,7 @@ describe('pmd-github-action-util', function () {
       )
       .replyWithFile(200, __dirname + '/data/pmd-dist-7.0.0-rc3-bin.zip')
 
-    const pmdInfo = await util.downloadPmd('latest', 'my_test_token')
+    const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
 
     const toolCache = path.join(
       cachePath,
@@ -702,10 +705,7 @@ describe('pmd-github-action-util', function () {
   })
 })
 
-function setGlobal(key, value) {
-  if (value === undefined) {
-    delete global[key]
-  } else {
-    global[key] = value
-  }
+declare global {
+  var TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS: number | undefined
+  var TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS: number | undefined
 }
