@@ -1,7 +1,7 @@
 const core = require('@actions/core')
-const path = require('path')
-const sarif = require('../lib/sarif')
-const annotations = require('../lib/annotations')
+import * as path from "path"
+import * as sarif from "../src/sarif"
+import * as annotations from "../src/annotations"
 
 core.error = jest.fn()
 core.warning = jest.fn()

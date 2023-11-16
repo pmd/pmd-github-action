@@ -1,5 +1,5 @@
-const process = require('process')
-const path = require('path')
+import * as process from "process";
+import * as path from "path";
 const nock = require('nock')
 const io = require('@actions/io')
 const os = require('os')

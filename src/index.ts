@@ -1,9 +1,9 @@
-const core = require('@actions/core')
-const artifact = require('@actions/artifact')
-const util = require('./util')
-const sarif = require('./sarif')
-const validator = require('./validator')
-const annotations = require('./annotations')
+import * as core from "@actions/core"
+import * as artifact from "@actions/artifact"
+import * as util from "./util"
+import * as sarif from "./sarif"
+import * as validator from "./validator"
+import * as annotations from "./annotations"
 
 const reportFormat = 'sarif'
 const reportFile = 'pmd-report.sarif'
@@ -16,11 +16,9 @@ async function main() {
   )
   try {
     pmdInfo = await util.downloadPmd(
-      validator.validateVersion(core.getInput('version'), { required: true }),
+      validator.validateVersion(core.getInput('version', { required: true })),
       token,
-      validator.validateDownloadUrl(core.getInput('downloadUrl'), {
-        required: true
-      })
+      validator.validateDownloadUrl(core.getInput('downloadUrl', { required: true }))
     )
 
     if (
@@ -58,15 +56,21 @@ async function main() {
       core.getInput('createGitHubAnnotations', { required: true }) === 'true'
     ) {
       const report = sarif.loadReport(reportFile)
-      annotations.processSarifReport(report)
+      if (report) {
+        annotations.processSarifReport(report)
+      }
     }
 
     const artifactClient = artifact.create()
     await artifactClient.uploadArtifact('PMD Report', [reportFile], '.', {
       continueOnError: false
     })
-  } catch (error) {
-    core.setFailed(error.message || error)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      core.setFailed(error.message);
+    } else {
+      core.setFailed(String(error))
+    }
   }
 }
 

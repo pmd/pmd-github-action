@@ -1,48 +1,51 @@
-const fs = require('fs')
-const path = require('path')
-const core = require('@actions/core')
-const semver = require('semver')
+import path from "path"
+import { Log, Result } from "sarif"
+import * as fs from "fs"
+import * as core from "@actions/core"
+import * as semver from "semver"
 
-const countViolations = function (reportFile) {
+const countViolations = function (reportFile : string) : number {
   let count = 0
 
   const report = loadReport(reportFile)
-  if (report !== null) {
-    count = report.runs[0].results.length
+  if (report) {
+    count = report.runs[0].results?.length ? report.runs[0].results?.length : 0
   }
 
   return count
 }
 
-const loadReport = function (reportFile) {
+const loadReport = function (reportFile : string) : Log | undefined {
   if (!fs.existsSync(reportFile)) {
-    return null
+    return undefined
   }
 
-  return JSON.parse(fs.readFileSync(reportFile))
+  return JSON.parse(fs.readFileSync(reportFile).toString())
 }
 
-const relativizeReport = function (reportFile) {
+const relativizeReport = function (reportFile : string) : void {
   const report = loadReport(reportFile)
-  if (report === null) {
+  if (!report) {
     return
   }
 
   const prefix = path.normalize(`${process.env['GITHUB_WORKSPACE']}/`)
   const prefixUri = new URL(`file:///${prefix}`).href
   core.debug(`Relativizing sarif report '${reportFile}' against '${prefix}'`)
-  report.runs[0].results.forEach(rule => {
-    rule.locations.forEach(location => {
-      const artifactLocation = location.physicalLocation.artifactLocation
-      // note: this also converts any backslashes from Windows paths into forward slashes
-      // forward slashes are needed in the sarif report for GitHub annotations and codeql upload
-      const uri = new URL(`file:///${artifactLocation.uri}`).href
-      if (uri.startsWith(prefixUri)) {
-        artifactLocation.uri = uri.substring(prefixUri.length)
-      } else {
-        // report contains already relative paths
-        // still use the uri, in order to have forward slashes
-        artifactLocation.uri = uri.substring('file:///'.length)
+  report.runs[0].results?.forEach(rule => {
+    rule.locations?.forEach(location => {
+      if (location.physicalLocation?.artifactLocation) {
+        const artifactLocation = location.physicalLocation.artifactLocation
+        // note: this also converts any backslashes from Windows paths into forward slashes
+        // forward slashes are needed in the sarif report for GitHub annotations and codeql upload
+        const uri = new URL(`file:///${artifactLocation.uri}`).href
+        if (uri.startsWith(prefixUri)) {
+          artifactLocation.uri = uri.substring(prefixUri.length)
+        } else {
+          // report contains already relative paths
+          // still use the uri, in order to have forward slashes
+          artifactLocation.uri = uri.substring('file:///'.length)
+        }
       }
     })
   })
@@ -58,9 +61,9 @@ const relativizeReport = function (reportFile) {
  *
  * @param {String} reportFile
  */
-const fixResults = function (reportFile) {
+const fixResults = function (reportFile : string) {
   const report = loadReport(reportFile)
-  if (report === null) {
+  if (!report || !report.runs[0].tool.driver.version) {
     return
   }
 
@@ -72,14 +75,14 @@ const fixResults = function (reportFile) {
   }
 
   const originalResults = report.runs[0].results
-  const fixedResults = []
+  const fixedResults : Result[] = []
   core.debug(
-    `Fixing Sarif Report results: count before: ${originalResults.length}`
+    `Fixing Sarif Report results: count before: ${originalResults?.length}`
   )
-  originalResults.forEach(result => {
+  originalResults?.forEach(result => {
     const originalLocations = result.locations
     delete result.locations
-    originalLocations.forEach(location => {
+    originalLocations?.forEach(location => {
       const copy = Object.assign({}, result)
       copy.locations = [location]
       fixedResults.push(copy)
@@ -90,7 +93,4 @@ const fixResults = function (reportFile) {
   fs.writeFileSync(reportFile, JSON.stringify(report))
 }
 
-module.exports.countViolations = countViolations
-module.exports.loadReport = loadReport
-module.exports.relativizeReport = relativizeReport
-module.exports.fixResults = fixResults
+export { countViolations, loadReport, relativizeReport, fixResults }

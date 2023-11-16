@@ -1,6 +1,8 @@
-const core = require('@actions/core')
+import { AnnotationProperties } from "@actions/core"
+import { Log, PhysicalLocation, ReportingDescriptor } from "sarif"
+import * as core from "@actions/core"
 
-const processSarifReport = function (report) {
+const processSarifReport = function (report : Log) {
   if (!report) {
     return
   }
@@ -11,19 +13,23 @@ const processSarifReport = function (report) {
   core.startGroup('PMD Results')
 
   core.debug(`processing sarif report`)
-  core.debug(`rules: ${rules.length}`)
-  core.debug(`results: ${results.length}`)
+  core.debug(`rules: ${rules?.length}`)
+  core.debug(`results: ${results?.length}`)
 
-  results.forEach(violation => {
+  results?.forEach(violation => {
+    if (!rules || !violation.ruleIndex || !rules[violation.ruleIndex]) {
+      return;
+    }
+
     const rule = rules[violation.ruleIndex]
-    const logFunction = mapPriority(rule.properties.priority)
-    violation.locations.forEach(location => {
+    const logFunction = mapPriority(rule.properties?.priority)
+    violation.locations?.forEach(location => {
       const annotation = createAnnotation(
         location.physicalLocation,
         violation.message.text
       )
       core.info(
-        `\n${annotation.file}:${annotation.startLine}:${rule.id} (Priority: ${rule.properties.priority}):${violation.message.text}`
+        `\n${annotation.file}:${annotation.startLine}:${rule.id} (Priority: ${rule.properties?.priority}):${violation.message.text}`
       )
       logFunction(createDescription(rule), annotation)
     })
@@ -32,7 +38,7 @@ const processSarifReport = function (report) {
   core.endGroup()
 }
 
-function mapPriority(pmdPriority) {
+function mapPriority(pmdPriority : number | undefined) : Function {
   switch (pmdPriority) {
     case 1: // net.sourceforge.pmd.RulePriority.HIGH
     case 2: // net.sourceforge.pmd.RulePriority.MEDIUM_HIGH
@@ -46,18 +52,18 @@ function mapPriority(pmdPriority) {
 }
 
 // AnnotationProperties from @actions/core
-function createAnnotation(location, title) {
+function createAnnotation(location : PhysicalLocation | undefined, title : string | undefined) : AnnotationProperties {
   return {
-    title: title,
-    file: location.artifactLocation.uri,
-    startLine: location.region.startLine,
-    endLine: location.region.endLine
+    title: title || 'unknown',
+    file: location?.artifactLocation?.uri ? location.artifactLocation.uri : 'unknown',
+    startLine: location?.region?.startLine ? location.region.startLine : 0,
+    endLine: location?.region?.endLine ? location.region.endLine : 0
   }
 }
 
-function createDescription(rule) {
+function createDescription(rule : ReportingDescriptor) {
   const lines =
-    rule.fullDescription.text !== undefined
+    rule.fullDescription?.text !== undefined
       ? rule.fullDescription.text.split(/\n|\r\n/)
       : ['']
 
@@ -82,11 +88,11 @@ function createDescription(rule) {
   const description = lines.join('\n')
   const desc = `${description}
 
-${rule.id} (Priority: ${rule.properties.priority}, Ruleset: ${
-    rule.properties.ruleset
+${rule.id} (Priority: ${rule.properties?.priority}, Ruleset: ${
+    rule.properties?.ruleset
   })
-${rule.helpUri.trim()}`
+${rule.helpUri?.trim()}`
   return desc
 }
 
-module.exports.processSarifReport = processSarifReport
+export { processSarifReport }

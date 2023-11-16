@@ -1,20 +1,26 @@
-const core = require('@actions/core')
-const github = require('@actions/github')
-const github_defaults = require('@actions/github/lib/utils').defaults
-const tc = require('@actions/tool-cache')
-const exec = require('@actions/exec')
-const semver = require('semver')
-const os = require('os')
-const fs = require('fs').promises
-const path = require('path')
-const { Octokit } = require('@octokit/rest')
+import { ExecOutput } from "@actions/exec"
+import * as core from "@actions/core"
+import * as github from "@actions/github"
+import { defaults as github_defaults } from "@actions/github/lib/utils"
+import * as tc from "@actions/tool-cache"
+import * as exec from "@actions/exec"
+import * as semver from "semver"
+import * as os from "os"
+import { promises as fs } from "fs"
+import * as path from "path"
+import { Octokit, RestEndpointMethodTypes } from "@octokit/rest";
 
 // Load at most MAX_PAGE pages when determining modified files.
 // This is used both for pull/{pull_number}/files as well as for
 // repos/compareCommits API calls.
 const MAX_PAGE = 10
 
-async function downloadPmdRelease(version, token) {
+interface PmdInfo {
+    version: string
+    path: string
+}
+
+async function downloadPmdRelease(version : string, token : string) : Promise<PmdInfo> {
   let pmdVersion = version
   let cachedPmdPath = tc.find('pmd', version)
   core.debug(`cached path result: ${cachedPmdPath}`)
@@ -35,7 +41,7 @@ async function downloadPmdRelease(version, token) {
   }
 }
 
-async function downloadPmdUrl(version, downloadUrl) {
+async function downloadPmdUrl(version : string, downloadUrl : string) : Promise<PmdInfo> {
   let pmdVersion = version
   const pathToZipDistribution = await tc.downloadTool(downloadUrl)
   const pmdExtractedFolder = await tc.extractZip(pathToZipDistribution)
@@ -52,7 +58,7 @@ async function downloadPmdUrl(version, downloadUrl) {
   }
 }
 
-const downloadPmd = async function (version, token, downloadUrl) {
+const downloadPmd = async function (version : string, token : string, downloadUrl : string) : Promise<PmdInfo> {
   if (version === 'latest' && downloadUrl !== undefined && downloadUrl !== '')
     throw `Can't combine version=${version} with custom downloadUrl=${downloadUrl}`
 
@@ -64,12 +70,12 @@ const downloadPmd = async function (version, token, downloadUrl) {
 }
 
 const executePmd = async function (
-  pmdInfo,
-  fileListOrSourcePath,
-  ruleset,
-  reportFormat,
-  reportFile
-) {
+  pmdInfo : PmdInfo,
+  fileListOrSourcePath : string | string[],
+  ruleset : string,
+  reportFormat : string,
+  reportFile : string
+) : Promise<ExecOutput> {
   let pmdExecutable = '/bin/run.sh pmd'
   if (isPmd7Cli(pmdInfo.version)) {
     pmdExecutable = '/bin/pmd'
@@ -82,7 +88,7 @@ const executePmd = async function (
     pmdExecutable += ' check --no-progress'
   }
 
-  let sourceParameter = ['-d', fileListOrSourcePath]
+  let sourceParameter : string[];
   if (Array.isArray(fileListOrSourcePath)) {
     await writeFileList(fileListOrSourcePath)
     sourceParameter = [
@@ -93,6 +99,7 @@ const executePmd = async function (
       `Running PMD ${pmdInfo.version} on ${fileListOrSourcePath.length} modified files...`
     )
   } else {
+    sourceParameter = ['-d', fileListOrSourcePath]
     core.info(
       `Running PMD ${pmdInfo.version} on all files in path ${fileListOrSourcePath}...`
     )
@@ -120,15 +127,17 @@ const executePmd = async function (
   return execOutput
 }
 
-function useNewArgsFormat(pmdVersion) {
+function useNewArgsFormat(pmdVersion : string) : boolean {
   return semver.gte(pmdVersion, '6.41.0')
 }
 
-function isPmd7Cli(pmdVersion) {
+function isPmd7Cli(pmdVersion : string) : boolean {
   return semver.major(pmdVersion) >= 7
 }
 
-async function determinePmdRelease(pmdVersion, token) {
+type GitHubRestRelease = RestEndpointMethodTypes["repos"]["getLatestRelease"]["response"]
+
+async function determinePmdRelease(pmdVersion : string, token : string) : Promise<GitHubRestRelease> {
   core.debug(`determine release info for ${pmdVersion}`)
 
   const PUBLIC_GITHUB_API_URL = 'https://api.github.com'
@@ -165,11 +174,11 @@ async function determinePmdRelease(pmdVersion, token) {
   return release
 }
 
-function getPmdVersionFromRelease(release) {
+function getPmdVersionFromRelease(release : GitHubRestRelease) : string {
   return release.data.tag_name.replace('pmd_releases/', '')
 }
 
-function getDownloadURL(release) {
+function getDownloadURL(release : GitHubRestRelease) : string {
   const asset = release.data.assets.filter(a => {
     const version = getPmdVersionFromRelease(release)
     return (
@@ -181,13 +190,17 @@ function getDownloadURL(release) {
   return asset.browser_download_url
 }
 
-async function writeFileList(fileList) {
+async function writeFileList(fileList : string[]) : Promise<void> {
   await fs.writeFile(path.join('.', 'pmd.filelist'), fileList.join(','), 'utf8')
 }
 
-const determineModifiedFiles = async function (token, sourcePath) {
+type GitHubRestPullListFiles = RestEndpointMethodTypes["pulls"]["listFiles"]["response"]
+type GitHubRestCompareCommitsWithBasehead = RestEndpointMethodTypes["repos"]["compareCommitsWithBasehead"]["response"];
+type GitHubRestDiffEntry = GitHubRestPullListFiles["data"] extends (infer U)[] ? U : never;
+
+const determineModifiedFiles = async function (token : string, sourcePath : string) : Promise<string[] | undefined> {
   // creating new context instead of using "github.context" to reinitialize for unit testing
-  const context = new github.context.constructor()
+  const context = github.context.constructor()
   const eventData = context.payload
   const octokit = github.getOctokit(token)
   if (context.eventName === 'pull_request') {
@@ -195,12 +208,12 @@ const determineModifiedFiles = async function (token, sourcePath) {
       `Pull request ${eventData.number}: ${eventData.pull_request.html_url}`
     )
 
-    let modifiedFilenames = new Set()
+    let modifiedFilenames = new Set<string>()
 
     // maximum of 300 files are loaded (page size is 30, max 10 pages)
     let page
     for (page = 1; page <= MAX_PAGE; page++) {
-      const listFilesResponse = await octokit.rest.pulls.listFiles({
+      const listFilesResponse : GitHubRestPullListFiles = await octokit.rest.pulls.listFiles({
         ...context.repo,
         pull_number: eventData.number,
         per_page: 30,
@@ -225,12 +238,12 @@ const determineModifiedFiles = async function (token, sourcePath) {
       `Push on ${eventData.ref}: ${eventData.before}...${eventData.after}`
     )
 
-    let modifiedFilenames = new Set()
+    let modifiedFilenames = new Set<string>()
 
     // maximum of 300 files are loaded (page size is 30, max 10 pages)
     let page
     for (page = 1; page <= MAX_PAGE; page++) {
-      const compareResponse =
+      const compareResponse : GitHubRestCompareCommitsWithBasehead =
         await octokit.rest.repos.compareCommitsWithBasehead({
           ...context.repo,
           basehead: `${eventData.before}...${eventData.after}`,
@@ -259,7 +272,7 @@ const determineModifiedFiles = async function (token, sourcePath) {
   }
 }
 
-function extractFilenames(allFiles, page, sourcePath) {
+function extractFilenames(allFiles : GitHubRestDiffEntry[], page : number, sourcePath : string) : string[] {
   core.debug(` got ${allFiles.length} entries from page ${page} to check...`)
   if (core.isDebug()) {
     // output can be enabled by adding repository secret "ACTIONS_STEP_DEBUG" with value "true".
@@ -288,6 +301,4 @@ function extractFilenames(allFiles, page, sourcePath) {
   return filenames
 }
 
-module.exports.downloadPmd = downloadPmd
-module.exports.executePmd = executePmd
-module.exports.determineModifiedFiles = determineModifiedFiles
+export { downloadPmd, executePmd, determineModifiedFiles }
