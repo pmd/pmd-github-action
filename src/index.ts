@@ -1,24 +1,29 @@
-import * as core from "@actions/core"
-import * as artifact from "@actions/artifact"
-import * as util from "./util"
-import * as sarif from "./sarif"
-import * as validator from "./validator"
-import * as annotations from "./annotations"
+import * as core from '@actions/core'
+import * as artifact from '@actions/artifact'
+import * as util from './util'
+import * as sarif from './sarif'
+import * as validator from './validator'
+import * as annotations from './annotations'
 
 const reportFormat = 'sarif'
 const reportFile = 'pmd-report.sarif'
 
-async function main() {
-  let pmdInfo, modifiedFiles, execOutput, violations
-  let token = core.getInput('token', { required: true })
-  let sourcePath = validator.validateSourcePath(
+async function main(): Promise<void> {
+  let pmdInfo
+  let modifiedFiles
+  let execOutput
+  let violations
+  const token = core.getInput('token', { required: true })
+  const sourcePath = validator.validateSourcePath(
     core.getInput('sourcePath', { required: true })
   )
   try {
     pmdInfo = await util.downloadPmd(
       validator.validateVersion(core.getInput('version', { required: true })),
       token,
-      validator.validateDownloadUrl(core.getInput('downloadUrl', { required: true }))
+      validator.validateDownloadUrl(
+        core.getInput('downloadUrl', { required: true })
+      )
     )
 
     if (
@@ -67,7 +72,7 @@ async function main() {
     })
   } catch (error: unknown) {
     if (error instanceof Error) {
-      core.setFailed(error.message);
+      core.setFailed(error.message)
     } else {
       core.setFailed(String(error))
     }

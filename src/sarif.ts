@@ -1,10 +1,10 @@
-import path from "path"
-import { Log, Result } from "sarif"
-import * as fs from "fs"
-import * as core from "@actions/core"
-import * as semver from "semver"
+import path from 'path'
+import { Log, Result } from 'sarif'
+import * as fs from 'fs'
+import * as core from '@actions/core'
+import * as semver from 'semver'
 
-const countViolations = function (reportFile : string) : number {
+function countViolations(reportFile: string): number {
   let count = 0
 
   const report = loadReport(reportFile)
@@ -15,7 +15,7 @@ const countViolations = function (reportFile : string) : number {
   return count
 }
 
-const loadReport = function (reportFile : string) : Log | undefined {
+function loadReport(reportFile: string): Log | undefined {
   if (!fs.existsSync(reportFile)) {
     return undefined
   }
@@ -23,32 +23,34 @@ const loadReport = function (reportFile : string) : Log | undefined {
   return JSON.parse(fs.readFileSync(reportFile).toString())
 }
 
-const relativizeReport = function (reportFile : string) : void {
+function relativizeReport(reportFile: string): void {
   const report = loadReport(reportFile)
-  if (!report) {
+  if (!report || !report.runs[0].results) {
     return
   }
 
   const prefix = path.normalize(`${process.env['GITHUB_WORKSPACE']}/`)
   const prefixUri = new URL(`file:///${prefix}`).href
   core.debug(`Relativizing sarif report '${reportFile}' against '${prefix}'`)
-  report.runs[0].results?.forEach(rule => {
-    rule.locations?.forEach(location => {
-      if (location.physicalLocation?.artifactLocation) {
-        const artifactLocation = location.physicalLocation.artifactLocation
-        // note: this also converts any backslashes from Windows paths into forward slashes
-        // forward slashes are needed in the sarif report for GitHub annotations and codeql upload
-        const uri = new URL(`file:///${artifactLocation.uri}`).href
-        if (uri.startsWith(prefixUri)) {
-          artifactLocation.uri = uri.substring(prefixUri.length)
-        } else {
-          // report contains already relative paths
-          // still use the uri, in order to have forward slashes
-          artifactLocation.uri = uri.substring('file:///'.length)
+  for (const rule of report.runs[0].results) {
+    if (rule.locations) {
+      for (const location of rule.locations) {
+        if (location.physicalLocation?.artifactLocation) {
+          const artifactLocation = location.physicalLocation.artifactLocation
+          // note: this also converts any backslashes from Windows paths into forward slashes
+          // forward slashes are needed in the sarif report for GitHub annotations and codeql upload
+          const uri = new URL(`file:///${artifactLocation.uri}`).href
+          if (uri.startsWith(prefixUri)) {
+            artifactLocation.uri = uri.substring(prefixUri.length)
+          } else {
+            // report contains already relative paths
+            // still use the uri, in order to have forward slashes
+            artifactLocation.uri = uri.substring('file:///'.length)
+          }
         }
       }
-    })
-  })
+    }
+  }
   fs.writeFileSync(reportFile, JSON.stringify(report))
 }
 
@@ -61,9 +63,13 @@ const relativizeReport = function (reportFile : string) : void {
  *
  * @param {String} reportFile
  */
-const fixResults = function (reportFile : string) {
+function fixResults(reportFile: string): void {
   const report = loadReport(reportFile)
   if (!report || !report.runs[0].tool.driver.version) {
+    return
+  }
+  const originalResults = report.runs[0].results
+  if (!originalResults) {
     return
   }
 
@@ -74,20 +80,21 @@ const fixResults = function (reportFile : string) {
     return
   }
 
-  const originalResults = report.runs[0].results
-  const fixedResults : Result[] = []
+  const fixedResults: Result[] = []
   core.debug(
-    `Fixing Sarif Report results: count before: ${originalResults?.length}`
+    `Fixing Sarif Report results: count before: ${originalResults.length}`
   )
-  originalResults?.forEach(result => {
+  for (const result of originalResults) {
     const originalLocations = result.locations
     delete result.locations
-    originalLocations?.forEach(location => {
-      const copy = Object.assign({}, result)
-      copy.locations = [location]
-      fixedResults.push(copy)
-    })
-  })
+    if (originalLocations) {
+      for (const location of originalLocations) {
+        const copy = Object.assign({}, result)
+        copy.locations = [location]
+        fixedResults.push(copy)
+      }
+    }
+  }
   core.debug(`Fixing Sarif Report results: count after: ${fixedResults.length}`)
   report.runs[0].results = fixedResults
   fs.writeFileSync(reportFile, JSON.stringify(report))

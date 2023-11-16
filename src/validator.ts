@@ -1,7 +1,7 @@
-import * as path from "path"
-import * as semver from "semver"
+import * as path from 'path'
+import * as semver from 'semver'
 
-const validateVersion = function (version : string) : string {
+function validateVersion(version: string): string {
   if (
     typeof version === 'string' &&
     (version === 'latest' || semver.valid(version) === version)
@@ -13,19 +13,19 @@ const validateVersion = function (version : string) : string {
   throw new Error('Invalid version')
 }
 
-const validateSourcePath = function (sourcePath : string) : string {
+function validateSourcePath(sourcePath: string): string {
   const normalized = path.normalize(sourcePath)
   if (
     path.isAbsolute(normalized) ||
     typeof normalized !== 'string' ||
     normalized.match(/[ ;:"'$]/)
   ) {
-    throw 'Invalid sourcePath'
+    throw Error('Invalid sourcePath')
   }
   return normalized
 }
 
-const validateRulesets = function (rulesets : string) : string {
+function validateRulesets(rulesets: string): string {
   if (typeof rulesets !== 'string' || rulesets.match(/[;:"'$"]/))
     throw new Error('Invalid rulesets')
 
@@ -33,7 +33,7 @@ const validateRulesets = function (rulesets : string) : string {
   return normalized
 }
 
-const validateDownloadUrl = function (url : string) : string {
+function validateDownloadUrl(url: string): string {
   if (typeof url === 'string' && (url === '' || url.match(/^https?:\/\//)))
     // valid
     return url
@@ -41,4 +41,9 @@ const validateDownloadUrl = function (url : string) : string {
   throw new Error('Invalid downloadUrl')
 }
 
-export { validateVersion, validateSourcePath, validateRulesets, validateDownloadUrl }
+export {
+  validateVersion,
+  validateSourcePath,
+  validateRulesets,
+  validateDownloadUrl
+}

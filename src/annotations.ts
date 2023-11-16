@@ -1,25 +1,26 @@
-import { AnnotationProperties } from "@actions/core"
-import { Log, PhysicalLocation, ReportingDescriptor } from "sarif"
-import * as core from "@actions/core"
+import { AnnotationProperties } from '@actions/core'
+import { Log, PhysicalLocation, ReportingDescriptor } from 'sarif'
+import * as core from '@actions/core'
 
-const processSarifReport = function (report : Log) {
-  const rules = report.runs[0].tool.driver.rules
-  const results = report.runs[0].results
+function processSarifReport(report: Log): void {
+  const rules = report.runs[0].tool.driver.rules ?? []
+  const results = report.runs[0].results ?? []
 
   core.startGroup('PMD Results')
 
   core.debug(`processing sarif report`)
-  core.debug(`rules: ${rules?.length}`)
-  core.debug(`results: ${results?.length}`)
+  core.debug(`rules: ${rules.length}`)
+  core.debug(`results: ${results.length}`)
 
-  results?.forEach(violation => {
-    if (!rules || !violation.ruleIndex || !rules[violation.ruleIndex]) {
-      return;
+  for (const violation of results) {
+    if (!violation.ruleIndex || !rules[violation.ruleIndex]) {
+      return
     }
 
     const rule = rules[violation.ruleIndex]
     const logFunction = mapPriority(rule.properties?.priority)
-    violation.locations?.forEach(location => {
+    const locations = violation.locations ?? []
+    for (const location of locations) {
       const annotation = createAnnotation(
         location.physicalLocation,
         violation.message.text
@@ -28,13 +29,13 @@ const processSarifReport = function (report : Log) {
         `\n${annotation.file}:${annotation.startLine}:${rule.id} (Priority: ${rule.properties?.priority}):${violation.message.text}`
       )
       logFunction(createDescription(rule), annotation)
-    })
-  })
+    }
+  }
 
   core.endGroup()
 }
 
-function mapPriority(pmdPriority : number | undefined) : Function {
+function mapPriority(pmdPriority: number | undefined): typeof core.error {
   switch (pmdPriority) {
     case 1: // net.sourceforge.pmd.RulePriority.HIGH
     case 2: // net.sourceforge.pmd.RulePriority.MEDIUM_HIGH
@@ -48,16 +49,21 @@ function mapPriority(pmdPriority : number | undefined) : Function {
 }
 
 // AnnotationProperties from @actions/core
-function createAnnotation(location : PhysicalLocation | undefined, title : string | undefined) : AnnotationProperties {
+function createAnnotation(
+  location: PhysicalLocation | undefined,
+  title: string | undefined
+): AnnotationProperties {
   return {
     title: title || 'unknown',
-    file: location?.artifactLocation?.uri ? location.artifactLocation.uri : 'unknown',
+    file: location?.artifactLocation?.uri
+      ? location.artifactLocation.uri
+      : 'unknown',
     startLine: location?.region?.startLine ? location.region.startLine : 0,
     endLine: location?.region?.endLine ? location.region.endLine : 0
   }
 }
 
-function createDescription(rule : ReportingDescriptor) {
+function createDescription(rule: ReportingDescriptor): string {
   const lines =
     rule.fullDescription?.text !== undefined
       ? rule.fullDescription.text.split(/\n|\r\n/)
@@ -84,9 +90,8 @@ function createDescription(rule : ReportingDescriptor) {
   const description = lines.join('\n')
   const desc = `${description}
 
-${rule.id} (Priority: ${rule.properties?.priority}, Ruleset: ${
-    rule.properties?.ruleset
-  })
+${rule.id} (Priority: ${rule.properties?.priority}, Ruleset: ${rule.properties
+    ?.ruleset})
 ${rule.helpUri?.trim()}`
   return desc
 }

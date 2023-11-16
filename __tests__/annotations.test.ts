@@ -1,7 +1,7 @@
+import * as path from 'path'
+import * as sarif from '../src/sarif'
+import * as annotations from '../src/annotations'
 const core = require('@actions/core')
-import * as path from "path"
-import * as sarif from "../src/sarif"
-import * as annotations from "../src/annotations"
 
 core.error = jest.fn()
 core.warning = jest.fn()
@@ -22,7 +22,7 @@ describe('pmd-github-action-annotations', function () {
       path.join(__dirname, 'data', 'pmd-report.sarif')
     )
     if (!report) {
-      fail("no report")
+      throw new Error('no report')
     }
 
     annotations.processSarifReport(report)
@@ -52,7 +52,7 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
       path.join(__dirname, 'data', 'pmd-report-priorities.sarif')
     )
     if (!report) {
-      fail("no report");
+      throw new Error('no report')
     }
     annotations.processSarifReport(report)
 
@@ -105,7 +105,7 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
       path.join(__dirname, 'data', 'pmd-report-empty-full-description.sarif')
     )
     if (!report) {
-      fail("no report");
+      throw new Error('no report')
     }
     annotations.processSarifReport(report)
 

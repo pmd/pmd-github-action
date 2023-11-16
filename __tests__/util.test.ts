@@ -1,15 +1,13 @@
-import * as process from "process";
-import * as path from "path";
-let nock = require("nock"); //import * as nock from "nock";
-import * as io from "@actions/io"
-import * as os from "os"
-import { promises as fs } from "fs"
-import * as exec from "@actions/exec"
-import * as util from "../src/util"
-import * as github_utils from "@actions/github/lib/utils"
-import * as semver from "semver"
-
-
+import * as process from 'process'
+import * as path from 'path' //import * as nock from "nock";
+import * as io from '@actions/io'
+import * as os from 'os'
+import { promises as fs } from 'fs'
+import * as exec from '@actions/exec'
+import * as util from '../src/util'
+import * as github_utils from '@actions/github/lib/utils'
+import * as semver from 'semver'
+const nock = require('nock')
 
 const cachePath = path.join(__dirname, 'CACHE')
 const tempPath = path.join(__dirname, 'TEMP')
@@ -18,8 +16,8 @@ process.env['RUNNER_TEMP'] = tempPath
 process.env['RUNNER_TOOL_CACHE'] = cachePath
 
 describe('pmd-github-action-util', function () {
-  let platformMock : jest.SpyInstance<ReturnType<typeof os.platform>>
-  let execMock : jest.SpyInstance<ReturnType<typeof exec.getExecOutput>>
+  let platformMock: jest.SpyInstance<ReturnType<typeof os.platform>>
+  let execMock: jest.SpyInstance<ReturnType<typeof exec.getExecOutput>>
 
   beforeAll(function () {
     global.TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS = 0
@@ -50,19 +48,19 @@ describe('pmd-github-action-util', function () {
   afterAll(async function () {
     await io.rmRF(tempPath)
     await io.rmRF(cachePath)
-    global.TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS = undefined;
-    global.TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS = undefined;
+    global.TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS = undefined
+    global.TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS = undefined
   })
 
   it('use latest PMD', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/latest')
-      .replyWithFile(200, __dirname + '/data/releases-latest.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-latest.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.40.0.zip`)
 
     const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
 
@@ -82,7 +80,7 @@ describe('pmd-github-action-util', function () {
     github_utils.defaults.baseUrl = 'https://api.example.com'
 
     const latestReleaseResponse = (
-      await fs.readFile(__dirname + '/data/releases-latest.json')
+      await fs.readFile(`${__dirname}/data/releases-latest.json`)
     ).toString()
     const fetchMock = require('fetch-mock')
     fetchMock.mock(
@@ -96,7 +94,7 @@ describe('pmd-github-action-util', function () {
 
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.40.0.zip`)
 
     const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
 
@@ -114,12 +112,12 @@ describe('pmd-github-action-util', function () {
   it('use specific PMD version', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F6.39.0')
-      .replyWithFile(200, __dirname + '/data/releases-6.39.0.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-6.39.0.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.39.0.zip`)
     const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token', undefined)
 
     const toolCache = path.join(
@@ -137,15 +135,19 @@ describe('pmd-github-action-util', function () {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F6.39.0')
       .once()
-      .replyWithFile(200, __dirname + '/data/releases-6.39.0.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-6.39.0.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.39.0/pmd-bin-6.39.0.zip')
       .once()
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.39.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.39.0.zip`)
     const pmdInfo = await util.downloadPmd('6.39.0', 'my_test_token', undefined)
-    const pmdInfo2 = await util.downloadPmd('6.39.0', 'my_test_token', undefined)
+    const pmdInfo2 = await util.downloadPmd(
+      '6.39.0',
+      'my_test_token',
+      undefined
+    )
 
     const toolCache = path.join(
       cachePath,
@@ -162,12 +164,12 @@ describe('pmd-github-action-util', function () {
   it('can execute PMD', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/latest')
-      .replyWithFile(200, __dirname + '/data/releases-latest.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-latest.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.40.0.zip`)
 
     const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
@@ -191,12 +193,12 @@ describe('pmd-github-action-util', function () {
   it('can execute PMD >= 6.41.0', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F6.41.0')
-      .replyWithFile(200, __dirname + '/data/releases-6.41.0.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-6.41.0.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.41.0/pmd-bin-6.41.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.41.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.41.0.zip`)
 
     const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
@@ -222,11 +224,13 @@ describe('pmd-github-action-util', function () {
       .get('/repos/pmd/pmd/releases/latest')
       .reply(503, 'Test Internal Server Error')
 
-    expect(() => util.downloadPmd('latest', 'my_test_token', undefined)).rejects.toThrow()
+    expect(async () =>
+      util.downloadPmd('latest', 'my_test_token', undefined)
+    ).rejects.toThrow()
   })
 
   it('failure while executing PMD', async () => {
-    expect(() =>
+    expect(async () =>
       util.executePmd(
         { path: 'non-existing-pmd-path', version: 'invalid-version' },
         '.',
@@ -242,12 +246,12 @@ describe('pmd-github-action-util', function () {
     execMock.mockResolvedValueOnce({ exitCode: 0, stdout: '', stderr: '' })
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/latest')
-      .replyWithFile(200, __dirname + '/data/releases-latest.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-latest.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.40.0.zip`)
 
     const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
     await util.executePmd(
@@ -258,7 +262,7 @@ describe('pmd-github-action-util', function () {
       'pmd-report.sarif'
     )
 
-    expect(execMock).toBeCalledWith(
+    expect(execMock).toHaveBeenCalledWith(
       `${pmdInfo.path}\\bin\\pmd.bat`,
       [
         '-no-cache',
@@ -283,12 +287,12 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'pull_request'
     process.env['GITHUB_EVENT_PATH'] =
-      __dirname + '/data/pull-request-event-data.json'
+      `${__dirname}/data/pull-request-event-data.json`
     nock('https://api.github.com')
       .get(
         '/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=1'
       )
-      .replyWithFile(200, __dirname + '/data/pull-request-files.json', {
+      .replyWithFile(200, `${__dirname}/data/pull-request-files.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://api.github.com')
@@ -296,7 +300,7 @@ describe('pmd-github-action-util', function () {
         '/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=2'
       )
       .reply(200, [])
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java')
     )
@@ -315,12 +319,12 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'pull_request'
     process.env['GITHUB_EVENT_PATH'] =
-      __dirname + '/data/pull-request-event-data.json'
+      `${__dirname}/data/pull-request-event-data.json`
     nock('https://api.github.com')
       .get(
         '/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=1'
       )
-      .replyWithFile(200, __dirname + '/data/pull-request-files.json', {
+      .replyWithFile(200, `${__dirname}/data/pull-request-files.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://api.github.com')
@@ -328,7 +332,7 @@ describe('pmd-github-action-util', function () {
         '/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=2'
       )
       .reply(200, [])
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java')
     )
@@ -347,17 +351,17 @@ describe('pmd-github-action-util', function () {
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'pull_request'
     process.env['GITHUB_EVENT_PATH'] =
-      __dirname + '/data/pull-request-event-data.json'
+      `${__dirname}/data/pull-request-event-data.json`
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
         .get(
           `/repos/pmd/pmd-github-action-tests/pulls/1/files?per_page=30&page=${page}`
         )
-        .replyWithFile(200, __dirname + '/data/pull-request-files.json', {
+        .replyWithFile(200, `${__dirname}/data/pull-request-files.json`, {
           'Content-Type': 'application/json'
         })
     }
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java')
     )
@@ -373,7 +377,7 @@ describe('pmd-github-action-util', function () {
   test('return undefined for unsupported event', async () => {
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'workflow_dispatch'
-    let result = await util.determineModifiedFiles(
+    const result = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java')
     )
@@ -383,12 +387,12 @@ describe('pmd-github-action-util', function () {
   it('can execute PMD with list of files', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/latest')
-      .replyWithFile(200, __dirname + '/data/releases-latest.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-latest.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.40.0/pmd-bin-6.40.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.40.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.40.0.zip`)
 
     const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
@@ -413,12 +417,12 @@ describe('pmd-github-action-util', function () {
   it('can execute PMD with list of files >= 6.41.0', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F6.41.0')
-      .replyWithFile(200, __dirname + '/data/releases-6.41.0.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-6.41.0.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get('/pmd/pmd/releases/download/pmd_releases/6.41.0/pmd-bin-6.41.0.zip')
-      .replyWithFile(200, __dirname + '/data/pmd-bin-6.41.0.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-6.41.0.zip`)
 
     const pmdInfo = await util.downloadPmd('6.41.0', 'my_test_token', undefined)
     const execOutput = await util.executePmd(
@@ -445,22 +449,22 @@ describe('pmd-github-action-util', function () {
     process.env['RUNNER_DEBUG'] = '1'
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'push'
-    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json'
+    process.env['GITHUB_EVENT_PATH'] = `${__dirname}/data/push-event-data.json`
     nock('https://api.github.com')
       .get(
         '/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=1'
       )
-      .replyWithFile(200, __dirname + '/data/compare-files-page1.json', {
+      .replyWithFile(200, `${__dirname}/data/compare-files-page1.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://api.github.com')
       .get(
         '/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=2'
       )
-      .replyWithFile(200, __dirname + '/data/compare-files-page2.json', {
+      .replyWithFile(200, `${__dirname}/data/compare-files-page2.json`, {
         'Content-Type': 'application/json'
       })
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java')
     )
@@ -478,17 +482,17 @@ describe('pmd-github-action-util', function () {
     delete process.env['RUNNER_DEBUG']
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'push'
-    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json'
+    process.env['GITHUB_EVENT_PATH'] = `${__dirname}/data/push-event-data.json`
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
         .get(
           `/repos/pmd/pmd-github-action-tests/compare/44c1557134c7dbaf46ecdf796fb871c8df8989e4...8a7a25638d8ca5207cc824dea9571325b243c6a1?per_page=30&page=${page}`
         )
-        .replyWithFile(200, __dirname + '/data/compare-files-page1.json', {
+        .replyWithFile(200, `${__dirname}/data/compare-files-page1.json`, {
           'Content-Type': 'application/json'
         })
     }
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java')
     )
@@ -506,7 +510,7 @@ describe('pmd-github-action-util', function () {
     delete process.env['RUNNER_DEBUG']
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'push'
-    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json'
+    process.env['GITHUB_EVENT_PATH'] = `${__dirname}/data/push-event-data.json`
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
         .get(
@@ -514,13 +518,13 @@ describe('pmd-github-action-util', function () {
         )
         .replyWithFile(
           200,
-          __dirname + '/data/compare-files-page1-issue52.json',
+          `${__dirname}/data/compare-files-page1-issue52.json`,
           {
             'Content-Type': 'application/json'
           }
         )
     }
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java')
     )
@@ -537,7 +541,7 @@ describe('pmd-github-action-util', function () {
     delete process.env['RUNNER_DEBUG']
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'push'
-    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json'
+    process.env['GITHUB_EVENT_PATH'] = `${__dirname}/data/push-event-data.json`
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
         .get(
@@ -545,13 +549,13 @@ describe('pmd-github-action-util', function () {
         )
         .replyWithFile(
           200,
-          __dirname + '/data/compare-files-page1-issue52.json',
+          `${__dirname}/data/compare-files-page1-issue52.json`,
           {
             'Content-Type': 'application/json'
           }
         )
     }
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('src/main/java/')
     )
@@ -568,7 +572,7 @@ describe('pmd-github-action-util', function () {
     delete process.env['RUNNER_DEBUG']
     process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests'
     process.env['GITHUB_EVENT_NAME'] = 'push'
-    process.env['GITHUB_EVENT_PATH'] = __dirname + '/data/push-event-data.json'
+    process.env['GITHUB_EVENT_PATH'] = `${__dirname}/data/push-event-data.json`
     for (let page = 1; page <= 10; page++) {
       nock('https://api.github.com')
         .get(
@@ -576,13 +580,13 @@ describe('pmd-github-action-util', function () {
         )
         .replyWithFile(
           200,
-          __dirname + '/data/compare-files-page1-issue52.json',
+          `${__dirname}/data/compare-files-page1-issue52.json`,
           {
             'Content-Type': 'application/json'
           }
         )
     }
-    let fileList = await util.determineModifiedFiles(
+    const fileList = await util.determineModifiedFiles(
       'my_test_token',
       path.normalize('.')
     )
@@ -599,16 +603,20 @@ describe('pmd-github-action-util', function () {
   test('can execute PMD 7 with correct parameters', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/tags/pmd_releases%2F7.0.0-rc1')
-      .replyWithFile(200, __dirname + '/data/releases-7.0.0-rc1.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-7.0.0-rc1.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get(
         '/pmd/pmd/releases/download/pmd_releases/7.0.0-rc1/pmd-bin-7.0.0-rc1.zip'
       )
-      .replyWithFile(200, __dirname + '/data/pmd-bin-7.0.0-rc1.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-7.0.0-rc1.zip`)
 
-    const pmdInfo = await util.downloadPmd('7.0.0-rc1', 'my_test_token', undefined)
+    const pmdInfo = await util.downloadPmd(
+      '7.0.0-rc1',
+      'my_test_token',
+      undefined
+    )
     const execOutput = await util.executePmd(
       pmdInfo,
       ['src/file1.txt', 'src/file2.txt'],
@@ -645,7 +653,7 @@ describe('pmd-github-action-util', function () {
       .get(
         '/projects/pmd/files/pmd/7.0.0-SNAPSHOT/pmd-bin-7.0.0-SNAPSHOT.zip/download'
       )
-      .replyWithFile(200, __dirname + '/data/pmd-bin-7.0.0-SNAPSHOT.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-7.0.0-SNAPSHOT.zip`)
 
     const pmdInfo = await util.downloadPmd(
       '7.0.0-SNAPSHOT',
@@ -682,14 +690,14 @@ describe('pmd-github-action-util', function () {
   it('use latest PMD 7.0.0-rc3 with new binary filename', async () => {
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/latest')
-      .replyWithFile(200, __dirname + '/data/releases-7.0.0-rc3.json', {
+      .replyWithFile(200, `${__dirname}/data/releases-7.0.0-rc3.json`, {
         'Content-Type': 'application/json'
       })
     nock('https://github.com')
       .get(
         '/pmd/pmd/releases/download/pmd_releases/7.0.0-rc3/pmd-dist-7.0.0-rc3-bin.zip'
       )
-      .replyWithFile(200, __dirname + '/data/pmd-dist-7.0.0-rc3-bin.zip')
+      .replyWithFile(200, `${__dirname}/data/pmd-dist-7.0.0-rc3-bin.zip`)
 
     const pmdInfo = await util.downloadPmd('latest', 'my_test_token', undefined)
 
@@ -706,6 +714,6 @@ describe('pmd-github-action-util', function () {
 })
 
 declare global {
-  var TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS: number | undefined
-  var TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS: number | undefined
+  let TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS: number | undefined
+  let TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS: number | undefined
 }
