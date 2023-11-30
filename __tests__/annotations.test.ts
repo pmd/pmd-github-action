@@ -1,20 +1,24 @@
 import * as path from 'path'
 import * as sarif from '../src/sarif'
 import * as annotations from '../src/annotations'
-const core = require('@actions/core')
+import * as core from '@actions/core'
 
-core.error = jest.fn()
-core.warning = jest.fn()
-core.notice = jest.fn()
-process.cwd = jest.fn()
+// Mock the GitHub Actions core library
+let errorMock: jest.SpyInstance
+let warningMock: jest.SpyInstance
+let noticeMock: jest.SpyInstance
+
+let cwdMock: jest.SpyInstance
 
 describe('pmd-github-action-annotations', function () {
   beforeEach(() => {
-    core.error.mockClear()
-    core.warning.mockClear()
-    core.notice.mockClear()
-    process.cwd.mockClear()
-    process.cwd.mockReturnValue('/folder')
+    jest.clearAllMocks()
+    errorMock = jest.spyOn(core, 'error').mockImplementation()
+    warningMock = jest.spyOn(core, 'warning').mockImplementation()
+    noticeMock = jest.spyOn(core, 'notice').mockImplementation()
+
+    cwdMock = jest.spyOn(process, 'cwd').mockImplementation()
+    cwdMock.mockReturnValue('/folder')
   })
 
   it('can create annotation', () => {
@@ -27,8 +31,8 @@ describe('pmd-github-action-annotations', function () {
 
     annotations.processSarifReport(report)
 
-    expect(core.notice).toHaveBeenCalledTimes(1)
-    expect(core.notice).toHaveBeenCalledWith(
+    expect(noticeMock).toHaveBeenCalledTimes(1)
+    expect(noticeMock).toHaveBeenCalledWith(
       `Detects when a local variable is declared and/or assigned but not used.
 Second line.
   Third line with additional indentation.
@@ -43,8 +47,8 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
         endLine: 3
       }
     )
-    expect(core.error).not.toHaveBeenCalled()
-    expect(core.warning).not.toHaveBeenCalled()
+    expect(errorMock).not.toHaveBeenCalled()
+    expect(warningMock).not.toHaveBeenCalled()
   })
 
   it('can deal with error, warning and notice', () => {
@@ -56,8 +60,8 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
     }
     annotations.processSarifReport(report)
 
-    expect(core.error).toHaveBeenCalledTimes(2)
-    expect(core.error).toHaveBeenNthCalledWith(
+    expect(errorMock).toHaveBeenCalledTimes(2)
+    expect(errorMock).toHaveBeenNthCalledWith(
       1,
       'Full description for High Prio Rule\n\n0 - high prio rule (Priority: 1, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleHighPrio',
       {
@@ -67,7 +71,7 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
         endLine: 5
       }
     )
-    expect(core.error).toHaveBeenNthCalledWith(
+    expect(errorMock).toHaveBeenNthCalledWith(
       2,
       'Full description for Medium High Prio Rule\n\n1 - medium high prio rule (Priority: 2, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumHighPrio',
       {
@@ -76,24 +80,24 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
         startLine: 5
       }
     )
-    expect(core.warning).toHaveBeenCalledTimes(2)
-    expect(core.warning).toHaveBeenNthCalledWith(
+    expect(warningMock).toHaveBeenCalledTimes(2)
+    expect(warningMock).toHaveBeenNthCalledWith(
       1,
       'Full description for Medium Prio Rule\n\n2 - medium prio rule (Priority: 3, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumPrio',
       { title: 'Medium Prio Rule', file: '/folder/file3.txt', startLine: 6 }
     )
-    expect(core.warning).toHaveBeenNthCalledWith(
+    expect(warningMock).toHaveBeenNthCalledWith(
       2,
       'Full description for Medium Low Prio Rule\n\n3 - medium low prio rule (Priority: 4, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleMediumLowPrio',
       { title: 'Medium Low Prio Rule', file: '/folder/file4.txt', startLine: 7 }
     )
-    expect(core.notice).toHaveBeenCalledTimes(2)
-    expect(core.notice).toHaveBeenNthCalledWith(
+    expect(noticeMock).toHaveBeenCalledTimes(2)
+    expect(noticeMock).toHaveBeenNthCalledWith(
       1,
       'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio',
       { title: 'Low Prio Rule', file: '/folder/file5.txt', startLine: 8 }
     )
-    expect(core.notice).toHaveBeenNthCalledWith(
+    expect(noticeMock).toHaveBeenNthCalledWith(
       2,
       'Full description for Low Prio Rule\n\n4 - low prio rule (Priority: 5, Ruleset: sample ruleset)\nhttps://pmd.github.io/latest/ruleLowPrio',
       { title: 'Low Prio Rule', file: '/folder/file6.txt', startLine: 9 }
@@ -109,9 +113,9 @@ https://pmd.github.io/pmd-6.40.0/pmd_rules_apex_bestpractices.html#unusedlocalva
     }
     annotations.processSarifReport(report)
 
-    expect(core.error).toHaveBeenCalledTimes(0)
-    expect(core.warning).toHaveBeenCalledTimes(1)
-    expect(core.warning).toHaveBeenNthCalledWith(
+    expect(errorMock).toHaveBeenCalledTimes(0)
+    expect(warningMock).toHaveBeenCalledTimes(1)
+    expect(warningMock).toHaveBeenNthCalledWith(
       1,
       `The first parameter of System.debug, when using the signature with two parameters, is a LoggingLevel enum.
 
@@ -126,8 +130,8 @@ https://pmd.github.io/pmd-6.49.0/pmd_rules_apex_bestpractices.html#debugsshouldu
         endLine: 3
       }
     )
-    expect(core.notice).toHaveBeenCalledTimes(1)
-    expect(core.notice).toHaveBeenNthCalledWith(
+    expect(noticeMock).toHaveBeenCalledTimes(1)
+    expect(noticeMock).toHaveBeenNthCalledWith(
       1,
       `
 

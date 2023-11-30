@@ -13,7 +13,7 @@ function processSarifReport(report: Log): void {
   core.debug(`results: ${results.length}`)
 
   for (const violation of results) {
-    if (!violation.ruleIndex || !rules[violation.ruleIndex]) {
+    if (violation.ruleIndex === undefined || !rules[violation.ruleIndex]) {
       return
     }
 
@@ -59,7 +59,7 @@ function createAnnotation(
       ? location.artifactLocation.uri
       : 'unknown',
     startLine: location?.region?.startLine ? location.region.startLine : 0,
-    endLine: location?.region?.endLine ? location.region.endLine : 0
+    endLine: location?.region?.endLine ? location.region.endLine : undefined
   }
 }
 
