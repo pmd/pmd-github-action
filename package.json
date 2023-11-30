@@ -32,7 +32,7 @@
     "coverage": "make-coverage-badge --output-path ./badges/coverage.svg",
     "format:write": "prettier --write **/*.ts",
     "format:check": "prettier --check **/*.ts",
-    "lint": "npx eslint . -c .eslintrc.yml",
+    "lint": "npx eslint . -c .github/linters/.eslintrc.yml",
     "package": "ncc build src/index.ts --out dist --minify --license licenses.txt",
     "package:watch": "npm run package -- --watch",
     "test": "jest",
