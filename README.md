@@ -1,7 +1,8 @@
 # GitHub Action for PMD
 
-<a href="https://github.com/pmd/pmd-github-action/actions"><img alt="pmd-github-action status" src="https://github.com/pmd/pmd-github-action/actions/workflows/test.yml/badge.svg"></a>
-<a href="https://img.shields.io/github/v/release/pmd/pmd-github-action"><img alt="release" src="https://img.shields.io/github/v/release/pmd/pmd-github-action"></a>
+[![pmd-github-action-status](https://github.com/pmd/pmd-github-action/actions/workflows/test.yml/badge.svg)](https://github.com/pmd/pmd-github-action/actions)
+[![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
+[![release](https://img.shields.io/github/v/release/pmd/pmd-github-action)](https://img.shields.io/github/v/release/pmd/pmd-github-action)
 
 This action runs [PMD](https://pmd.github.io) static code analysis checks.
 
