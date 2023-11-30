@@ -3,7 +3,7 @@ import * as sarif from '../src/sarif'
 import * as io from '@actions/io'
 import * as os from 'os'
 import * as fs from 'fs'
-import { Log } from 'sarif'
+import type { Log } from 'sarif'
 
 const tempPath = path.join(__dirname, 'TEMP')
 
@@ -72,7 +72,7 @@ describe('pmd-github-action-sarif', function () {
       'data',
       'pmd-report-not-existing.sarif'
     )
-    sarif.relativizeReport(reportPath)
+    expect(() => sarif.relativizeReport(reportPath)).not.toThrow()
   })
 
   function extractFirstViolationLocationUri(report: Log | undefined): string {
@@ -185,7 +185,7 @@ describe('pmd-github-action-sarif', function () {
 
   test('sarif report result fix is skipped when no report', async () => {
     const reportPath = path.join(tempPath, 'pmd-report-not-existing.sarif')
-    sarif.fixResults(reportPath)
+    expect(() => sarif.fixResults(reportPath)).not.toThrow()
   })
 
   test('sarif report results are fixed', async () => {

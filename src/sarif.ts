@@ -1,5 +1,5 @@
 import path from 'path'
-import { Log, Result } from 'sarif'
+import type { Log, Result } from 'sarif'
 import * as fs from 'fs'
 import * as core from '@actions/core'
 import * as semver from 'semver'

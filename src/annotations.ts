@@ -1,5 +1,5 @@
 import { AnnotationProperties } from '@actions/core'
-import { Log, PhysicalLocation, ReportingDescriptor } from 'sarif'
+import type { Log, PhysicalLocation, ReportingDescriptor } from 'sarif'
 import * as core from '@actions/core'
 
 function processSarifReport(report: Log): void {
