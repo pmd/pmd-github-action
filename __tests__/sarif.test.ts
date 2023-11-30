@@ -188,6 +188,18 @@ describe('pmd-github-action-sarif', function () {
     expect(() => sarif.fixResults(reportPath)).not.toThrow()
   })
 
+  test('sarif report result fix is skipped when empty report', async () => {
+    const report = sarif.loadReport(
+      path.join(__dirname, 'data', 'pmd-report.sarif')
+    )
+    report!.runs[0].results = undefined
+
+    const reportPath = path.join(tempPath, 'pmd-report.sarif')
+    fs.writeFileSync(reportPath, JSON.stringify(report))
+
+    expect(() => sarif.fixResults(reportPath)).not.toThrow()
+  })
+
   test('sarif report results are fixed', async () => {
     const reportPath = path.join(tempPath, 'pmd-report-multiple.sarif')
     await io.cp(

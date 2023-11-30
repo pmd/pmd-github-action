@@ -146,4 +146,68 @@ AvoidProductionDebugLogs (Priority: 5, Ruleset: My Default)
       }
     )
   })
+
+  it('can deal with invalid report 1', () => {
+    const report = sarif.loadReport(
+      path.join(__dirname, 'data', 'pmd-report.sarif')
+    )
+    if (!report) {
+      throw new Error('no report')
+    }
+    report.runs[0].results![0].ruleIndex = undefined
+
+    annotations.processSarifReport(report)
+
+    expect(noticeMock).not.toHaveBeenCalled()
+    expect(errorMock).not.toHaveBeenCalled()
+    expect(warningMock).not.toHaveBeenCalled()
+  })
+
+  it('can deal with invalid report 2', () => {
+    const report = sarif.loadReport(
+      path.join(__dirname, 'data', 'pmd-report.sarif')
+    )
+    if (!report) {
+      throw new Error('no report')
+    }
+    report.runs[0].tool.driver.rules = undefined
+
+    annotations.processSarifReport(report)
+
+    expect(noticeMock).not.toHaveBeenCalled()
+    expect(errorMock).not.toHaveBeenCalled()
+    expect(warningMock).not.toHaveBeenCalled()
+  })
+
+  it('can deal with invalid report 3', () => {
+    const report = sarif.loadReport(
+      path.join(__dirname, 'data', 'pmd-report.sarif')
+    )
+    if (!report) {
+      throw new Error('no report')
+    }
+    report.runs[0].results = undefined
+
+    annotations.processSarifReport(report)
+
+    expect(noticeMock).not.toHaveBeenCalled()
+    expect(errorMock).not.toHaveBeenCalled()
+    expect(warningMock).not.toHaveBeenCalled()
+  })
+
+  it('can deal with invalid report 4', () => {
+    const report = sarif.loadReport(
+      path.join(__dirname, 'data', 'pmd-report.sarif')
+    )
+    if (!report) {
+      throw new Error('no report')
+    }
+    report.runs[0].results![0].locations = undefined
+
+    annotations.processSarifReport(report)
+
+    expect(noticeMock).not.toHaveBeenCalled()
+    expect(errorMock).not.toHaveBeenCalled()
+    expect(warningMock).not.toHaveBeenCalled()
+  })
 })
