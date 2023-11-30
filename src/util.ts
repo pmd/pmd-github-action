@@ -1,14 +1,15 @@
 import { ExecOutput } from '@actions/exec'
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import { Context as github_context } from '@actions/github/lib/context'
 import { defaults as github_defaults } from '@actions/github/lib/utils'
 import * as tc from '@actions/tool-cache'
 import * as exec from '@actions/exec'
 import * as semver from 'semver'
-import * as os from 'os'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import { Octokit, type RestEndpointMethodTypes } from '@octokit/rest'
+import * as helper from './util_helper'
 
 // Load at most MAX_PAGE pages when determining modified files.
 // This is used both for pull/{pull_number}/files as well as for
@@ -92,7 +93,7 @@ async function executePmd(
   if (isPmd7Cli(pmdInfo.version)) {
     pmdExecutable = '/bin/pmd'
   }
-  if (os.platform() === 'win32') {
+  if (helper.getPlatform() === 'win32') {
     pmdExecutable = '\\bin\\pmd.bat'
   }
 
@@ -223,12 +224,12 @@ async function determineModifiedFiles(
   sourcePath: string
 ): Promise<string[] | undefined> {
   // creating new context instead of using "github.context" to reinitialize for unit testing
-  const context = github.context.constructor()
+  const context = new github_context()
   const eventData = context.payload
   const octokit = github.getOctokit(token)
   if (context.eventName === 'pull_request') {
     core.debug(
-      `Pull request ${eventData.number}: ${eventData.pull_request.html_url}`
+      `Pull request ${eventData.number}: ${eventData.pull_request?.html_url}`
     )
 
     const modifiedFilenames = new Set<string>()

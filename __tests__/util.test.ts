@@ -5,6 +5,7 @@ import * as os from 'os'
 import { promises as fs } from 'fs'
 import * as exec from '@actions/exec'
 import * as util from '../src/util'
+import * as util_helper from '../src/util_helper'
 import * as github_utils from '@actions/github/lib/utils'
 import * as semver from 'semver'
 const nock = require('nock')
@@ -14,20 +15,20 @@ const tempPath = path.join(__dirname, 'TEMP')
 // Set temp and tool directories before importing (used to set global state)
 process.env['RUNNER_TEMP'] = tempPath
 process.env['RUNNER_TOOL_CACHE'] = cachePath
+declare global {
+  var TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS: number | undefined
+  var TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS: number | undefined
+}
 
 describe('pmd-github-action-util', function () {
-  let platformMock: jest.SpyInstance<ReturnType<typeof os.platform>>
-  let execMock: jest.SpyInstance<ReturnType<typeof exec.getExecOutput>>
-
   beforeAll(function () {
     global.TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS = 0
     global.TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS = 0
   })
 
   beforeEach(async function () {
-    platformMock = jest.spyOn(os, 'platform')
-    execMock = jest.spyOn(exec, 'getExecOutput')
-    exec.getExecOutput
+    jest.clearAllMocks()
+
     await io.rmRF(cachePath)
     await io.rmRF(tempPath)
     await io.mkdirP(cachePath)
@@ -38,11 +39,6 @@ describe('pmd-github-action-util', function () {
 
     delete process.env['GITHUB_API_URL']
     github_utils.defaults.baseUrl = 'https://api.github.com'
-  })
-
-  afterEach(function () {
-    platformMock.mockRestore()
-    execMock.mockRestore()
   })
 
   afterAll(async function () {
@@ -242,8 +238,8 @@ describe('pmd-github-action-util', function () {
   })
 
   it('can execute PMD win32', async () => {
-    platformMock.mockReturnValueOnce('win32')
-    execMock.mockResolvedValueOnce({ exitCode: 0, stdout: '', stderr: '' })
+    jest.spyOn(util_helper, 'getPlatform').mockReturnValueOnce('win32')
+    let execMock = jest.spyOn(exec, 'getExecOutput').mockResolvedValueOnce({ exitCode: 0, stdout: '', stderr: '' })
     nock('https://api.github.com')
       .get('/repos/pmd/pmd/releases/latest')
       .replyWithFile(200, `${__dirname}/data/releases-latest.json`, {
@@ -682,8 +678,8 @@ describe('pmd-github-action-util', function () {
   test('Use downloadUrl invalid version', async () => {
     await expect(
       util.downloadPmd('latest', 'my-token', 'https://example.org/download')
-    ).rejects.toBe(
-      "Can't combine version=latest with custom downloadUrl=https://example.org/download"
+    ).rejects.toStrictEqual(
+      new Error("Can't combine version=latest with custom downloadUrl=https://example.org/download")
     )
   })
 
@@ -712,8 +708,3 @@ describe('pmd-github-action-util', function () {
     await expect(fs.access(toolCache)).resolves.toBe(undefined)
   })
 })
-
-declare global {
-  let TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS: number | undefined
-  let TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS: number | undefined
-}
