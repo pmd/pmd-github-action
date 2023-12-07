@@ -10,6 +10,7 @@
 
 **📦 Dependency updates:**
 
+- Bump eslint from 8.54.0 to 8.55.0 [\#242](https://github.com/pmd/pmd-github-action/pull/242) (@dependabot[bot])
 - Bump nock from 13.3.8 to 13.4.0 [\#241](https://github.com/pmd/pmd-github-action/pull/241) (@dependabot[bot])
 - Bump eslint from 8.53.0 to 8.54.0 [\#240](https://github.com/pmd/pmd-github-action/pull/240) (@dependabot[bot])
 - Bump eslint from 8.52.0 to 8.53.0 [\#238](https://github.com/pmd/pmd-github-action/pull/238) (@dependabot[bot])
