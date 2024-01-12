@@ -82,6 +82,11 @@ inputs:
       are using another tool for this purpose.
     required: false
     default: 'true'
+  createGitHubComments:
+    description: >-
+      This flag used when you want to see violations as comments with the following format: `{priorityIcon} ({priority}) - {fileName} (Line:{startLine})`
+    required: false
+    default: 'false'
 outputs:
   violations:
     description: Number of violations found
