@@ -12,6 +12,7 @@
 
 - Bump @actions/artifact from 2.0.0 to 2.0.1 [\#247](https://github.com/pmd/pmd-github-action/pull/247) (@dependabot[bot])
 - Bump actions/setup-node from 4.0.0 to 4.0.1 [\#245](https://github.com/pmd/pmd-github-action/pull/245) (@dependabot[bot])
+- Bump eslint from 8.55.0 to 8.56.0 [\#244](https://github.com/pmd/pmd-github-action/pull/244) (@dependabot[bot])
 - Bump @actions/artifact from 1.1.2 to 2.0.0 [\#243](https://github.com/pmd/pmd-github-action/pull/243) (@dependabot[bot])
 - Bump eslint from 8.54.0 to 8.55.0 [\#242](https://github.com/pmd/pmd-github-action/pull/242) (@dependabot[bot])
 - Bump nock from 13.3.8 to 13.4.0 [\#241](https://github.com/pmd/pmd-github-action/pull/241) (@dependabot[bot])
