@@ -18,7 +18,7 @@ describe('pmd-github-action-comments', function () {
         process.cwd.mockReturnValue('/folder');
     });
 
-    it('can create comments', () => {
+    it('can create comments', async () => {
         process.env['RUNNER_DEBUG'] = '1';
         process.env['GITHUB_REPOSITORY'] = 'pmd/pmd-github-action-tests';
         process.env['GITHUB_EVENT_NAME'] = 'pull_request';
@@ -28,14 +28,14 @@ describe('pmd-github-action-comments', function () {
         });
         const report = sarif.loadReport(path.join(__dirname, 'data', 'pmd-report.sarif'));
 
-        comments.createComments(report, 'test_token');
+        await comments.createComments(report, 'test_token');
 
         expect(core.error).not.toHaveBeenCalled();
         expect(core.warning).not.toHaveBeenCalled();
     });
 
-    it('can handle null report', () => {
-        comments.createComments(null, null);
+    it('can handle null report', async () => {
+        await comments.createComments(null, null);
         expect(core.notice).not.toHaveBeenCalled();
     });
 });
