@@ -6,6 +6,7 @@
 
 **🚀 Implemented enhancements:**
 
+- Fix artifact upload, new parameter `uploadSarifReport` [\#250](https://github.com/pmd/pmd-github-action/pull/250) (@adangel)
 - Upgrade to node20 [\#221](https://github.com/pmd/pmd-github-action/pull/221) (@adangel)
 
 **📦 Dependency updates:**
