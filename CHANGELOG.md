@@ -11,6 +11,8 @@
 
 **📦 Dependency updates:**
 
+- Bump actions/setup-node from 4.0.1 to 4.0.2 [\#256](https://github.com/pmd/pmd-github-action/pull/256) (@dependabot[bot])
+- Bump semver from 7.5.4 to 7.6.0 [\#255](https://github.com/pmd/pmd-github-action/pull/255) (@dependabot[bot])
 - Bump nock from 13.4.0 to 13.5.0 [\#248](https://github.com/pmd/pmd-github-action/pull/248) (@dependabot[bot])
 - Bump @actions/artifact from 2.0.0 to 2.0.1 [\#247](https://github.com/pmd/pmd-github-action/pull/247) (@dependabot[bot])
 - Bump actions/setup-node from 4.0.0 to 4.0.1 [\#245](https://github.com/pmd/pmd-github-action/pull/245) (@dependabot[bot])
@@ -59,6 +61,10 @@
 - Bump @octokit/rest from 19.0.11 to 19.0.13 [\#196](https://github.com/pmd/pmd-github-action/pull/196) (@dependabot[bot])
 - Bump convert-action from 0.2.0 to 0.2.2 [\#194](https://github.com/pmd/pmd-github-action/pull/194) (@dependabot[bot])
 - Bump eslint from 8.41.0 to 8.42.0 [\#192](https://github.com/pmd/pmd-github-action/pull/192) (@dependabot[bot])
+
+**✔️ Closed issues:**
+
+- Getting Warning in Node version only for PMD [\#253](https://github.com/pmd/pmd-github-action/issues/253)
 
 ## [v1.4.1](https://github.com/pmd/pmd-github-action/tree/v1.4.1) (2023-05-26)
 
