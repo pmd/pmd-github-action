@@ -19,31 +19,31 @@ The input `rulesets` is mandatory.
 
 ```yaml
 steps:
-  - uses: actions/checkout@v3
-  - uses: actions/setup-java@v3
+  - uses: actions/checkout@v4
+  - uses: actions/setup-java@v4
     with:
       distribution: 'temurin'
       java-version: '11'
-  - uses: pmd/pmd-github-action@v1
+  - uses: pmd/pmd-github-action@v2
     with:
       rulesets: 'ruleset.xml'
 ```
 
 ### Extended
 
-Use a specific PMD version (6.40.0) and fail the build based on the number of violations:
+Use a specific PMD version (6.55.0) and fail the build based on the number of violations:
 
 ```yaml
 steps:
-  - uses: actions/checkout@v3
-  - uses: actions/setup-java@v3
+  - uses: actions/checkout@v4
+  - uses: actions/setup-java@v4
     with:
       distribution: 'temurin'
       java-version: '11'
-  - uses: pmd/pmd-github-action@v1
+  - uses: pmd/pmd-github-action@v2
     id: pmd
     with:
-      version: '6.40.0'
+      version: '6.55.0'
       sourcePath: 'src/main/java'
       rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
   - name: Fail build if there are violations
@@ -55,17 +55,17 @@ Create Code scanning alerts by uploading a SARIF file to GitHub:
 
 ```yaml
 steps:
-  - uses: actions/checkout@v3
-  - uses: actions/setup-java@v3
+  - uses: actions/checkout@v4
+  - uses: actions/setup-java@v4
     with:
       distribution: 'temurin'
       java-version: '11'
-  - uses: pmd/pmd-github-action@v1
+  - uses: pmd/pmd-github-action@v2
     with:
       rulesets: 'ruleset.xml'
       analyzeModifiedFilesOnly: false
   - name: Upload SARIF file
-    uses: github/codeql-action/upload-sarif@v1
+    uses: github/codeql-action/upload-sarif@v3
     with:
       sarif_file: pmd-report.sarif
 ```
