@@ -54,7 +54,7 @@ jobs:
           git add CHANGELOG.md && git commit -m 'Updated CHANGELOG.md' && git push origin main
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3.8.1
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 20
 
