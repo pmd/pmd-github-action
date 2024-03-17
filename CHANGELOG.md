@@ -6,7 +6,9 @@
 
 **🚀 Implemented enhancements:**
 
+- Migrate to typescript [\#29](https://github.com/pmd/pmd-github-action/issues/29)
 - Fix artifact upload, new parameter `uploadSarifReport` [\#250](https://github.com/pmd/pmd-github-action/pull/250) (@adangel)
+- Migrate to typescript [\#239](https://github.com/pmd/pmd-github-action/pull/239) (@adangel)
 - Upgrade to node20 [\#221](https://github.com/pmd/pmd-github-action/pull/221) (@adangel)
 
 **🐛 Fixed bugs:**
