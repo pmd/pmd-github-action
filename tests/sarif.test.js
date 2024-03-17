@@ -75,6 +75,24 @@ describe('pmd-github-action-sarif', function () {
       .toBe('src/classes/UnusedLocalVariableSample.cls');
   })
 
+  test('can properly relativize report which contains already uris', async () => {
+    const isWindows = os.platform() === 'win32';
+
+    const reportPath = path.join(tempPath, 'pmd-report-uris.sarif');
+    await io.cp(path.join(__dirname, 'data', isWindows ? 'pmd-report-win-uris.sarif' : 'pmd-report-uris.sarif'), reportPath);
+
+    const reportBefore = sarif.loadReport(reportPath);
+    const fullPath = isWindows ? 'file:///D:/a/pmd-github-action-test/src/classes/UnusedLocalVariableSample.cls' : 'file:///home/andreas/PMD/source/pmd-github-action-test/src/classes/UnusedLocalVariableSample.cls';
+    expect(reportBefore.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri).toBe(fullPath);
+
+    process.env['GITHUB_WORKSPACE'] = isWindows ? 'D:\\a\\pmd-github-action-test' : '/home/andreas/PMD/source/pmd-github-action-test';
+    sarif.relativizeReport(reportPath);
+    const reportAfter = sarif.loadReport(reportPath);
+    // note: not normalizing the paths to platform dependent paths - it must be a valid URI
+    expect(reportAfter.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri)
+      .toBe('src/classes/UnusedLocalVariableSample.cls');
+  })
+
   test('can properly relativize report - windows paths - issue #51', async () => {
     const reportPath = path.join(tempPath, 'pmd-report.sarif');
     await io.cp(path.join(__dirname, 'data', 'pmd-report-win.sarif'), reportPath);
