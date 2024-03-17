@@ -9,6 +9,10 @@
 - Fix artifact upload, new parameter `uploadSarifReport` [\#250](https://github.com/pmd/pmd-github-action/pull/250) (@adangel)
 - Upgrade to node20 [\#221](https://github.com/pmd/pmd-github-action/pull/221) (@adangel)
 
+**🐛 Fixed bugs:**
+
+- Annotations are not shown in PR / commit [\#249](https://github.com/pmd/pmd-github-action/issues/249)
+
 **📦 Dependency updates:**
 
 - Bump @actions/artifact from 2.0.1 to 2.1.4 [\#263](https://github.com/pmd/pmd-github-action/pull/263) (@dependabot[bot])
@@ -69,6 +73,10 @@
 **✔️ Closed issues:**
 
 - Getting Warning in Node version only for PMD [\#253](https://github.com/pmd/pmd-github-action/issues/253)
+
+**🎉 Merged pull requests:**
+
+- Relativize paths if Sarif report already contains URIs [\#266](https://github.com/pmd/pmd-github-action/pull/266) (@adangel)
 
 ## [v1.4.1](https://github.com/pmd/pmd-github-action/tree/v1.4.1) (2023-05-26)
 
