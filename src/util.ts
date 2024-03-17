@@ -2,7 +2,7 @@ import { ExecOutput } from '@actions/exec'
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { Context as github_context } from '@actions/github/lib/context'
-import { defaults as github_defaults } from '@actions/github/lib/utils'
+import * as github_utils from '@actions/github/lib/utils'
 import * as tc from '@actions/tool-cache'
 import * as exec from '@actions/exec'
 import * as semver from 'semver'
@@ -158,20 +158,42 @@ async function determinePmdRelease(
   core.debug(`determine release info for ${pmdVersion}`)
 
   const PUBLIC_GITHUB_API_URL = 'https://api.github.com'
+  // the configured GitHubToken can only be used for the public GitHub instance.
+  // If the action is used on a on-premise GHES instance, then the given token is
+  // not valid for the public instance.
+  const canUseToken = github_utils.defaults.baseUrl === PUBLIC_GITHUB_API_URL
+
   let octokit
-  if (github_defaults.baseUrl === PUBLIC_GITHUB_API_URL) {
-    // only use authenticated token, if on public github and not on a custom GHES instance
-    octokit = github.getOctokit(token)
+  if (canUseToken) {
     core.debug(
-      `Using token to access repos/pmd/pmd/releases/latest on ${github_defaults.baseUrl}`
+      `Using token to access repos/pmd/pmd/releases/latest on ${github_utils.defaults.baseUrl}`
     )
+    // only use authenticated token, if on public github and not on a custom GHES instance
+    octokit = new github_utils.GitHub({ auth: token })
   } else {
+    core.debug(
+      `Not using token to access repos/pmd/pmd/releases/latest on ${PUBLIC_GITHUB_API_URL}, as token is for ${github_utils.defaults.baseUrl}`
+    )
     // explicitly overwrite base url to be public github api, as pmd/pmd is only available there
     // not using the token, as that would only be valid for GHES
-    octokit = new Octokit({ baseUrl: PUBLIC_GITHUB_API_URL })
+    octokit = new github_utils.GitHub({ baseUrl: PUBLIC_GITHUB_API_URL })
+  }
+
+  if (process.env['JEST_WORKER_ID']) {
     core.debug(
-      `Not using token to access repos/pmd/pmd/releases/latest on ${PUBLIC_GITHUB_API_URL}, as token is for ${github_defaults.baseUrl}`
+      'Detected unit test - directly using Octokit without proxy configuration'
     )
+    // during unit test, we use Octokit directly. This uses then fetch to do the requests,
+    // which can be mocked with fetch-mock(-jest). The octokit instance retrieved via @actions/github
+    // uses under the hood undici, which uses a raw socket (node:tls), which can neither be mocked
+    // by nock nor by fetch-mock.
+    // Using @actions/github to get the octokit instance would also make sure, that the proxy configuration
+    // is respected - which is ignored now in unit tests.
+    if (canUseToken) {
+      octokit = new Octokit({ baseUrl: PUBLIC_GITHUB_API_URL, auth: token })
+    } else {
+      octokit = new Octokit({ baseUrl: PUBLIC_GITHUB_API_URL })
+    }
   }
 
   let release
@@ -226,7 +248,23 @@ async function determineModifiedFiles(
   // creating new context instead of using "github.context" to reinitialize for unit testing
   const context = new github_context()
   const eventData = context.payload
-  const octokit = github.getOctokit(token)
+  let octokit = github.getOctokit(token)
+  if (process.env['JEST_WORKER_ID']) {
+    core.debug(
+      'Detected unit test - directly using Octokit without proxy configuration'
+    )
+    // during unit test, we use Octokit directly. This uses then fetch to do the requests,
+    // which can be mocked with fetch-mock(-jest). The octokit instance retrieved via @actions/github
+    // uses under the hood undici, which uses a raw socket (node:tls), which can neither be mocked
+    // by nock nor by fetch-mock.
+    // Using @actions/github to get the octokit instance would also make sure, that the proxy configuration
+    // is respected - which is ignored now in unit tests.
+    octokit = new Octokit({
+      baseUrl: github_utils.defaults.baseUrl,
+      auth: token
+    })
+  }
+
   if (context.eventName === 'pull_request') {
     core.debug(
       `Pull request ${eventData.number}: ${eventData.pull_request?.html_url}`

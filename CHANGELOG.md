@@ -6,10 +6,27 @@
 
 **🚀 Implemented enhancements:**
 
+- Fix artifact upload, new parameter `uploadSarifReport` [\#250](https://github.com/pmd/pmd-github-action/pull/250) (@adangel)
 - Upgrade to node20 [\#221](https://github.com/pmd/pmd-github-action/pull/221) (@adangel)
+
+**🐛 Fixed bugs:**
+
+- Annotations are not shown in PR / commit [\#249](https://github.com/pmd/pmd-github-action/issues/249)
 
 **📦 Dependency updates:**
 
+- Bump @actions/artifact from 2.0.1 to 2.1.4 [\#263](https://github.com/pmd/pmd-github-action/pull/263) (@dependabot[bot])
+- Bump nock from 13.5.0 to 13.5.4 [\#262](https://github.com/pmd/pmd-github-action/pull/262) (@dependabot[bot])
+- Bump eslint from 8.56.0 to 8.57.0 [\#259](https://github.com/pmd/pmd-github-action/pull/259) (@dependabot[bot])
+- Bump actions/setup-node from 4.0.1 to 4.0.2 [\#256](https://github.com/pmd/pmd-github-action/pull/256) (@dependabot[bot])
+- Bump semver from 7.5.4 to 7.6.0 [\#255](https://github.com/pmd/pmd-github-action/pull/255) (@dependabot[bot])
+- Bump nock from 13.4.0 to 13.5.0 [\#248](https://github.com/pmd/pmd-github-action/pull/248) (@dependabot[bot])
+- Bump @actions/artifact from 2.0.0 to 2.0.1 [\#247](https://github.com/pmd/pmd-github-action/pull/247) (@dependabot[bot])
+- Bump actions/setup-node from 4.0.0 to 4.0.1 [\#245](https://github.com/pmd/pmd-github-action/pull/245) (@dependabot[bot])
+- Bump eslint from 8.55.0 to 8.56.0 [\#244](https://github.com/pmd/pmd-github-action/pull/244) (@dependabot[bot])
+- Bump @actions/artifact from 1.1.2 to 2.0.0 [\#243](https://github.com/pmd/pmd-github-action/pull/243) (@dependabot[bot])
+- Bump eslint from 8.54.0 to 8.55.0 [\#242](https://github.com/pmd/pmd-github-action/pull/242) (@dependabot[bot])
+- Bump nock from 13.3.8 to 13.4.0 [\#241](https://github.com/pmd/pmd-github-action/pull/241) (@dependabot[bot])
 - Bump eslint from 8.53.0 to 8.54.0 [\#240](https://github.com/pmd/pmd-github-action/pull/240) (@dependabot[bot])
 - Bump eslint from 8.52.0 to 8.53.0 [\#238](https://github.com/pmd/pmd-github-action/pull/238) (@dependabot[bot])
 - Bump nock from 13.3.7 to 13.3.8 [\#237](https://github.com/pmd/pmd-github-action/pull/237) (@dependabot[bot])
@@ -18,6 +35,7 @@
 - Bump eslint from 8.51.0 to 8.52.0 [\#234](https://github.com/pmd/pmd-github-action/pull/234) (@dependabot[bot])
 - Bump nock from 13.3.4 to 13.3.6 [\#233](https://github.com/pmd/pmd-github-action/pull/233) (@dependabot[bot])
 - Bump @vercel/ncc from 0.38.0 to 0.38.1 [\#232](https://github.com/pmd/pmd-github-action/pull/232) (@dependabot[bot])
+- Bump @actions/github from 5.1.1 to 6.0.0 [\#231](https://github.com/pmd/pmd-github-action/pull/231) (@dependabot[bot])
 - Bump nock from 13.3.3 to 13.3.4 [\#230](https://github.com/pmd/pmd-github-action/pull/230) (@dependabot[bot])
 - Bump eslint from 8.50.0 to 8.51.0 [\#229](https://github.com/pmd/pmd-github-action/pull/229) (@dependabot[bot])
 - Bump @octokit/rest from 20.0.1 to 20.0.2 [\#227](https://github.com/pmd/pmd-github-action/pull/227) (@dependabot[bot])
@@ -51,6 +69,14 @@
 - Bump @octokit/rest from 19.0.11 to 19.0.13 [\#196](https://github.com/pmd/pmd-github-action/pull/196) (@dependabot[bot])
 - Bump convert-action from 0.2.0 to 0.2.2 [\#194](https://github.com/pmd/pmd-github-action/pull/194) (@dependabot[bot])
 - Bump eslint from 8.41.0 to 8.42.0 [\#192](https://github.com/pmd/pmd-github-action/pull/192) (@dependabot[bot])
+
+**✔️ Closed issues:**
+
+- Getting Warning in Node version only for PMD [\#253](https://github.com/pmd/pmd-github-action/issues/253)
+
+**🎉 Merged pull requests:**
+
+- Relativize paths if Sarif report already contains URIs [\#266](https://github.com/pmd/pmd-github-action/pull/266) (@adangel)
 
 ## [v1.4.1](https://github.com/pmd/pmd-github-action/tree/v1.4.1) (2023-05-26)
 

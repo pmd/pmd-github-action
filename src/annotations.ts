@@ -90,8 +90,9 @@ function createDescription(rule: ReportingDescriptor): string {
   const description = lines.join('\n')
   const desc = `${description}
 
-${rule.id} (Priority: ${rule.properties?.priority}, Ruleset: ${rule.properties
-    ?.ruleset})
+${rule.id} (Priority: ${rule.properties?.priority}, Ruleset: ${
+    rule.properties?.ruleset
+  })
 ${rule.helpUri?.trim()}`
   return desc
 }

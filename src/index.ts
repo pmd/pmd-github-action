@@ -58,7 +58,7 @@ async function main(): Promise<void> {
     core.info(`PMD detected ${violations} violations.`)
 
     if (
-      core.getInput('createGitHubAnnotations', { required: true }) === 'true'
+      core.getInput('createGitHubAnnotations', { required: false }) === 'true'
     ) {
       const report = sarif.loadReport(reportFile)
       if (report) {
@@ -66,10 +66,18 @@ async function main(): Promise<void> {
       }
     }
 
-    const artifactClient = artifact.create()
-    await artifactClient.uploadArtifact('PMD Report', [reportFile], '.', {
-      continueOnError: false
-    })
+    if (core.getInput('uploadSarifReport', { required: false }) === 'true') {
+      const artifactName = 'PMD Report'
+      const artifactClient = new artifact.DefaultArtifactClient()
+      const { id, size } = await artifactClient.uploadArtifact(
+        'PMD Report',
+        [reportFile],
+        '.'
+      )
+      core.info(
+        `Created artifact ${artifactName} with id: ${id} (bytes: ${size})`
+      )
+    }
   } catch (error: unknown) {
     if (error instanceof Error) {
       core.setFailed(error.message)

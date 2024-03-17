@@ -83,6 +83,13 @@ inputs:
       are using another tool for this purpose.
     required: false
     default: 'true'
+  uploadSarifReport:
+    description: >-
+      By default, the generated SARIF report will be uploaded as an artifact
+      named "PMD Report". This can be disabled, e.g. if there are multiple
+      executions on multiple os of this action.
+    required: false
+    default: 'true'
 outputs:
   violations:
     description: Number of violations found

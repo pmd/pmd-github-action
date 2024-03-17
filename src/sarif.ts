@@ -30,22 +30,29 @@ function relativizeReport(reportFile: string): void {
   }
 
   const prefix = path.normalize(`${process.env['GITHUB_WORKSPACE']}/`)
-  const prefixUri = new URL(`file:///${prefix}`).href
+  const prefixUri = new URL(`file://${prefix}`).href
   core.debug(`Relativizing sarif report '${reportFile}' against '${prefix}'`)
   for (const rule of report.runs[0].results) {
     if (rule.locations) {
       for (const location of rule.locations) {
         if (location.physicalLocation?.artifactLocation) {
           const artifactLocation = location.physicalLocation.artifactLocation
+
+          let uri = artifactLocation.uri
+          if (uri?.startsWith('file://')) {
+            // sarif report already contains a file uri, remove the prefix "file://".
+            // this is true for PMD 7.0.0-rc3 and later
+            uri = uri.substring('file://'.length)
+          }
           // note: this also converts any backslashes from Windows paths into forward slashes
           // forward slashes are needed in the sarif report for GitHub annotations and codeql upload
-          const uri = new URL(`file:///${artifactLocation.uri}`).href
+          uri = new URL(`file://${uri}`).href
           if (uri.startsWith(prefixUri)) {
             artifactLocation.uri = uri.substring(prefixUri.length)
           } else {
             // report contains already relative paths
             // still use the uri, in order to have forward slashes
-            artifactLocation.uri = uri.substring('file:///'.length)
+            artifactLocation.uri = uri.substring('file://'.length)
           }
         }
       }
