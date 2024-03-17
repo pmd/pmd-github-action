@@ -13,21 +13,21 @@ async function main(): Promise<void> {
   let modifiedFiles
   let execOutput
   let violations
-  const token = core.getInput('token', { required: true })
+  const token = core.getInput('token', { required: false })
   const sourcePath = validator.validateSourcePath(
-    core.getInput('sourcePath', { required: true })
+    core.getInput('sourcePath', { required: false })
   )
   try {
     pmdInfo = await util.downloadPmd(
-      validator.validateVersion(core.getInput('version', { required: true })),
+      validator.validateVersion(core.getInput('version', { required: false })),
       token,
       validator.validateDownloadUrl(
-        core.getInput('downloadUrl', { required: true })
+        core.getInput('downloadUrl', { required: false })
       )
     )
 
     if (
-      core.getInput('analyzeModifiedFilesOnly', { required: true }) === 'true'
+      core.getInput('analyzeModifiedFilesOnly', { required: false }) === 'true'
     ) {
       core.info(`Determining modified files in ${sourcePath}...`)
       modifiedFiles = await util.determineModifiedFiles(token, sourcePath)
