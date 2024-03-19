@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @typescript-eslint/eslint-plugin from 7.2.0 to 7.3.1 [\#268](https://github.com/pmd/pmd-github-action/pull/268) (@dependabot[bot])
 - Bump @typescript-eslint/parser from 7.2.0 to 7.3.1 [\#267](https://github.com/pmd/pmd-github-action/pull/267) (@dependabot[bot])
 
 **✔️ Closed issues:**
