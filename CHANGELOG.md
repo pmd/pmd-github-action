@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/pmd/pmd-github-action/tree/HEAD)
+
+[Full Changelog](https://github.com/pmd/pmd-github-action/compare/v2.0.0...HEAD)
+
+**📦 Dependency updates:**
+
+- Bump @typescript-eslint/parser from 7.2.0 to 7.3.1 [\#267](https://github.com/pmd/pmd-github-action/pull/267) (@dependabot[bot])
+
+**✔️ Closed issues:**
+
+- Please publish newer version using node20 you made 2 months ago. Latest version is +10 months stale.   Lots of stuff has been added since [\#264](https://github.com/pmd/pmd-github-action/issues/264)
+
 ## [v2.0.0](https://github.com/pmd/pmd-github-action/tree/v2.0.0) (2024-03-17)
 
 [Full Changelog](https://github.com/pmd/pmd-github-action/compare/v1.4.1...v2.0.0)
