@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump typescript from 5.4.2 to 5.4.3 [\#272](https://github.com/pmd/pmd-github-action/pull/272) (@dependabot[bot])
 - Bump @types/node from 20.11.28 to 20.11.30 [\#271](https://github.com/pmd/pmd-github-action/pull/271) (@dependabot[bot])
 - Bump eslint-plugin-jsonc from 2.13.0 to 2.14.1 [\#269](https://github.com/pmd/pmd-github-action/pull/269) (@dependabot[bot])
 - Bump @typescript-eslint/eslint-plugin from 7.2.0 to 7.3.1 [\#268](https://github.com/pmd/pmd-github-action/pull/268) (@dependabot[bot])
