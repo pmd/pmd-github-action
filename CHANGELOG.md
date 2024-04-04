@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump @types/node from 20.12.3 to 20.12.4 [\#280](https://github.com/pmd/pmd-github-action/pull/280) (@dependabot[bot])
 - Bump @types/node from 20.12.2 to 20.12.3 [\#279](https://github.com/pmd/pmd-github-action/pull/279) (@dependabot[bot])
 - Bump @typescript-eslint/parser from 7.4.0 to 7.5.0 [\#278](https://github.com/pmd/pmd-github-action/pull/278) (@dependabot[bot])
 - Bump eslint-plugin-jsonc from 2.14.1 to 2.15.0 [\#277](https://github.com/pmd/pmd-github-action/pull/277) (@dependabot[bot])
