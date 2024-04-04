@@ -79,4 +79,4 @@ jobs:
         run: |
           git config --local user.email "pmd-bot@users.noreply.github.com"
           git config --local user.name "GitHub Actions (pmd-bot)"
-          git add dist && git commit -m 'Updated dist' && git push origin main
+          git add -f dist && git commit -m 'Updated dist' && git push origin main
