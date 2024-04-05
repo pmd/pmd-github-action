@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump typescript from 5.4.3 to 5.4.4 [\#282](https://github.com/pmd/pmd-github-action/pull/282) (@dependabot[bot])
 - Bump @octokit/rest from 20.0.2 to 20.1.0 [\#281](https://github.com/pmd/pmd-github-action/pull/281) (@dependabot[bot])
 - Bump @types/node from 20.12.3 to 20.12.4 [\#280](https://github.com/pmd/pmd-github-action/pull/280) (@dependabot[bot])
 - Bump @types/node from 20.12.2 to 20.12.3 [\#279](https://github.com/pmd/pmd-github-action/pull/279) (@dependabot[bot])
