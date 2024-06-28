@@ -7,6 +7,7 @@
 **📦 Dependency updates:**
 
 - Bump eslint-plugin-github from 4.10.2 to 5.0.1 [\#328](https://github.com/pmd/pmd-github-action/pull/328) (@dependabot[bot])
+- Bump eslint-plugin-jest from 27.9.0 to 28.6.0 [\#313](https://github.com/pmd/pmd-github-action/pull/313) (@dependabot[bot])
 - Bump typescript from 5.4.3 to 5.4.4 [\#282](https://github.com/pmd/pmd-github-action/pull/282) (@dependabot[bot])
 - Bump @octokit/rest from 20.0.2 to 20.1.0 [\#281](https://github.com/pmd/pmd-github-action/pull/281) (@dependabot[bot])
 - Bump @types/node from 20.12.3 to 20.12.4 [\#280](https://github.com/pmd/pmd-github-action/pull/280) (@dependabot[bot])
