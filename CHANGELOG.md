@@ -6,6 +6,7 @@
 
 **📦 Dependency updates:**
 
+- Bump semver from 7.6.0 to 7.6.2 [\#330](https://github.com/pmd/pmd-github-action/pull/330) (@dependabot[bot])
 - Bump eslint-plugin-github from 4.10.2 to 5.0.1 [\#328](https://github.com/pmd/pmd-github-action/pull/328) (@dependabot[bot])
 - Bump eslint-plugin-jest from 27.9.0 to 28.6.0 [\#313](https://github.com/pmd/pmd-github-action/pull/313) (@dependabot[bot])
 - Bump typescript from 5.4.3 to 5.4.4 [\#282](https://github.com/pmd/pmd-github-action/pull/282) (@dependabot[bot])
