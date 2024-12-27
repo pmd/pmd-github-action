@@ -13,6 +13,7 @@ async function main(): Promise<void> {
   let modifiedFiles
   let execOutput
   let violations
+  let minimumPriority
   const token = core.getInput('token', { required: false })
   const sourcePath = validator.validateSourcePath(
     core.getInput('sourcePath', { required: false })
@@ -40,12 +41,17 @@ async function main(): Promise<void> {
       }
     }
 
+    minimumPriority = validator.validateMinimumPriority(
+      core.getInput('minimumPriority', { required: false })
+    )
+
     execOutput = await util.executePmd(
       pmdInfo,
       modifiedFiles || sourcePath,
       validator.validateRulesets(core.getInput('rulesets', { required: true })),
       reportFormat,
-      reportFile
+      reportFile,
+      minimumPriority
     )
 
     core.info(`PMD exited with ${execOutput.exitCode}`)

@@ -78,8 +78,8 @@ inputs:
     default: 'true'
   createGitHubAnnotations:
     description: >-
-      By default, all detected violations are added as annotations to the pull 
-      request. You can disable this by setting FALSE. This can be useful if you 
+      By default, all detected violations are added as annotations to the pull
+      request. You can disable this by setting FALSE. This can be useful if you
       are using another tool for this purpose.
     required: false
     default: 'true'
@@ -90,6 +90,15 @@ inputs:
       executions on multiple os of this action.
     required: false
     default: 'true'
+  minimumPriority:
+    description: >-
+      The lowest priority violation that will be reported. Must be a number 1-5
+      (no decimal). 1 will only show Priority 1 violations. 2 will show Priority
+      1 and 2, and so on. ("High" = 1, "Medium High" = 2, "Medium" = 3, "Medium
+      Low" = 4, "Low" = 5) The default is 5, which will show all priorities
+      (1-5).
+    required: false
+    default: '5'
 outputs:
   violations:
     description: Number of violations found

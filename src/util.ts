@@ -87,7 +87,8 @@ async function executePmd(
   fileListOrSourcePath: string | string[],
   ruleset: string,
   reportFormat: string,
-  reportFile: string
+  reportFile: string,
+  minimumPriority: string
 ): Promise<ExecOutput> {
   let pmdExecutable = '/bin/run.sh pmd'
   if (isPmd7Cli(pmdInfo.version)) {
@@ -128,7 +129,9 @@ async function executePmd(
       '-R',
       ruleset,
       '-r',
-      reportFile
+      reportFile,
+      '--minimum-priority',
+      minimumPriority
     ],
     {
       ignoreReturnCode: true

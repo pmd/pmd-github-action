@@ -176,7 +176,8 @@ describe('pmd-github-action-util', function () {
       '.',
       'ruleset.xml',
       'sarif',
-      'pmd-report.sarif'
+      'pmd-report.sarif',
+      '5'
     )
     const reportFile = path.join('.', 'pmd-report.sarif')
     await expect(fs.access(reportFile)).resolves.toBe(undefined)
@@ -184,7 +185,7 @@ describe('pmd-github-action-util', function () {
     expect(report.runs[0].tool.driver.version).toBe('6.40.0')
     expect(execOutput.exitCode).toBe(0)
     expect(execOutput.stdout.trim()).toBe(
-      'Running PMD 6.40.0 with: pmd -no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif'
+      'Running PMD 6.40.0 with: pmd -no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif --minimum-priority 5'
     )
     await io.rmRF(reportFile)
   })
@@ -207,7 +208,8 @@ describe('pmd-github-action-util', function () {
       '.',
       'ruleset.xml',
       'sarif',
-      'pmd-report.sarif'
+      'pmd-report.sarif',
+      '5'
     )
     const reportFile = path.join('.', 'pmd-report.sarif')
     await expect(fs.access(reportFile)).resolves.toBe(undefined)
@@ -215,7 +217,7 @@ describe('pmd-github-action-util', function () {
     expect(report.runs[0].tool.driver.version).toBe('6.41.0')
     expect(execOutput.exitCode).toBe(0)
     expect(execOutput.stdout.trim()).toBe(
-      'Running PMD 6.41.0 with: pmd --no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif'
+      'Running PMD 6.41.0 with: pmd --no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif --minimum-priority 5'
     )
     await io.rmRF(reportFile)
   })
@@ -235,7 +237,8 @@ describe('pmd-github-action-util', function () {
         '.',
         'ruleset.xml',
         'sarif',
-        'pmd-report.sarif'
+        'pmd-report.sarif',
+        '5'
       )
     ).rejects.toThrow()
   })
@@ -262,7 +265,8 @@ describe('pmd-github-action-util', function () {
       '.',
       'ruleset.xml',
       'sarif',
-      'pmd-report.sarif'
+      'pmd-report.sarif',
+      '5'
     )
 
     expect(execMock).toHaveBeenCalledWith(
@@ -276,7 +280,9 @@ describe('pmd-github-action-util', function () {
         '-R',
         'ruleset.xml',
         '-r',
-        'pmd-report.sarif'
+        'pmd-report.sarif',
+        '--minimum-priority',
+        '5'
       ],
       {
         ignoreReturnCode: true
@@ -414,7 +420,8 @@ describe('pmd-github-action-util', function () {
       ['src/file1.txt', 'src/file2.txt'],
       'ruleset.xml',
       'sarif',
-      'pmd-report.sarif'
+      'pmd-report.sarif',
+      '5'
     )
     const pmdFilelist = path.join('.', 'pmd.filelist')
     await expect(fs.access(pmdFilelist)).resolves.toBe(undefined)
@@ -422,7 +429,7 @@ describe('pmd-github-action-util', function () {
     expect(pmdFilelistContent).toBe('src/file1.txt,src/file2.txt')
     expect(execOutput.exitCode).toBe(0)
     expect(execOutput.stdout.trim()).toBe(
-      'Running PMD 6.40.0 with: pmd -no-cache -filelist pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif'
+      'Running PMD 6.40.0 with: pmd -no-cache -filelist pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif --minimum-priority 5'
     )
     await io.rmRF(pmdFilelist)
     await io.rmRF(path.join('.', 'pmd-report.sarif'))
@@ -446,7 +453,8 @@ describe('pmd-github-action-util', function () {
       ['src/file1.txt', 'src/file2.txt'],
       'ruleset.xml',
       'sarif',
-      'pmd-report.sarif'
+      'pmd-report.sarif',
+      '5'
     )
     const pmdFilelist = path.join('.', 'pmd.filelist')
     await expect(fs.access(pmdFilelist)).resolves.toBe(undefined)
@@ -454,7 +462,7 @@ describe('pmd-github-action-util', function () {
     expect(pmdFilelistContent).toBe('src/file1.txt,src/file2.txt')
     expect(execOutput.exitCode).toBe(0)
     expect(execOutput.stdout.trim()).toBe(
-      'Running PMD 6.41.0 with: pmd --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif'
+      'Running PMD 6.41.0 with: pmd --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif --minimum-priority 5'
     )
     await io.rmRF(pmdFilelist)
     await io.rmRF(path.join('.', 'pmd-report.sarif'))
@@ -647,7 +655,8 @@ describe('pmd-github-action-util', function () {
       ['src/file1.txt', 'src/file2.txt'],
       'ruleset.xml',
       'sarif',
-      'pmd-report.sarif'
+      'pmd-report.sarif',
+      '5'
     )
     const pmdFilelist = path.join('.', 'pmd.filelist')
     await expect(fs.access(pmdFilelist)).resolves.toBe(undefined)
@@ -655,9 +664,43 @@ describe('pmd-github-action-util', function () {
     expect(pmdFilelistContent).toBe('src/file1.txt,src/file2.txt')
     expect(execOutput.exitCode).toBe(0)
     expect(execOutput.stdout.trim()).toBe(
-      'Running PMD 7.0.0-rc1 with: check --no-progress --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif'
+      'Running PMD 7.0.0-rc1 with: check --no-progress --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif --minimum-priority 5'
     )
     await io.rmRF(pmdFilelist)
+    await io.rmRF(path.join('.', 'pmd-report.sarif'))
+  })
+
+  test('can execute PMD 7 with custom priority', async () => {
+    fetchMock.get(
+      'https://api.github.com/repos/pmd/pmd/releases/tags/pmd_releases%2F7.0.0-rc1',
+      async () =>
+        JSON.parse(
+          await fs.readFile(`${__dirname}/data/releases-7.0.0-rc1.json`, 'utf8')
+        )
+    )
+    nock('https://github.com')
+      .get(
+        '/pmd/pmd/releases/download/pmd_releases/7.0.0-rc1/pmd-bin-7.0.0-rc1.zip'
+      )
+      .replyWithFile(200, `${__dirname}/data/pmd-bin-7.0.0-rc1.zip`)
+
+    const pmdInfo = await util.downloadPmd(
+      '7.0.0-rc1',
+      'my_test_token',
+      undefined
+    )
+    const execOutput = await util.executePmd(
+      pmdInfo,
+      ['src/file1.txt', 'src/file2.txt'],
+      'ruleset.xml',
+      'sarif',
+      'pmd-report.sarif',
+      '4'
+    )
+
+    expect(execOutput.stdout.trim()).toBe(
+      'Running PMD 7.0.0-rc1 with: check --no-progress --no-cache --file-list pmd.filelist -f sarif -R ruleset.xml -r pmd-report.sarif --minimum-priority 4'
+    )
     await io.rmRF(path.join('.', 'pmd-report.sarif'))
   })
 
@@ -691,7 +734,8 @@ describe('pmd-github-action-util', function () {
       '.',
       'ruleset.xml',
       'sarif',
-      'pmd-report.sarif'
+      'pmd-report.sarif',
+      '5'
     )
     const reportFile = path.join('.', 'pmd-report.sarif')
     await expect(fs.access(reportFile)).resolves.toBe(undefined)
@@ -699,7 +743,7 @@ describe('pmd-github-action-util', function () {
     expect(report.runs[0].tool.driver.version).toBe('7.0.0-SNAPSHOT')
     expect(execOutput.exitCode).toBe(0)
     expect(execOutput.stdout.trim()).toBe(
-      'Running PMD 7.0.0-SNAPSHOT with: check --no-progress --no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif'
+      'Running PMD 7.0.0-SNAPSHOT with: check --no-progress --no-cache -d . -f sarif -R ruleset.xml -r pmd-report.sarif --minimum-priority 5'
     )
     await io.rmRF(reportFile)
   })

@@ -20,7 +20,7 @@ function validateSourcePath(sourcePath: string): string {
     typeof normalized !== 'string' ||
     normalized.match(/[ ;:"'$]/)
   ) {
-    throw Error('Invalid sourcePath')
+    throw new Error('Invalid sourcePath')
   }
   return normalized
 }
@@ -41,9 +41,19 @@ function validateDownloadUrl(url: string): string {
   throw new Error('Invalid downloadUrl')
 }
 
+function validateMinimumPriority(priority: string): string {
+  const priorities = ['1', '2', '3', '4', '5']
+  if (typeof priority === 'string' && priorities.includes(priority)) {
+    // valid
+    return priority
+  }
+  throw new Error('Invalid minimum priority')
+}
+
 export {
   validateVersion,
   validateSourcePath,
   validateRulesets,
-  validateDownloadUrl
+  validateDownloadUrl,
+  validateMinimumPriority
 }
