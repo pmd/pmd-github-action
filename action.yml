@@ -90,6 +90,13 @@ inputs:
       executions on multiple os of this action.
     required: false
     default: 'true'
+  extraOptions:
+    description: >-
+      String of additional command line options to pass to the pmd execution.
+      For instance, as there is no native interface to use-version, this
+      option could be set to `--use-version=java-21`.
+    required: false
+    default: ''
 outputs:
   violations:
     description: Number of violations found

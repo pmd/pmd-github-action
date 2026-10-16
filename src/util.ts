@@ -101,6 +101,8 @@ async function executePmd(
     pmdExecutable += ' check --no-progress'
   }
 
+  pmdExecutable += ' ' + core.getInput('extraOptions', { required: false })
+
   let sourceParameter: string[]
   if (Array.isArray(fileListOrSourcePath)) {
     await writeFileList(fileListOrSourcePath)
